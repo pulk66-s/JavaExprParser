@@ -3,11 +3,21 @@ package Interpreter;
 import java.util.HashMap;
 import java.util.function.Consumer;
 
+import Context.Environnement;
+import Expression.ArithmeticExpression;
+
 public class Console {
+
+    // Boolean to check if the program is running or not
     private Boolean running = true;
+
+    // Map that contains the special commands
     private HashMap<String, Consumer<Void>> commands = new HashMap<String, Consumer<Void>>() {{
         put("exit", (Void) -> runExit());
     }};
+
+    // The current environnement of execution
+    private Environnement env = new Environnement();
 
     /**
      * @brief   Run the console
@@ -48,7 +58,6 @@ public class Console {
      * @param input The expression to parse
      */
     private void runExpression(String input) {
-
     }
 
     /**
