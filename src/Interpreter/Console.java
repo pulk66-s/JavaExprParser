@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.function.Consumer;
 
 import Context.Environnement;
+import Exception.SyntaxError;
 import Expression.ArithmeticExpression;
+import Expression.Operation.Addition;
 
 public class Console {
 
@@ -58,6 +60,16 @@ public class Console {
      * @param input The expression to parse
      */
     private void runExpression(String input) {
+        this.env.setExpression(input);
+
+        ArithmeticExpression expr = new Addition();
+        try {
+            expr.parse(env);
+        } catch (SyntaxError err) {
+            System.out.println("You have a syntax problem");
+        }
+        System.out.println(expr);
+        System.out.println(expr.evaluate());
     }
 
     /**

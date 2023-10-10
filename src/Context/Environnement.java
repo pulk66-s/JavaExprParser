@@ -1,15 +1,13 @@
 package Context;
 import java.util.HashMap;
 
-import Expression.ArithmeticExpression;
-
 /**
- * @brief   This class contains every informations needed to evaluate an expression.
+ * @brief   This class contains every informations needed to parse an expression.
  *          It simulates some side effects and environnement that we could have in a real
  *          implementation.
  */
 public class Environnement {
-    // String of the current expression to evaluate
+    // String of the current expression to parse
     private String currExpression;
 
     // Hashmap that represent a variable table
@@ -28,7 +26,7 @@ public class Environnement {
      * @param expr  The expression to parse
      */
     public Environnement(String expr) {
-        this.currExpression = expr;
+        this.currExpression = expr.trim();
         this.variables = new HashMap<String, Variable>();
     }
 
@@ -50,23 +48,10 @@ public class Environnement {
     }
 
     /**
-     * @brief           This method is used to find a number in the current expression
-     * @param opIndex   The index of the operator
-     * @param isRight   True if the number to find is on the right of the operator
-     * @return          The number found or null if not found
+     * @brief   This method is used to get the current expression
+     * @return  The current expression
      */
-    public int findNumber(int opIndex, boolean isRight) {
-        int i = opIndex + (isRight ? 1 : -1);
-        int j = i;
-
-        while (i >= 0 && i < this.currExpression.length() && Character.isDigit(this.currExpression.charAt(i))) {
-            i += isRight ? 1 : -1;
-        }
-
-        if (i == j) {
-            return -1;
-        }
-
-        return Integer.parseInt(this.currExpression.substring(i + (isRight ? -1 : 1), j + (isRight ? 1 : -1)));
+    public String getExpression() {
+        return this.currExpression;
     }
 }

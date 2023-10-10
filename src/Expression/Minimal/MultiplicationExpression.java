@@ -1,13 +1,13 @@
-package Expression.Operation;
+package Expression.Minimal;
 
 import Context.Environnement;
 import Context.StatusCode;
 import Exception.SyntaxError;
 import Expression.OperationExpression;
 
-public class Addition extends OperationExpression {
-    public Addition() {
-        this.operator = '+';
+public class MultiplicationExpression extends OperationExpression {
+    public MultiplicationExpression() {
+        this.operator = '*';
     }
 
     public StatusCode parse(Environnement env) throws SyntaxError {
@@ -16,6 +16,6 @@ public class Addition extends OperationExpression {
 
     @Override
     public Double evaluate() {
-        return this.left.evaluate() + this.right.evaluate();
+        return this.left.evaluate() * this.right.evaluate();
     }
 }

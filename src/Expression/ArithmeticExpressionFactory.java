@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.Function;
 
+import Expression.Minimal.DivisionExpression;
+import Expression.Minimal.IntegerExpression;
+import Expression.Minimal.MultiplicationExpression;
+import Expression.Minimal.SubstractionExpression;
 import Expression.Operation.Addition;
 
 /**
@@ -18,6 +22,10 @@ public class ArithmeticExpressionFactory {
      */
     public ArithmeticExpressionFactory() {
         constructorMaps.put("Addition", (Void) -> new Addition());
+        constructorMaps.put("Integer", (Void) -> new IntegerExpression());
+        constructorMaps.put("Multiplication", (Void) -> new MultiplicationExpression());
+        constructorMaps.put("Division", (Void) -> new DivisionExpression());
+        constructorMaps.put("Substraction", (Void) -> new SubstractionExpression());
     }
 
     /**
