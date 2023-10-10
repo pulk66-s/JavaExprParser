@@ -10,10 +10,6 @@ public class Addition extends OperationExpression {
         this.operator = '+';
     }
 
-    public StatusCode parse(Environnement env) throws SyntaxError {
-        return super.parse(env);
-    }
-
     @Override
     public Double evaluate() {
         return this.left.evaluate() + this.right.evaluate();

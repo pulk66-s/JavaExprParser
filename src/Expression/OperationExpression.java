@@ -12,12 +12,29 @@ public abstract class OperationExpression extends ArithmeticExpression {
     public OperationExpression() {
     }
 
-    @Override
-    public StatusCode parse(Environnement env) throws SyntaxError {
-        int opIndex = env.findChar(this.operator);
-        int pIndex = env.findChar('(');
+    public int findHighestOperator(String expr) {
+        int nbParenthesis = 0;
 
-        if (opIndex < 0 || (pIndex >= 0 && pIndex < opIndex)) {
+        for (int i = 0; i < expr.length(); i++) {
+            char c = expr.charAt(i);
+
+            if (c == '(') {
+                nbParenthesis++;
+            } else if (c == ')') {
+                nbParenthesis--;
+            } else if (c == this.operator) {
+                if (nbParenthesis == 0) {
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+
+    public StatusCode parse(Environnement env) throws SyntaxError {
+        int opIndex = this.findHighestOperator(env.getExpression());
+
+        if (opIndex < 0) {
             return StatusCode.FAILURE;
         }
 

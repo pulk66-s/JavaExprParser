@@ -13,7 +13,7 @@ public class Parsing {
     // Operation orders
     private static final String[][] orders = {
         {"Addition", "Substraction"},
-        {"Multiplication", "Division"},
+        {"Multiplication", "Division", "Power"},
         {"Parantheses"},
         {"Integer"}
     };

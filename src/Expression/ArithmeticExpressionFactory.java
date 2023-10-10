@@ -8,7 +8,8 @@ import Expression.Minimal.NumberExpression;
 import Expression.Operation.Addition;
 import Expression.Operation.DivisionExpression;
 import Expression.Operation.MultiplicationExpression;
-import Expression.Operation.Parantheses;
+import Expression.Operation.ParanthesesExpression;
+import Expression.Operation.PowerExpression;
 import Expression.Operation.SubstractionExpression;
 
 /**
@@ -27,7 +28,8 @@ public class ArithmeticExpressionFactory {
         constructorMaps.put("Multiplication", (Void) -> new MultiplicationExpression());
         constructorMaps.put("Division", (Void) -> new DivisionExpression());
         constructorMaps.put("Substraction", (Void) -> new SubstractionExpression());
-        constructorMaps.put("Parantheses", (Void) -> new Parantheses());
+        constructorMaps.put("Parantheses", (Void) -> new ParanthesesExpression());
+        constructorMaps.put("Power", (Void) -> new PowerExpression());
     }
 
     /**
