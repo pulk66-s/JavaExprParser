@@ -1,8 +1,5 @@
 package Expression.Operation;
 
-import Context.Environnement;
-import Context.StatusCode;
-import Exception.SyntaxError;
 import Expression.OperationExpression;
 
 public class Addition extends OperationExpression {
