@@ -6,13 +6,13 @@ import Exception.SyntaxError;
 import Exception.VariableNotExistError;
 
 public class NumberExpression extends MinimalExpression {
-    Integer value;
+    Double value;
 
     public NumberExpression() {
-        this.value = 0;
+        this.value = 0.0;
     }
 
-    public NumberExpression(Integer value) {
+    public NumberExpression(Double value) {
         this.value = value;
     }
 
@@ -28,7 +28,7 @@ public class NumberExpression extends MinimalExpression {
     @Override
     public StatusCode parse(Environnement env) throws SyntaxError {
         try {
-            this.value = Integer.parseInt(env.getExpression());
+            this.value = Double.valueOf(env.getExpression());
         } catch (NumberFormatException e) {
             return StatusCode.FAILURE;
         }

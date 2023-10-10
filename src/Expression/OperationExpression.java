@@ -41,6 +41,9 @@ public abstract class OperationExpression extends ArithmeticExpression {
         String left_expr = env.getExpression().substring(0, opIndex);
         String right_expr = env.getExpression().substring(opIndex + 1);
 
+        if (left_expr.length() == 0 || right_expr.length() == 0) {
+            return StatusCode.FAILURE;
+        }
         this.left = new Parsing().parse(left_expr);
         this.right = new Parsing().parse(right_expr);
         return StatusCode.SUCCESS;

@@ -19,4 +19,8 @@ public class VariableExpression extends MinimalExpression {
     public Double evaluate() throws VariableNotExistError {
         return Environnement.getVariable(name);
     }
+
+    public String toString() {
+        return this.name;
+    }
 }

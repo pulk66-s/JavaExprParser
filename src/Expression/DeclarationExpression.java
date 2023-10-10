@@ -32,4 +32,13 @@ public class DeclarationExpression extends ArithmeticExpression {
         Environnement.setVariable(this.name, this.value.evaluate());
         return 0.0;
     }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(this.name);
+        sb.append(" = ");
+        sb.append(this.value);
+        return sb.toString();
+    }
 }
