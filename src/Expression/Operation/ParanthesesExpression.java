@@ -46,10 +46,13 @@ public class ParanthesesExpression extends ArithmeticExpression {
 
         String valueExpr = env.getExpression().substring(lpar + 1, rpar);
         String leftValue = env.getExpression().substring(0, lpar).trim();
-        char lastChar = leftValue.charAt(leftValue.length() - 1);
 
-        if ("+-*/^".indexOf(lastChar) < 0) {
-            return StatusCode.FAILURE;
+        if (leftValue.length() != 0) {
+            char lastChar = leftValue.charAt(leftValue.length() - 1);
+
+            if ("+-*/^".indexOf(lastChar) < 0) {
+                return StatusCode.FAILURE;
+            }
         }
         this.value = new Parsing().parse(valueExpr);
         return StatusCode.SUCCESS;

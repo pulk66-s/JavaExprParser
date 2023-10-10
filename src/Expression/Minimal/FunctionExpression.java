@@ -49,4 +49,14 @@ public class FunctionExpression extends MinimalExpression {
     public static Double runFunction(String name, Double value) {
         return FunctionExpression.functions.get(name).apply(value);
     }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("(");
+        sb.append(this.name);
+        sb.append(this.value);
+        sb.append(")");
+        return sb.toString();
+    }
 }

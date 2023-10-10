@@ -33,9 +33,7 @@ public class Console {
         System.out.println("Starting console...");
         while (this.running) {
             System.out.println("Enter your command / expr: ");
-            System.out.println("env var " + this.env.getVariables());
             String input = System.console().readLine();
-            System.out.println("You entered: " + input);
             this.runCommand(input);
         }
     }
@@ -68,18 +66,18 @@ public class Console {
         try {
             expr = new Parsing().parse(input);
         } catch (SyntaxError err) {
-            // System.out.println("You have a syntax problem");
+            System.out.println("You have a syntax problem");
             return;
         }
         if (env == null) {
-            // System.out.println("Can't parse the expression");
+            System.out.println("Can't parse the expression");
             return;
         }
-        System.out.println(expr);
+        System.out.println("expr " + expr);
         try {
             System.out.println(expr.evaluate());
         } catch (VariableNotExistError err) {
-            // System.out.println("You have a variable problem");
+            System.out.println("You have a variable problem");
         }
     }
 
