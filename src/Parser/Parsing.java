@@ -5,6 +5,7 @@ import Context.StatusCode;
 import Exception.SyntaxError;
 import Expression.ArithmeticExpression;
 import Expression.ArithmeticExpressionFactory;
+import Expression.MinimalExpressionFactory;
 
 /**
  * @brief   This class is used to parse the input file with parsing rules.
@@ -16,7 +17,9 @@ public class Parsing {
         {"Addition", "Substraction"},
         {"Multiplication", "Division", "Power"},
         {"Parantheses"},
-        {"Function", "Integer", "Variable"}
+    };
+    private static final String[] minimalValues = {
+        "Function", "Number", "Variable"
     };
 
     /**
@@ -26,11 +29,11 @@ public class Parsing {
      */
     public ArithmeticExpression parse(String str) throws SyntaxError {
         ArithmeticExpressionFactory factory = new ArithmeticExpressionFactory();
+        MinimalExpressionFactory minimalFactory = new MinimalExpressionFactory();
         Environnement env = new Environnement(str);
 
         for (String[] cat : orders) {
             for (String op : cat) {
-
                 ArithmeticExpression expr = factory.create(op);
                 StatusCode status = expr.parse(env);
 
@@ -39,6 +42,16 @@ public class Parsing {
                 } else if (status == StatusCode.ERROR) {
                     throw new SyntaxError("Syntax error: " + expr.toString());
                 }
+            }
+        }
+        for (String op : minimalValues) {
+            ArithmeticExpression expr = minimalFactory.create(op);
+            StatusCode status = expr.parse(env);
+
+            if (status == StatusCode.SUCCESS) {
+                return expr;
+            } else if (status == StatusCode.ERROR) {
+                throw new SyntaxError("Syntax error: " + expr.toString());
             }
         }
         return null;
