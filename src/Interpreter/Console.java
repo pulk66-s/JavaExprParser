@@ -5,6 +5,7 @@ import java.util.function.Consumer;
 
 import Context.Environnement;
 import Exception.SyntaxError;
+import Exception.VariableNotExistError;
 import Expression.ArithmeticExpression;
 import Parser.Parsing;
 
@@ -32,6 +33,7 @@ public class Console {
         System.out.println("Starting console...");
         while (this.running) {
             System.out.println("Enter your command / expr: ");
+            System.out.println("env var " + this.env.getVariables());
             String input = System.console().readLine();
             System.out.println("You entered: " + input);
             this.runCommand(input);
@@ -60,17 +62,24 @@ public class Console {
      * @param input The expression to parse
      */
     private void runExpression(String input) {
-        this.env.setExpression(input);
-
         ArithmeticExpression expr;
+
+        this.env.setExpression(input);
         try {
             expr = new Parsing().parse(input);
         } catch (SyntaxError err) {
             System.out.println("You have a syntax problem");
             return;
         }
-        System.out.println(expr);
-        System.out.println(expr.evaluate());
+        if (env == null) {
+            System.out.println("Can't parse the expression");
+            return;
+        }
+        try {
+            System.out.println(expr.evaluate());
+        } catch (VariableNotExistError err) {
+            System.out.println("You have a variable problem");
+        }
     }
 
     /**

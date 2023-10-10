@@ -3,6 +3,7 @@ package Expression;
 import Context.Environnement;
 import Context.StatusCode;
 import Exception.SyntaxError;
+import Exception.VariableNotExistError;
 
 public abstract class ArithmeticExpression {
     protected ArithmeticExpression() {
@@ -19,5 +20,5 @@ public abstract class ArithmeticExpression {
      * @brief       This method evaluate the value stored after parsing
      * @return      The result of the expression
      */
-    public abstract Double evaluate();
+    public abstract Double evaluate() throws VariableNotExistError;
 }

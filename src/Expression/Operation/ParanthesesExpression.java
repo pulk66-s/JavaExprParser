@@ -3,6 +3,7 @@ package Expression.Operation;
 import Context.Environnement;
 import Context.StatusCode;
 import Exception.SyntaxError;
+import Exception.VariableNotExistError;
 import Expression.ArithmeticExpression;
 import Parser.Parsing;
 
@@ -50,7 +51,7 @@ public class ParanthesesExpression extends ArithmeticExpression {
     }
 
     @Override
-    public Double evaluate() {
+    public Double evaluate() throws VariableNotExistError {
         return this.value.evaluate();
     }
 

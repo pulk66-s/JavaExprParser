@@ -12,10 +12,11 @@ import Expression.ArithmeticExpressionFactory;
 public class Parsing {
     // Operation orders
     private static final String[][] orders = {
+        {"Declaration"},
         {"Addition", "Substraction"},
         {"Multiplication", "Division", "Power"},
         {"Parantheses"},
-        {"Integer"}
+        {"Integer", "Variable"}
     };
 
     /**

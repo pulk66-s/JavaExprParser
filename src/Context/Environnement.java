@@ -1,6 +1,8 @@
 package Context;
 import java.util.HashMap;
 
+import Exception.VariableNotExistError;
+
 /**
  * @brief   This class contains every informations needed to parse an expression.
  *          It simulates some side effects and environnement that we could have in a real
@@ -11,13 +13,12 @@ public class Environnement {
     private String currExpression;
 
     // Hashmap that represent a variable table
-    private HashMap<String, Variable> variables;
+    static private HashMap<String, Double> variables = new HashMap<String, Double>();
 
     /**
      * @brief   Constructor of the Environment class
      */
     public Environnement() {
-        this.variables = new HashMap<String, Variable>();
         this.currExpression = "";
     }
 
@@ -27,7 +28,6 @@ public class Environnement {
      */
     public Environnement(String expr) {
         this.currExpression = expr.trim();
-        this.variables = new HashMap<String, Variable>();
     }
 
     /**
@@ -62,5 +62,35 @@ public class Environnement {
      */
     public String getExpression() {
         return this.currExpression;
+    }
+
+    /**
+     * @brief           Set a variable in the environnement
+     * @param   name    The name of the var
+     * @param   value   The value of the expr
+     */
+    static public void setVariable(String name, Double value) {
+        variables.put(name, value);
+    }
+
+    /**
+     * @brief           Get a variable value
+     * @param   name    The name of the variable
+     * @return          The value of the variable
+     */
+    static public Double getVariable(String name) throws VariableNotExistError {
+        if (variables.containsKey(name)) {
+            return variables.get(name);
+        } else {
+            throw new VariableNotExistError(name);
+        }
+    }
+
+    /**
+     * @brief   Get the variable table
+     * @return  The variable table
+     */
+    public HashMap<String, Double> getVariables() {
+        return variables;
     }
 }

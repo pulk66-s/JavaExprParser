@@ -3,9 +3,9 @@ package Expression.Minimal;
 import Context.Environnement;
 import Context.StatusCode;
 import Exception.SyntaxError;
-import Expression.ArithmeticExpression;
+import Exception.VariableNotExistError;
 
-public class NumberExpression extends ArithmeticExpression {
+public class NumberExpression extends MinimalExpression {
     Integer value;
 
     public NumberExpression() {
@@ -21,7 +21,7 @@ public class NumberExpression extends ArithmeticExpression {
     }
 
     @Override
-    public Double evaluate() {
+    public Double evaluate() throws VariableNotExistError {
         return Double.valueOf(this.value);
     }
 
