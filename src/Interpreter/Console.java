@@ -6,7 +6,7 @@ import java.util.function.Consumer;
 import Context.Environnement;
 import Exception.SyntaxError;
 import Expression.ArithmeticExpression;
-import Expression.Operation.Addition;
+import Parser.Parsing;
 
 public class Console {
 
@@ -62,11 +62,12 @@ public class Console {
     private void runExpression(String input) {
         this.env.setExpression(input);
 
-        ArithmeticExpression expr = new Addition();
+        ArithmeticExpression expr;
         try {
-            expr.parse(env);
+            expr = new Parsing().parse(input);
         } catch (SyntaxError err) {
             System.out.println("You have a syntax problem");
+            return;
         }
         System.out.println(expr);
         System.out.println(expr.evaluate());

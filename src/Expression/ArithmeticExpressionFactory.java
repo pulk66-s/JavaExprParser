@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.Function;
 
-import Expression.Minimal.DivisionExpression;
-import Expression.Minimal.IntegerExpression;
-import Expression.Minimal.MultiplicationExpression;
-import Expression.Minimal.SubstractionExpression;
+import Expression.Minimal.NumberExpression;
 import Expression.Operation.Addition;
+import Expression.Operation.DivisionExpression;
+import Expression.Operation.MultiplicationExpression;
+import Expression.Operation.Parantheses;
+import Expression.Operation.SubstractionExpression;
 
 /**
  * @brief   This class is a factory that create an ArithmeticExpression
@@ -22,10 +23,11 @@ public class ArithmeticExpressionFactory {
      */
     public ArithmeticExpressionFactory() {
         constructorMaps.put("Addition", (Void) -> new Addition());
-        constructorMaps.put("Integer", (Void) -> new IntegerExpression());
+        constructorMaps.put("Integer", (Void) -> new NumberExpression());
         constructorMaps.put("Multiplication", (Void) -> new MultiplicationExpression());
         constructorMaps.put("Division", (Void) -> new DivisionExpression());
         constructorMaps.put("Substraction", (Void) -> new SubstractionExpression());
+        constructorMaps.put("Parantheses", (Void) -> new Parantheses());
     }
 
     /**

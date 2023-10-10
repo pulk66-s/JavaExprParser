@@ -14,6 +14,7 @@ public class Parsing {
     private static final String[][] orders = {
         {"Addition", "Substraction"},
         {"Multiplication", "Division"},
+        {"Parantheses"},
         {"Integer"}
     };
 
@@ -28,6 +29,7 @@ public class Parsing {
 
         for (String[] cat : orders) {
             for (String op : cat) {
+
                 ArithmeticExpression expr = factory.create(op);
                 StatusCode status = expr.parse(env);
 

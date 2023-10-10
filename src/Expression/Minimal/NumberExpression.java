@@ -5,14 +5,14 @@ import Context.StatusCode;
 import Exception.SyntaxError;
 import Expression.ArithmeticExpression;
 
-public class IntegerExpression extends ArithmeticExpression {
+public class NumberExpression extends ArithmeticExpression {
     Integer value;
 
-    public IntegerExpression() {
+    public NumberExpression() {
         this.value = 0;
     }
 
-    public IntegerExpression(Integer value) {
+    public NumberExpression(Integer value) {
         this.value = value;
     }
 

@@ -1,4 +1,4 @@
-package Expression.Minimal;
+package Expression.Operation;
 
 import Context.Environnement;
 import Context.StatusCode;

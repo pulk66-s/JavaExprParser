@@ -15,13 +15,14 @@ public abstract class OperationExpression extends ArithmeticExpression {
     @Override
     public StatusCode parse(Environnement env) throws SyntaxError {
         int opIndex = env.findChar(this.operator);
+        int pIndex = env.findChar('(');
 
-        if (opIndex < 0) {
+        if (opIndex < 0 || (pIndex >= 0 && pIndex < opIndex)) {
             return StatusCode.FAILURE;
         }
 
-        String left_expr = env.getExpression().substring(0, opIndex);   // 42 + 3 -> 42
-        String right_expr = env.getExpression().substring(opIndex + 1);            // 3
+        String left_expr = env.getExpression().substring(0, opIndex);
+        String right_expr = env.getExpression().substring(opIndex + 1);
 
         this.left = new Parsing().parse(left_expr);
         this.right = new Parsing().parse(right_expr);

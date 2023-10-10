@@ -1,13 +1,13 @@
-package Expression.Minimal;
+package Expression.Operation;
 
 import Context.Environnement;
 import Context.StatusCode;
 import Exception.SyntaxError;
 import Expression.OperationExpression;
 
-public class SubstractionExpression extends OperationExpression {
-    public SubstractionExpression() {
-        this.operator = '-';
+public class DivisionExpression extends OperationExpression {
+    public DivisionExpression() {
+        this.operator = '/';
     }
 
     public StatusCode parse(Environnement env) throws SyntaxError {
@@ -16,6 +16,6 @@ public class SubstractionExpression extends OperationExpression {
 
     @Override
     public Double evaluate() {
-        return this.left.evaluate() - this.right.evaluate();
+        return this.left.evaluate() / this.right.evaluate();
     }
 }
