@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.Function;
 
+import Expression.Minimal.FunctionExpression;
 import Expression.Minimal.NumberExpression;
 import Expression.Minimal.VariableExpression;
 import Expression.Operation.Addition;
@@ -33,6 +34,7 @@ public class ArithmeticExpressionFactory {
         constructorMaps.put("Power", (Void) -> new PowerExpression());
         constructorMaps.put("Declaration", (Void) -> new DeclarationExpression());
         constructorMaps.put("Variable", (Void) -> new VariableExpression());
+        constructorMaps.put("Function", (Void) -> new FunctionExpression());
     }
 
     /**

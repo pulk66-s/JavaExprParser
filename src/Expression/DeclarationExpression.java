@@ -20,7 +20,7 @@ public class DeclarationExpression extends ArithmeticExpression {
         String leftExpr = env.getExpression().substring(0, equalOpIndex).trim();
         String rightExpr = env.getExpression().substring(equalOpIndex + 1);
 
-        if (!leftExpr.matches("[a-zA-Z]")) {
+        if (!leftExpr.matches("[a-zA-Z]+")) {
             return StatusCode.FAILURE;
         }
         this.name = leftExpr;

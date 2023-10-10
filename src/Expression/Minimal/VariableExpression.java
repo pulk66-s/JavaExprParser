@@ -10,7 +10,7 @@ public class VariableExpression extends MinimalExpression {
     public StatusCode parse(Environnement env) {
         this.name = env.getExpression().trim();
 
-        if (!this.name.matches("[a-zA-Z]")) {
+        if (!this.name.matches("[a-zA-Z]+")) {
             return StatusCode.FAILURE;
         }
         return StatusCode.SUCCESS;

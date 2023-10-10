@@ -75,6 +75,7 @@ public class Console {
             System.out.println("Can't parse the expression");
             return;
         }
+        System.out.println(expr);
         try {
             System.out.println(expr.evaluate());
         } catch (VariableNotExistError err) {

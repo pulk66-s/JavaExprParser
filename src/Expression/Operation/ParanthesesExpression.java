@@ -10,7 +10,7 @@ import Parser.Parsing;
 public class ParanthesesExpression extends ArithmeticExpression {
     private ArithmeticExpression value;
 
-    private int findClosingPar(String s) {
+    static public int findClosingPar(String s) {
         int parnb = 0;
         boolean firstParFound = false;
         int foundIndex = -1;
@@ -35,7 +35,7 @@ public class ParanthesesExpression extends ArithmeticExpression {
     @Override
     public StatusCode parse(Environnement env) throws SyntaxError {
         int lpar = env.findChar('(');
-        int rpar = this.findClosingPar(env.getExpression());
+        int rpar = ParanthesesExpression.findClosingPar(env.getExpression());
 
         if (lpar == -1 || rpar == -1) {
             if (lpar >= 0 || rpar >= 0) {
@@ -45,7 +45,12 @@ public class ParanthesesExpression extends ArithmeticExpression {
         }
 
         String valueExpr = env.getExpression().substring(lpar + 1, rpar);
+        String leftValue = env.getExpression().substring(0, lpar).trim();
+        char lastChar = leftValue.charAt(leftValue.length() - 1);
 
+        if ("+-*/^".indexOf(lastChar) < 0) {
+            return StatusCode.FAILURE;
+        }
         this.value = new Parsing().parse(valueExpr);
         return StatusCode.SUCCESS;
     }

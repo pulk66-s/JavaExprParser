@@ -16,7 +16,7 @@ public class Parsing {
         {"Addition", "Substraction"},
         {"Multiplication", "Division", "Power"},
         {"Parantheses"},
-        {"Integer", "Variable"}
+        {"Function", "Integer", "Variable"}
     };
 
     /**
