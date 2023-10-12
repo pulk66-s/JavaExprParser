@@ -21,4 +21,6 @@ public abstract class ArithmeticExpression {
      * @return      The result of the expression
      */
     public abstract Double evaluate() throws VariableNotExistError;
+
+    public abstract void simplify() throws VariableNotExistError;
 }

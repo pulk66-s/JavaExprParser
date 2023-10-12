@@ -65,8 +65,12 @@ public class Console {
         this.env.setExpression(input);
         try {
             expr = new Parsing().parse(input);
+            expr.simplify();
         } catch (SyntaxError err) {
             System.out.println("You have a syntax problem");
+            return;
+        } catch (VariableNotExistError err) {
+            System.out.println("You have a variable problem");
             return;
         }
         if (env == null) {

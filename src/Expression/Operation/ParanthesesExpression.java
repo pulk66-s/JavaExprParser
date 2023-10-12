@@ -32,6 +32,10 @@ public class ParanthesesExpression extends ArithmeticExpression {
         return foundIndex;
     }
 
+    public void simplify() throws VariableNotExistError {
+        this.value.simplify();
+    }
+
     @Override
     public StatusCode parse(Environnement env) throws SyntaxError {
         int lpar = env.findChar('(');

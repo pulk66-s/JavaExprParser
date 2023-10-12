@@ -3,11 +3,13 @@ package Expression;
 import Context.Environnement;
 import Context.StatusCode;
 import Exception.SyntaxError;
+import Exception.VariableNotExistError;
 import Parser.Parsing;
 
 public abstract class OperationExpression extends ArithmeticExpression {
     protected ArithmeticExpression left, right;
     protected char operator;
+    protected ArithmeticExpression unit;
 
     public OperationExpression() {
     }
@@ -41,21 +43,21 @@ public abstract class OperationExpression extends ArithmeticExpression {
         String left_expr = env.getExpression().substring(0, opIndex);
         String right_expr = env.getExpression().substring(opIndex + 1);
 
-        if (this.operator == '^') {
-            System.out.println("left " + left_expr);
-            System.out.println("right " + right_expr);
-        }
-
         if (left_expr.length() == 0 || right_expr.length() == 0) {
             return StatusCode.FAILURE;
         }
         this.left = new Parsing().parse(left_expr);
         this.right = new Parsing().parse(right_expr);
-        if (this.operator == '^') {
-            System.out.println("left " + this.left);
-            System.out.println("right " + this.right);
-        }
         return StatusCode.SUCCESS;
+    }
+
+    public void simplify() throws VariableNotExistError {
+        if (Math.abs(this.left.evaluate() - this.unit.evaluate()) < 0.00000001) {
+            this.left = this.unit;
+        }
+        if (Math.abs(this.right.evaluate() - this.unit.evaluate()) < 0.00000001) {
+            this.right = this.unit;
+        }
     }
 
     public String toString() {
