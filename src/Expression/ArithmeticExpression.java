@@ -23,4 +23,6 @@ public abstract class ArithmeticExpression {
     public abstract Double evaluate() throws VariableNotExistError;
 
     public abstract void simplify() throws VariableNotExistError;
+
+    public abstract StringBuilder toStringBuilder();
 }

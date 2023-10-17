@@ -40,7 +40,7 @@ public class Parsing {
                 if (status == StatusCode.SUCCESS) {
                     return expr;
                 } else if (status == StatusCode.ERROR) {
-                    throw new SyntaxError("Syntax error: " + expr.toString());
+                    throw new SyntaxError("Syntax error: " + expr.toStringBuilder());
                 }
             }
         }
@@ -51,7 +51,7 @@ public class Parsing {
             if (status == StatusCode.SUCCESS) {
                 return expr;
             } else if (status == StatusCode.ERROR) {
-                throw new SyntaxError("Syntax error: " + expr.toString());
+                throw new SyntaxError("Syntax error: " + expr.toStringBuilder());
             }
         }
         return null;

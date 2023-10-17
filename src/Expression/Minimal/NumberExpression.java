@@ -16,8 +16,8 @@ public class NumberExpression extends MinimalExpression {
         this.value = value;
     }
 
-    public String toString() {
-        return value.toString();
+    public StringBuilder toStringBuilder() {
+        return new StringBuilder(this.value.toString());
     }
 
     public void simplify() throws VariableNotExistError {

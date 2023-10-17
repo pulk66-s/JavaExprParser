@@ -67,7 +67,12 @@ public class ParanthesesExpression extends ArithmeticExpression {
         return this.value.evaluate();
     }
 
-    public String toString() {
-        return "(" + this.value.toString() + ")";
+    public StringBuilder toStringBuilder() {
+        StringBuilder sb = new StringBuilder();
+        
+        sb.append("(");
+        sb.append(this.value.toStringBuilder());
+        sb.append(")");
+        return sb;
     }
 }

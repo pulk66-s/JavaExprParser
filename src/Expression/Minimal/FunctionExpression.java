@@ -54,13 +54,13 @@ public class FunctionExpression extends MinimalExpression {
         return FunctionExpression.functions.get(name).apply(value);
     }
 
-    public String toString() {
+    public StringBuilder toStringBuilder() {
         StringBuilder sb = new StringBuilder();
 
         sb.append("(");
         sb.append(this.name);
-        sb.append(this.value);
+        sb.append(this.value.toStringBuilder());
         sb.append(")");
-        return sb.toString();
+        return sb;
     }
 }

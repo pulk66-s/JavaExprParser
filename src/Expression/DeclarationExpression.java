@@ -37,12 +37,12 @@ public class DeclarationExpression extends ArithmeticExpression {
         this.value.simplify();
     }
 
-    public String toString() {
+    public StringBuilder toStringBuilder() {
         StringBuilder sb = new StringBuilder();
 
         sb.append(this.name);
         sb.append(" = ");
-        sb.append(this.value);
-        return sb.toString();
+        sb.append(this.value.toStringBuilder());
+        return sb;
     }
 }

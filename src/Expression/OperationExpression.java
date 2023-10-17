@@ -60,14 +60,14 @@ public abstract class OperationExpression extends ArithmeticExpression {
         }
     }
 
-    public String toString() {
+    public StringBuilder toStringBuilder() {
         StringBuilder sb = new StringBuilder();
 
         sb.append("(");
-        sb.append(this.left.toString());
+        sb.append(this.left.toStringBuilder());
         sb.append(" " + this.operator + " ");
-        sb.append(this.right.toString());
+        sb.append(this.right.toStringBuilder());
         sb.append(")");
-        return sb.toString();
+        return sb;
     }
 }

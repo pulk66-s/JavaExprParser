@@ -23,7 +23,7 @@ public class VariableExpression extends MinimalExpression {
         return Environnement.getVariable(name);
     }
 
-    public String toString() {
-        return this.name;
+    public StringBuilder toStringBuilder() {
+        return new StringBuilder(this.name);
     }
 }
