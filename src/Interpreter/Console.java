@@ -4,10 +4,12 @@ import java.util.HashMap;
 import java.util.function.Consumer;
 
 import Context.Environnement;
+import Context.StatusCode;
 import Exception.SyntaxError;
 import Exception.VariableNotExistError;
 import Expression.ArithmeticExpression;
-import Parser.Parsing;
+import Expression.ArithmeticExpressionFactory;
+import Expression.MinimalExpressionFactory;
 
 public class Console {
 
@@ -64,8 +66,13 @@ public class Console {
 
         this.env.setExpression(input);
         try {
-            expr = new Parsing().parse(input);
-            expr.simplify();
+            expr = new ArithmeticExpressionFactory().parse(input);
+            if (expr == null) {
+                expr = new MinimalExpressionFactory().parse(input);
+            }
+            if (expr != null) {
+                expr.simplify();
+            }
         } catch (SyntaxError err) {
             System.out.println("You have a syntax problem");
             return;

@@ -8,8 +8,9 @@ import Context.StatusCode;
 import Exception.SyntaxError;
 import Exception.VariableNotExistError;
 import Expression.ArithmeticExpression;
+import Expression.ArithmeticExpressionFactory;
+import Expression.MinimalExpressionFactory;
 import Expression.Operation.ParanthesesExpression;
-import Parser.Parsing;
 
 public class FunctionExpression extends MinimalExpression {
     private String name;
@@ -34,7 +35,16 @@ public class FunctionExpression extends MinimalExpression {
         if (!this.name.matches("[a-zA-Z]+")) {
             return StatusCode.FAILURE;
         }
-        this.value = new Parsing().parse(env.getExpression().substring(lparI + 1, rparI));
+
+        String subString = env.getExpression().substring(lparI + 1, rparI);
+
+        this.value = new ArithmeticExpressionFactory().parse(subString);
+        if (this.value == null) {
+            this.value = new MinimalExpressionFactory().parse(subString);
+        }
+        if (this.value == null) {
+            return StatusCode.FAILURE;
+        }
         return StatusCode.SUCCESS;
     }
 

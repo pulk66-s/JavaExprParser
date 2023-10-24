@@ -5,7 +5,8 @@ import Context.StatusCode;
 import Exception.SyntaxError;
 import Exception.VariableNotExistError;
 import Expression.ArithmeticExpression;
-import Parser.Parsing;
+import Expression.ArithmeticExpressionFactory;
+import Expression.MinimalExpressionFactory;
 
 public class ParanthesesExpression extends ArithmeticExpression {
     private ArithmeticExpression value;
@@ -58,7 +59,13 @@ public class ParanthesesExpression extends ArithmeticExpression {
                 return StatusCode.FAILURE;
             }
         }
-        this.value = new Parsing().parse(valueExpr);
+        this.value = new ArithmeticExpressionFactory().parse(valueExpr);
+        if (this.value == null) {
+            this.value = new MinimalExpressionFactory().parse(valueExpr);
+        }
+        if (this.value == null) {
+            return StatusCode.FAILURE;
+        }
         return StatusCode.SUCCESS;
     }
 

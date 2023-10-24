@@ -24,7 +24,6 @@ SRC 	= src/Main.java										\
 	src/Expression/AExpressionFactory.java					\
 	src/Context/StatusCode.java								\
 	src/Context/Environnement.java							\
-	src/Parser/Parsing.java									\
 	src/Exception/SyntaxError.java							\
 	src/Exception/VariableNotExistError.java				\
 

@@ -4,7 +4,6 @@ import Context.Environnement;
 import Context.StatusCode;
 import Exception.SyntaxError;
 import Exception.VariableNotExistError;
-import Parser.Parsing;
 
 public class DeclarationExpression extends ArithmeticExpression {
     private String name;
@@ -24,7 +23,13 @@ public class DeclarationExpression extends ArithmeticExpression {
             return StatusCode.FAILURE;
         }
         this.name = leftExpr;
-        this.value = new Parsing().parse(rightExpr);
+        this.value = new ArithmeticExpressionFactory().parse(rightExpr);
+        if (this.value == null) {
+            this.value = new MinimalExpressionFactory().parse(rightExpr);
+        }
+        if (this.value == null) {
+            return StatusCode.FAILURE;
+        }
         return StatusCode.SUCCESS;
     }
 

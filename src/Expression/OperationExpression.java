@@ -4,7 +4,6 @@ import Context.Environnement;
 import Context.StatusCode;
 import Exception.SyntaxError;
 import Exception.VariableNotExistError;
-import Parser.Parsing;
 
 public abstract class OperationExpression extends ArithmeticExpression {
     protected ArithmeticExpression left, right;
@@ -46,8 +45,17 @@ public abstract class OperationExpression extends ArithmeticExpression {
         if (left_expr.length() == 0 || right_expr.length() == 0) {
             return StatusCode.FAILURE;
         }
-        this.left = new Parsing().parse(left_expr);
-        this.right = new Parsing().parse(right_expr);
+        this.left = new ArithmeticExpressionFactory().parse(left_expr);
+        if (this.left == null) {
+            this.left = new MinimalExpressionFactory().parse(left_expr);
+        }
+        this.right = new ArithmeticExpressionFactory().parse(right_expr);
+        if (this.right == null) {
+            this.right = new MinimalExpressionFactory().parse(right_expr);
+        }
+        if (this.right == null || this.left == null) {
+            return StatusCode.FAILURE;
+        }
         return StatusCode.SUCCESS;
     }
 
