@@ -48,10 +48,6 @@ public class FunctionExpression extends MinimalExpression {
         return StatusCode.SUCCESS;
     }
 
-    public void simplify() throws VariableNotExistError {
-        this.value.simplify();
-    }
-
     public Double evaluate() throws VariableNotExistError {
         return FunctionExpression.runFunction(this.name, this.value.evaluate());
     }

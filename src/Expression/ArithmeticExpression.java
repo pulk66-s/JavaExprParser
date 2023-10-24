@@ -22,7 +22,18 @@ public abstract class ArithmeticExpression {
      */
     public abstract Double evaluate() throws VariableNotExistError;
 
-    public abstract void simplify() throws VariableNotExistError;
+    /**
+     * @brief       This method simplify the expression
+     * @details     This method simplify the expression by removing all the
+     *              useless operations
+     * @return      The simplified expression
+     * @throws VariableNotExistError
+     */
+    public abstract ArithmeticExpression simplify() throws VariableNotExistError;
 
+    /**
+     * @brief   This method return a string representation of the expression
+     * @return  A string representation of the expression
+     */
     public abstract StringBuilder toStringBuilder();
 }

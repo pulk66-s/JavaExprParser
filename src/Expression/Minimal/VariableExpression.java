@@ -16,9 +16,6 @@ public class VariableExpression extends MinimalExpression {
         return StatusCode.SUCCESS;
     }
 
-    public void simplify() throws VariableNotExistError {
-    }
-
     public Double evaluate() throws VariableNotExistError {
         return Environnement.getVariable(name);
     }

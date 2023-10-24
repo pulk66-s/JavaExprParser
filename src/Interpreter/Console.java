@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.function.Consumer;
 
 import Context.Environnement;
-import Context.StatusCode;
 import Exception.SyntaxError;
 import Exception.VariableNotExistError;
 import Expression.ArithmeticExpression;
@@ -71,7 +70,7 @@ public class Console {
                 expr = new MinimalExpressionFactory().parse(input);
             }
             if (expr != null) {
-                expr.simplify();
+                expr = expr.simplify();
             }
         } catch (SyntaxError err) {
             System.out.println("You have a syntax problem");

@@ -33,8 +33,8 @@ public class ParanthesesExpression extends ArithmeticExpression {
         return foundIndex;
     }
 
-    public void simplify() throws VariableNotExistError {
-        this.value.simplify();
+    public ArithmeticExpression simplify() throws VariableNotExistError {
+        return this.value.simplify();
     }
 
     @Override

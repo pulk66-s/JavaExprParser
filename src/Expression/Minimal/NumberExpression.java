@@ -20,9 +20,6 @@ public class NumberExpression extends MinimalExpression {
         return new StringBuilder(this.value.toString());
     }
 
-    public void simplify() throws VariableNotExistError {
-    }
-
     @Override
     public Double evaluate() throws VariableNotExistError {
         return Double.valueOf(this.value);

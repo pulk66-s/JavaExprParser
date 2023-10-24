@@ -59,13 +59,14 @@ public abstract class OperationExpression extends ArithmeticExpression {
         return StatusCode.SUCCESS;
     }
 
-    public void simplify() throws VariableNotExistError {
+    public ArithmeticExpression simplify() throws VariableNotExistError {
         if (Math.abs(this.left.evaluate() - this.unit.evaluate()) < 0.00000001) {
-            this.left = this.unit;
+            return this.right;
         }
         if (Math.abs(this.right.evaluate() - this.unit.evaluate()) < 0.00000001) {
-            this.right = this.unit;
+            return this.left;
         }
+        return this;
     }
 
     public StringBuilder toStringBuilder() {

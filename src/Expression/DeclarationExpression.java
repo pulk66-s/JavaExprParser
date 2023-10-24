@@ -38,8 +38,9 @@ public class DeclarationExpression extends ArithmeticExpression {
         return 0.0;
     }
 
-    public void simplify() throws VariableNotExistError {
-        this.value.simplify();
+    public ArithmeticExpression simplify() throws VariableNotExistError {
+        this.value = this.value.simplify();
+        return this;
     }
 
     public StringBuilder toStringBuilder() {
