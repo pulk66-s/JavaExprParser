@@ -8,9 +8,20 @@ import Expression.ArithmeticExpression;
 import Expression.ArithmeticExpressionFactory;
 import Expression.MinimalExpressionFactory;
 
+/**
+ * @brief   This class is used to represent a parantheses expression
+ * @details This class is used to represent a parantheses expression
+ *          It extends the ArithmeticExpression class
+ */
 public class ParanthesesExpression extends ArithmeticExpression {
+    // The value of the expression
     private ArithmeticExpression value;
 
+    /**
+     * @brief       This method find the closing parenthesis
+     * @param s     The string to search in
+     * @return      The index of the closing parenthesis
+     */
     static public int findClosingPar(String s) {
         int parnb = 0;
         boolean firstParFound = false;
@@ -33,11 +44,22 @@ public class ParanthesesExpression extends ArithmeticExpression {
         return foundIndex;
     }
 
+    /**
+     * @brief       This method simplify the expression
+     * @details     This method simplify the expression by removing all the
+     *              useless operations
+     * @return      The simplified expression
+     * @throws VariableNotExistError
+     */
     public ArithmeticExpression simplify() throws VariableNotExistError {
         return this.value.simplify();
     }
 
-    @Override
+    /**
+     * @brief       This method parse an expression and return a StatusCode
+     * @param   env The environnement that contains the expression to parse
+     * @return      A StatusCode that represent the result of the evaluation
+     */
     public StatusCode parse(Environnement env) throws SyntaxError {
         int lpar = env.findChar('(');
         int rpar = ParanthesesExpression.findClosingPar(env.getExpression());
@@ -69,11 +91,18 @@ public class ParanthesesExpression extends ArithmeticExpression {
         return StatusCode.SUCCESS;
     }
 
-    @Override
+    /**
+     * @brief       This method evaluate the value stored after parsing
+     * @return      The result of the expression
+     */
     public Double evaluate() throws VariableNotExistError {
         return this.value.evaluate();
     }
 
+    /**
+     * @brief   This method return a string representation of the expression
+     * @return  A string representation of the expression
+     */
     public StringBuilder toStringBuilder() {
         StringBuilder sb = new StringBuilder();
         
@@ -81,5 +110,14 @@ public class ParanthesesExpression extends ArithmeticExpression {
         sb.append(this.value.toStringBuilder());
         sb.append(")");
         return sb;
+    }
+
+    /**
+     * @brief   This method return a string representation of the expression
+     * @return  A string representation of the expression
+     */
+    @Override
+    public String toString() {
+        return this.toStringBuilder().toString();
     }
 }

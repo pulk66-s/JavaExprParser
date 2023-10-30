@@ -36,4 +36,10 @@ public abstract class ArithmeticExpression {
      * @return  A string representation of the expression
      */
     public abstract StringBuilder toStringBuilder();
+
+    /**
+     * @brief   This method return a string representation of the expression
+     * @return  A string representation of the expression
+     */
+    public abstract String toString();
 }

@@ -5,14 +5,32 @@ import Context.StatusCode;
 import Exception.SyntaxError;
 import Exception.VariableNotExistError;
 
+/**
+ * @brief   This class is used to represent an operation expression
+ * @details This class is used to represent an operation expression, it contains
+ *          the left and right expression and the operator.
+ *          It also contains the unit of the expression. Used to simplify the
+ *          expression.
+ *          It is an abstract class, it must be extended to be used.
+ *          It implements the ArithmeticExpression interface.
+ */
 public abstract class OperationExpression extends ArithmeticExpression {
     protected ArithmeticExpression left, right;
     protected char operator;
     protected ArithmeticExpression unit;
 
+    /**
+     * @brief   Constructor of the OperationExpression class
+     * @details It overrides the ArithmeticExpression constructor
+     */
     public OperationExpression() {
     }
 
+    /**
+     * @brief       Constructor of the OperationExpression class
+     * @param expr  The expression to parse
+     * @return      The index of the highest operator in the expression
+     */
     public int findHighestOperator(String expr) {
         int nbParenthesis = 0;
 
@@ -32,6 +50,12 @@ public abstract class OperationExpression extends ArithmeticExpression {
         return -1;
     }
 
+    /**
+     * @brief       Parse the expression
+     * @param env   The current environnement
+     * @return      The status code of the parsing
+     * @throws SyntaxError
+     */
     public StatusCode parse(Environnement env) throws SyntaxError {
         int opIndex = this.findHighestOperator(env.getExpression());
 
@@ -59,6 +83,11 @@ public abstract class OperationExpression extends ArithmeticExpression {
         return StatusCode.SUCCESS;
     }
 
+    /**
+     * Simplify the expression
+     * @return The simplified expression
+     * @throws VariableNotExistError
+     */
     public ArithmeticExpression simplify() throws VariableNotExistError {
         if (Math.abs(this.left.evaluate() - this.unit.evaluate()) < 0.00000001) {
             return this.right;
@@ -69,6 +98,10 @@ public abstract class OperationExpression extends ArithmeticExpression {
         return this;
     }
 
+    /**
+     * @brief   Convert the expression to a string builder
+     * @return  The string builder of the expression
+     */
     public StringBuilder toStringBuilder() {
         StringBuilder sb = new StringBuilder();
 
@@ -78,5 +111,14 @@ public abstract class OperationExpression extends ArithmeticExpression {
         sb.append(this.right.toStringBuilder());
         sb.append(")");
         return sb;
+    }
+
+    /**
+     * @brief   This method return a string representation of the expression
+     * @return  A string representation of the expression
+     */
+    @Override
+    public String toString() {
+        return this.toStringBuilder().toString();
     }
 }

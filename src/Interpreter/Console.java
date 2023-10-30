@@ -10,6 +10,9 @@ import Expression.ArithmeticExpression;
 import Expression.ArithmeticExpressionFactory;
 import Expression.MinimalExpressionFactory;
 
+/**
+ * @brief   This class is used to represent a console
+ */
 public class Console {
 
     // Boolean to check if the program is running or not
@@ -83,7 +86,7 @@ public class Console {
             System.out.println("Can't parse the expression");
             return;
         }
-        System.out.println("expr " + expr.toStringBuilder());
+        System.out.println("expr " + expr);
         try {
             System.out.println(expr.evaluate());
         } catch (VariableNotExistError err) {

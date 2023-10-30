@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.Function;
 
+/**
+ * @brief   This class is used to represent an expression factory
+ * @details This class is used to represent an expression factory
+ *          It implements the ExpressionFactory interface
+ */
 public abstract class AExpressionFactory implements ExpressionFactory {
     // Hashmap that contains the constructor of the ArithmeticExpression
     protected static HashMap<String, Function<Void, ArithmeticExpression>> constructorMaps = new HashMap<>();    

@@ -5,10 +5,23 @@ import Context.StatusCode;
 import Exception.SyntaxError;
 import Exception.VariableNotExistError;
 
+/**
+ * @brief   This class is used to represent a declaration expression
+ * @details This class is used to represent a declaration expression
+ *          It extends the ArithmeticExpression class
+ */
 public class DeclarationExpression extends ArithmeticExpression {
+    // The name of the variable
     private String name;
+
+    // The value of the expression
     private ArithmeticExpression value;
 
+    /**
+     * @brief       This method parse an expression and return a StatusCode
+     * @param   env The environnement that contains the expression to parse
+     * @return      A StatusCode that represent the result of the evaluation
+     */
     public StatusCode parse(Environnement env) throws SyntaxError {
         int equalOpIndex = env.findChar('=');
 
@@ -33,16 +46,31 @@ public class DeclarationExpression extends ArithmeticExpression {
         return StatusCode.SUCCESS;
     }
 
+    /**
+     * @brief       This method evaluate the value stored after parsing
+     * @return      The result of the expression
+     */
     public Double evaluate() throws VariableNotExistError {
         Environnement.setVariable(this.name, this.value.evaluate());
         return 0.0;
     }
 
+    /**
+     * @brief       This method simplify the expression
+     * @details     This method simplify the expression by removing all the
+     *              useless operations
+     * @return      The simplified expression
+     * @throws VariableNotExistError
+     */
     public ArithmeticExpression simplify() throws VariableNotExistError {
         this.value = this.value.simplify();
         return this;
     }
 
+    /**
+     * @brief   This method return a string representation of the expression
+     * @return  A string representation of the expression
+     */
     public StringBuilder toStringBuilder() {
         StringBuilder sb = new StringBuilder();
 
@@ -50,5 +78,14 @@ public class DeclarationExpression extends ArithmeticExpression {
         sb.append(" = ");
         sb.append(this.value.toStringBuilder());
         return sb;
+    }
+
+    /**
+     * @brief   This method return a string representation of the expression
+     * @return  A string representation of the expression
+     */
+    @Override
+    public String toString() {
+        return this.toStringBuilder().toString();
     }
 }

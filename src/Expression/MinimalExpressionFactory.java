@@ -7,11 +7,22 @@ import Expression.Minimal.FunctionExpression;
 import Expression.Minimal.NumberExpression;
 import Expression.Minimal.VariableExpression;
 
+/**
+ * @brief   This class is used to represent a minimal expression factory
+ * @details This class is used to represent a minimal expression factory
+ *          It extends the AExpressionFactory class
+ */
 public class MinimalExpressionFactory extends AExpressionFactory {
+    /**
+     * @brief   This array contains all the minimal values
+     */
     private static final String[] minimalValues = {
         "Function", "Number", "Variable"
     };
 
+    /**
+     * @brief   This constructor initialize the constructorMaps
+     */
     public MinimalExpressionFactory() {
         constructorMaps.put("Number", (Void) -> new NumberExpression());
         constructorMaps.put("Variable", (Void) -> new VariableExpression());
