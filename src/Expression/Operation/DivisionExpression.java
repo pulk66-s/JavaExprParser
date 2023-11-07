@@ -1,6 +1,7 @@
 package Expression.Operation;
 
 import java.util.HashMap;
+import java.util.Optional;
 
 import Expression.OperationExpression;
 import Expression.Minimal.NumberExpression;
@@ -18,6 +19,28 @@ public class DivisionExpression extends OperationExpression {
         this.operator = '/';
         this.unit = new NumberExpression(1.0);
         this.applyFunction = (Double a, Double b) -> a / b;
+    }
+
+    /**
+     * @brief       This method evaluate the value stored after parsing
+     * @return      The result of the expression
+     */
+    @Override
+    public Optional<Double> evaluate() {
+        if (!this.left.isPresent() || !this.right.isPresent()) {
+            return Optional.empty();
+        }
+
+        Optional<Double> leftParsed = this.left.get().evaluate();
+        Optional<Double> rightParsed = this.right.get().evaluate();
+
+        if (!leftParsed.isPresent() || !rightParsed.isPresent()) {
+            return Optional.empty();
+        }
+        if (rightParsed.get() == 0) {
+            return Optional.empty();
+        }
+        return Optional.of(leftParsed.get() / rightParsed.get());
     }
 
     /**
