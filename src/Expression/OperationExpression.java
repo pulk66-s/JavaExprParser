@@ -96,16 +96,26 @@ public abstract class OperationExpression extends ArithmeticExpression {
 
     /**
      * Simplify the expression with unit value
+     * @param   left    The left expression
+     * @param   right   The right expression
      * @return          The simplified expression
      */
-    private Optional<ArithmeticExpression> unitSimplify() {
-        if (!this.left.isPresent() || !this.right.isPresent()) {
+    private Optional<ArithmeticExpression> unitSimplify(
+        Optional<Double> left, Optional<Double> right
+    ) {
+        Optional<Double> unitRes = this.unit.evaluate();
+
+        if (!left.isPresent() || !right.isPresent() || !unitRes.isPresent()) {
             return Optional.empty();
         }
-        if (this.left.get().equals(this.unit)) {
+
+        System.out.println("Left" + left + " Right" + right + " Unit" + unitRes);
+        System.out.println(left.get().equals(unitRes.get()));
+        System.out.println(right.get().equals(unitRes.get()));
+        if (left.get().equals(unitRes.get())) {
             return this.right;
         }
-        if (this.right.get().equals(this.unit)) {
+        if (right.get().equals(unitRes.get())) {
             return this.left;
         }
         return Optional.empty();
@@ -113,14 +123,24 @@ public abstract class OperationExpression extends ArithmeticExpression {
 
     /**
      * Simplify the expression with null value
+     * @param   left    The left expression
+     * @param   right   The right expression
      * @return          The simplified expression
      */
-    private Optional<ArithmeticExpression> nullSimplified() {
-        if (!this.left.isPresent() || !this.right.isPresent()) {
+    private Optional<ArithmeticExpression> nullSimplified(
+        Optional<Double> left, Optional<Double> right
+    ) {
+        if (!this.nullValue.isPresent()) {
             return Optional.empty();
         }
-        if (this.left.get().equals(unit) || this.right.get().equals(unit)) {
-            return Optional.of(MinimalExpressionFactory.createConstant(0.0));
+
+        Optional<Double> nullRes = this.nullValue.get().evaluate();
+
+        if (!left.isPresent() || !right.isPresent() || !nullRes.isPresent()) {
+            return Optional.empty();
+        }
+        if (left.get().equals(nullRes.get()) || right.get().equals(nullRes.get())) {
+            return this.nullValue;
         }
         return Optional.empty();
     }
@@ -131,13 +151,16 @@ public abstract class OperationExpression extends ArithmeticExpression {
      * @throws VariableNotExistError
      */
     public Optional<ArithmeticExpression> simplify() throws VariableNotExistError {
-        Optional<ArithmeticExpression> unitSimplified;
-        Optional<ArithmeticExpression> nullSimplified = Optional.empty();
-
         if (!this.left.isPresent() || !this.right.isPresent()) {
             return Optional.empty();
         }
-        unitSimplified = this.unitSimplify();
+
+        Optional<Double> leftRes = this.left.get().evaluate();
+        Optional<Double> rightRes = this.right.get().evaluate();
+        Optional<ArithmeticExpression> unitSimplified;
+        Optional<ArithmeticExpression> nullSimplified = Optional.empty();
+
+        unitSimplified = this.unitSimplify(leftRes, rightRes);
         if (unitSimplified.isPresent()) {
             return unitSimplified;
         }
@@ -145,7 +168,7 @@ public abstract class OperationExpression extends ArithmeticExpression {
             Optional<Double> nValue = this.nullValue.get().evaluate();
 
             if (nValue.isPresent()) {
-                nullSimplified = this.nullSimplified();
+                nullSimplified = this.nullSimplified(leftRes, rightRes);
             }
             if (nullSimplified.isPresent()) {
                 return nullSimplified;

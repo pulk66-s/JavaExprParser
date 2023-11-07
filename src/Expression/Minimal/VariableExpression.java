@@ -48,7 +48,7 @@ public class VariableExpression extends MinimalExpression {
         try {
             return Optional.of(Environnement.getVariable(name));
         } catch (VariableNotExistError e) {
-            return Optional.of(0.0);
+            return Optional.empty();
         }
     }
 
