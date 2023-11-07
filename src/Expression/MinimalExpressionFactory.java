@@ -54,7 +54,7 @@ public class MinimalExpressionFactory extends AExpressionFactory {
      * @param   value   The value of the constant
      * @return          The constant created
      */
-    static public ArithmeticExpression createConstant(Double value) {
+    static public NumberExpression createConstant(Double value) {
         return new NumberExpression(value);
     }
 
@@ -63,7 +63,7 @@ public class MinimalExpressionFactory extends AExpressionFactory {
      * @param   name    The name of the variable
      * @return          The variable created
      */
-    static public ArithmeticExpression createVariable(String name) {
+    static public VariableExpression createVariable(String name) {
         return new VariableExpression(name);
     }
 }

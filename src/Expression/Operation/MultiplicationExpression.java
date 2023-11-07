@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Optional;
 
 import Expression.ArithmeticExpression;
+import Expression.MinimalExpressionFactory;
 import Expression.OperationExpression;
-import Expression.Minimal.NumberExpression;
 
 /**
  * @brief   This class is used to represent a multiplication expression
@@ -18,7 +18,8 @@ public class MultiplicationExpression extends OperationExpression {
      */
     public MultiplicationExpression() {
         this.operator = '*';
-        this.unit = new NumberExpression(1.0);
+        this.unit = MinimalExpressionFactory.createConstant(1.0);
+        this.nullValue = Optional.of(MinimalExpressionFactory.createConstant(0.0));
     }
 
     /**
@@ -29,7 +30,8 @@ public class MultiplicationExpression extends OperationExpression {
     public MultiplicationExpression(ArithmeticExpression left, ArithmeticExpression right) {
         super(left, right);
         this.operator = '*';
-        this.unit = new NumberExpression(1.0);
+        this.unit = MinimalExpressionFactory.createConstant(1.0);
+        this.nullValue = Optional.of(MinimalExpressionFactory.createConstant(0.0));
     }
 
     /**
@@ -74,9 +76,9 @@ public class MultiplicationExpression extends OperationExpression {
         }
         for (String key : rightVariables.keySet()) {
             if (variables.containsKey(key)) {
-                variables.put(key, variables.get(key) + rightVariables.get(key) * multiplicator);
+                variables.put(key, variables.get(key) + rightVariables.get(key));
             } else {
-                variables.put(key, rightVariables.get(key) * multiplicator);
+                variables.put(key, rightVariables.get(key));
             }
         }
         for (String key : variables.keySet()) {

@@ -103,7 +103,7 @@ public abstract class OperationExpression extends ArithmeticExpression {
      * @return          The simplified expression
      */
     private Optional<ArithmeticExpression> unitSimplify(
-        Optional<Double> left, Optional<Double> right
+        Optional<ArithmeticExpression> left, Optional<ArithmeticExpression> right
     ) {
         Optional<Double> unitRes = this.unit.evaluate();
 
@@ -111,10 +111,13 @@ public abstract class OperationExpression extends ArithmeticExpression {
             return Optional.empty();
         }
 
-        if (left.get().equals(unitRes.get())) {
+        Optional<Double> leftRes = left.get().evaluate();
+        Optional<Double> rightRes = right.get().evaluate();
+
+        if (leftRes.isPresent() && leftRes.get().equals(unitRes.get())) {
             return this.right;
         }
-        if (right.get().equals(unitRes.get())) {
+        if (rightRes.isPresent() && rightRes.get().equals(unitRes.get())) {
             return this.left;
         }
         return Optional.empty();
@@ -127,7 +130,7 @@ public abstract class OperationExpression extends ArithmeticExpression {
      * @return          The simplified expression
      */
     private Optional<ArithmeticExpression> nullSimplified(
-        Optional<Double> left, Optional<Double> right
+        Optional<ArithmeticExpression> left, Optional<ArithmeticExpression> right
     ) {
         if (!this.nullValue.isPresent()) {
             return Optional.empty();
@@ -138,7 +141,12 @@ public abstract class OperationExpression extends ArithmeticExpression {
         if (!left.isPresent() || !right.isPresent() || !nullRes.isPresent()) {
             return Optional.empty();
         }
-        if (left.get().equals(nullRes.get()) || right.get().equals(nullRes.get())) {
+
+        Optional<Double> leftRes = left.get().evaluate();
+        Optional<Double> rightRes = right.get().evaluate();
+
+        if ((leftRes.isPresent() && leftRes.get().equals(nullRes.get()))
+        || (rightRes.isPresent() && rightRes.get().equals(nullRes.get()))) {
             return this.nullValue;
         }
         return Optional.empty();
@@ -154,12 +162,10 @@ public abstract class OperationExpression extends ArithmeticExpression {
             return Optional.empty();
         }
 
-        Optional<Double> leftRes = this.left.get().evaluate();
-        Optional<Double> rightRes = this.right.get().evaluate();
         Optional<ArithmeticExpression> unitSimplified;
         Optional<ArithmeticExpression> nullSimplified = Optional.empty();
 
-        unitSimplified = this.unitSimplify(leftRes, rightRes);
+        unitSimplified = this.unitSimplify(this.left, this.right);
         if (unitSimplified.isPresent()) {
             return unitSimplified;
         }
@@ -167,7 +173,7 @@ public abstract class OperationExpression extends ArithmeticExpression {
             Optional<Double> nValue = this.nullValue.get().evaluate();
 
             if (nValue.isPresent()) {
-                nullSimplified = this.nullSimplified(leftRes, rightRes);
+                nullSimplified = this.nullSimplified(this.left, this.right);
             }
             if (nullSimplified.isPresent()) {
                 return nullSimplified;
@@ -253,11 +259,20 @@ public abstract class OperationExpression extends ArithmeticExpression {
         Double constantValue = this.getConstantValue();
         Addition exprRes = new Addition();
 
+        if (variables.keySet().isEmpty()) {
+            return Optional.of(MinimalExpressionFactory.createConstant(constantValue));
+        }
         for (String key : variables.keySet()) {
-            OperationExpression mult = ArithmeticExpressionFactory.createMultiplication(
-                MinimalExpressionFactory.createVariable(key),
-                MinimalExpressionFactory.createConstant(variables.get(key).doubleValue())
-            );
+            ArithmeticExpression mult;
+            
+            if (variables.get(key).equals(1.0)) {
+                mult = MinimalExpressionFactory.createVariable(key);
+            } else {
+                mult = ArithmeticExpressionFactory.createMultiplication(
+                    MinimalExpressionFactory.createVariable(key),
+                    MinimalExpressionFactory.createConstant(variables.get(key))
+                );
+            }
 
             if (!exprRes.getRight().isPresent()) {
                 exprRes.setRight(mult);

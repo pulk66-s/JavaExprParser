@@ -7,6 +7,7 @@ public class Main {
         ArrayList<TestSuite> testSuites = new ArrayList<TestSuite>();
 
         testSuites.add(new AdditionSuite());
+        testSuites.add(new MultiplicationSuite());
         for (TestSuite suite : testSuites) {
             TestResult res = suite.run();
 

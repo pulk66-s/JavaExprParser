@@ -26,14 +26,16 @@ SRC 	= src/Main.java										\
 	src/Exception/SyntaxError.java							\
 	src/Exception/VariableNotExistError.java				\
 
-TESTS_SRC	=	$(SRC)			\
-	Tests/Addition/Simple.java	\
-	Tests/Addition/Simplify.java	\
-	Tests/AdditionSuite.java	\
-	Tests/TestResult.java		\
-	Tests/TestSuite.java		\
-	Tests/AdditionSuite.java	\
-	Tests/Main.java				\
+TESTS_SRC	=	$(SRC)					\
+	Tests/Addition/Simple.java			\
+	Tests/Addition/Simplify.java		\
+	Tests/AdditionSuite.java			\
+	Tests/TestResult.java				\
+	Tests/TestSuite.java				\
+	Tests/AdditionSuite.java			\
+	Tests/Main.java						\
+	Tests/MultiplicationSuite.java		\
+	Tests/Multiplication/Simplify.java	\
 
 OBJ 		= $(SRC:.java=.class)
 TESTS_OBJ	= $(TESTS_SRC:.java=.class)
