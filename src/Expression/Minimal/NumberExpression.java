@@ -67,4 +67,14 @@ public class NumberExpression extends MinimalExpression {
     public String toString() {
         return this.toStringBuilder().toString();
     }
+
+    /**
+     * @brief   Return the constant value of the expression
+     * @return  The constant value of the expression
+     */
+    @Override
+    public Double getConstantValue() {
+        return this.value;
+    }
+
 }

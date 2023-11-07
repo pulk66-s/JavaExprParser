@@ -54,21 +54,49 @@ public class MultiplicationExpression extends OperationExpression {
      * @brief   Return the number of variables of an expression
      * @return  An hashmap containing the variables and the number of occurences
      */
-    public HashMap<String, Integer> getVariables() {
+    public HashMap<String, Double> getVariables() {
         if (!this.left.isPresent() || !this.right.isPresent()) {
             return new HashMap<>();
         }
 
-        HashMap<String, Integer> variables = this.left.get().getVariables();
-        HashMap<String, Integer> rightVariables = this.right.get().getVariables();
+        HashMap<String, Double> variables = this.left.get().getVariables();
+        HashMap<String, Double> rightVariables = this.right.get().getVariables();
+        Double multiplicator = 0.0;
+        Optional<Double> leftValue = this.left.get().evaluate();
+        Optional<Double> rightValue = this.right.get().evaluate();
 
+        if (leftValue.isPresent() && !leftValue.get().equals(0.0)) {
+            multiplicator = leftValue.get();
+        } else if (rightValue.isPresent() && !rightValue.get().equals(0.0)) {
+            multiplicator = rightValue.get();
+        } else {
+            multiplicator = 1.0;
+        }
         for (String key : rightVariables.keySet()) {
             if (variables.containsKey(key)) {
-                variables.put(key, variables.get(key) * rightVariables.get(key));
+                variables.put(key, variables.get(key) + rightVariables.get(key) * multiplicator);
             } else {
-                variables.put(key, rightVariables.get(key));
+                variables.put(key, rightVariables.get(key) * multiplicator);
             }
         }
+        for (String key : variables.keySet()) {
+            variables.put(key, variables.get(key) * multiplicator);
+        }
         return variables;
+    }
+
+    /**
+     * @brief   Return the constant value of the expression
+     * @return  The constant value of the expression
+     */
+    public Double getConstantValue() {
+        if (!this.left.isPresent() || !this.right.isPresent()) {
+            return 0.0;
+        }
+
+        Double left = this.left.get().getConstantValue();
+        Double right = this.right.get().getConstantValue();
+
+        return left * right;
     }
 }

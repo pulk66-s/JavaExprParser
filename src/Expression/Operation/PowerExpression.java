@@ -42,7 +42,15 @@ public class PowerExpression extends OperationExpression {
      * @brief   Return the number of variables of an expression
      * @return  An hashmap containing the variables and the number of occurences
      */
-    public HashMap<String, Integer> getVariables() {
+    public HashMap<String, Double> getVariables() {
         return new HashMap<>();
+    }
+
+    /**
+     * @brief   Return the constant value of the expression
+     * @return  The constant value of the expression
+     */
+    public Double getConstantValue() {
+        return 0.0;
     }
 }

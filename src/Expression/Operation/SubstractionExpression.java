@@ -42,13 +42,13 @@ public class SubstractionExpression extends OperationExpression {
      * @brief   Return the number of variables of an expression
      * @return  An hashmap containing the variables and the number of occurences
      */
-    public HashMap<String, Integer> getVariables() {
+    public HashMap<String, Double> getVariables() {
         if (!this.left.isPresent() || !this.right.isPresent()) {
             return new HashMap<>();
         }
 
-        HashMap<String, Integer> variables = this.left.get().getVariables();
-        HashMap<String, Integer> rightVariables = this.right.get().getVariables();
+        HashMap<String, Double> variables = this.left.get().getVariables();
+        HashMap<String, Double> rightVariables = this.right.get().getVariables();
 
         for (String key : rightVariables.keySet()) {
             if (variables.containsKey(key)) {
@@ -58,5 +58,13 @@ public class SubstractionExpression extends OperationExpression {
             }
         }
         return variables;
+    }
+
+    /**
+     * @brief   Return the constant value of the expression
+     * @return  The constant value of the expression
+     */
+    public Double getConstantValue() {
+        return 0.0;
     }
 }

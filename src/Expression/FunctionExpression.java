@@ -62,7 +62,7 @@ public class FunctionExpression extends ArithmeticExpression {
      * @brief   Return the number of variables of an expression
      * @return  An hashmap containing the variables and the number of occurences
      */
-    public HashMap<String, Integer> getVariables() {
+    public HashMap<String, Double> getVariables() {
         return new HashMap<>();
     }
 
@@ -139,5 +139,21 @@ public class FunctionExpression extends ArithmeticExpression {
     @Override
     public String toString() {
         return this.toStringBuilder().toString();
+    }
+
+    /**
+     * @brief   Return the formatted expression to merge values and variables
+     * @return  The formatted expression
+     */
+    public Optional<ArithmeticExpression> mergeVariables() {
+        return Optional.of(this);
+    }
+
+    /**
+     * @brief   Return the constant value of the expression
+     * @return  The constant value of the expression
+     */
+    public Double getConstantValue() {
+        return null;
     }
 }

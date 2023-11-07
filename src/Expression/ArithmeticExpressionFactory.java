@@ -65,7 +65,17 @@ public class ArithmeticExpressionFactory extends AExpressionFactory {
      * @param right The right expression
      * @return      The multiplication created
      */
-    static public ArithmeticExpression createMultiplication(ArithmeticExpression left, ArithmeticExpression right) {
+    static public MultiplicationExpression createMultiplication(ArithmeticExpression left, ArithmeticExpression right) {
         return new MultiplicationExpression(left, right);
+    }
+
+    /**
+     * @brief           This method create an addition from two expressions
+     * @param   left    The left expression
+     * @param   right   The right expression
+     * @return          The addition created
+     */
+    static public Addition createAddition(ArithmeticExpression left, ArithmeticExpression right) {
+        return new Addition(left, right);
     }
 }

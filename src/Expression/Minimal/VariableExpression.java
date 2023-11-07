@@ -1,5 +1,6 @@
 package Expression.Minimal;
 
+import java.util.HashMap;
 import java.util.Optional;
 
 import Context.Environnement;
@@ -67,5 +68,16 @@ public class VariableExpression extends MinimalExpression {
     @Override
     public String toString() {
         return this.name;
+    }
+
+    /**
+     * @brief   Return the number of variables of an expression
+     * @return  An hashmap containing the variables and the number of occurences
+     */
+    @Override
+     public HashMap<String, Double> getVariables() {
+        HashMap<String, Double> variables = new HashMap<>();
+        variables.put(this.name, 1.0);
+        return variables;
     }
 }

@@ -6,6 +6,7 @@ import java.util.Optional;
 import Context.Environnement;
 import Exception.SyntaxError;
 import Exception.VariableNotExistError;
+import Expression.Operation.Addition;
 
 /**
  * @brief   This class is used to represent an operation expression
@@ -17,7 +18,8 @@ import Exception.VariableNotExistError;
  *          It implements the ArithmeticExpression interface.
  */
 public abstract class OperationExpression extends ArithmeticExpression {
-    protected Optional<ArithmeticExpression> left, right;
+    protected Optional<ArithmeticExpression> left = Optional.empty();
+    protected Optional<ArithmeticExpression> right = Optional.empty();
     protected char operator;
     protected ArithmeticExpression unit;
     protected Optional<ArithmeticExpression> nullValue = Optional.empty();
@@ -109,9 +111,6 @@ public abstract class OperationExpression extends ArithmeticExpression {
             return Optional.empty();
         }
 
-        System.out.println("Left" + left + " Right" + right + " Unit" + unitRes);
-        System.out.println(left.get().equals(unitRes.get()));
-        System.out.println(right.get().equals(unitRes.get()));
         if (left.get().equals(unitRes.get())) {
             return this.right;
         }
@@ -174,7 +173,10 @@ public abstract class OperationExpression extends ArithmeticExpression {
                 return nullSimplified;
             }
         }
-        return Optional.of(this);
+        this.left = this.left.get().simplify();
+        this.right = this.right.get().simplify();
+        Optional<ArithmeticExpression> res = this.mergeVariables();
+        return res;
     }
 
     /**
@@ -205,8 +207,78 @@ public abstract class OperationExpression extends ArithmeticExpression {
     }
 
     /**
+     * @brief           Set the left arithmetic expression
+     * @param   left    The left arithmetic expression
+     */
+    public void setLeft(ArithmeticExpression left) {
+        this.left = Optional.of(left);
+    }
+
+    /**
+     * @brief   Return the left expression
+     * @return  The left expression
+     */
+    public Optional<ArithmeticExpression> getLeft() {
+        return this.left;
+    }
+
+    /**
+     * @brief   Return the right expression
+     * @return  The right expression
+     */
+    public Optional<ArithmeticExpression> getRight() {
+        return this.right;
+    }
+
+    /**
+     * @brief           Set the right arithmetic expression
+     * @param   right    The right arithmetic expression
+     */
+    public void setRight(ArithmeticExpression right) {
+        this.right = Optional.of(right);
+    }
+
+    /**
      * @brief   Return the number of variables of an expression
      * @return  An hashmap containing the variables and the number of occurences
      */
-    public abstract HashMap<String, Integer> getVariables();
+    public abstract HashMap<String, Double> getVariables();
+
+    /**
+     * @brief   Return the formatted expression to merge values and variables
+     * @return  The formatted expression
+     */
+    public Optional<ArithmeticExpression> mergeVariables() {
+        HashMap<String, Double> variables = this.getVariables();
+        Double constantValue = this.getConstantValue();
+        Addition exprRes = new Addition();
+
+        for (String key : variables.keySet()) {
+            OperationExpression mult = ArithmeticExpressionFactory.createMultiplication(
+                MinimalExpressionFactory.createVariable(key),
+                MinimalExpressionFactory.createConstant(variables.get(key).doubleValue())
+            );
+
+            if (!exprRes.getRight().isPresent()) {
+                exprRes.setRight(mult);
+            } else {
+                Addition nAdd = new Addition();
+
+                exprRes.setLeft(mult);
+                nAdd.setRight(exprRes);
+                exprRes = nAdd;
+            }
+        }
+        if (constantValue.equals(0.0)) {
+            return exprRes.getRight();
+        }
+        exprRes.setLeft(MinimalExpressionFactory.createConstant(constantValue));
+        return Optional.of(exprRes);
+    }
+
+    /**
+     * @brief   Return the constant value of the expression
+     * @return  The constant value of the expression
+     */
+    public abstract Double getConstantValue();
 }
