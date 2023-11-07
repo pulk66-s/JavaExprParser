@@ -11,6 +11,7 @@ public class Main {
         testSuites.add(new SubstractionSuite());
         testSuites.add(new DivisionSuite());
         testSuites.add(new PowerSuite());
+        testSuites.add(new ParanthesesSuite());
         for (TestSuite suite : testSuites) {
             System.out.println("Starting suite");
             TestResult res = suite.run();
