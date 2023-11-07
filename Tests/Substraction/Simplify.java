@@ -1,4 +1,4 @@
-package Tests.Addition;
+package Tests.Substraction;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,7 +59,7 @@ public class Simplify implements TestSuite {
 
     private boolean multipleVariables(Void v) {
         try {
-            String expr = "x + x + x + x + x";
+            String expr = "x - x - x - x - x";
             Optional<ArithmeticExpression> parsed = this.factory.parse(expr);
 
             if (!parsed.isPresent()) {
@@ -79,5 +79,4 @@ public class Simplify implements TestSuite {
             System.out.println(e.getMessage());
             return false;
         }
-    }
-}
+    }}

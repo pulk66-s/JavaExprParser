@@ -65,6 +65,13 @@ public class SubstractionExpression extends OperationExpression {
      * @return  The constant value of the expression
      */
     public Double getConstantValue() {
-        return 0.0;
+        if (!this.left.isPresent() || !this.right.isPresent()) {
+            return 0.0;
+        }
+
+        Double left = this.left.get().getConstantValue();
+        Double right = this.right.get().getConstantValue();
+
+        return left - right;
     }
 }

@@ -259,13 +259,18 @@ public abstract class OperationExpression extends ArithmeticExpression {
         Double constantValue = this.getConstantValue();
         Addition exprRes = new Addition();
 
+        variables = variables.entrySet().stream()
+            .filter(entry -> !entry.getValue().equals(0.0))
+            .collect(HashMap::new, (m, e) -> m.put(e.getKey(), e.getValue()), HashMap::putAll);
         if (variables.keySet().isEmpty()) {
             return Optional.of(MinimalExpressionFactory.createConstant(constantValue));
         }
         for (String key : variables.keySet()) {
             ArithmeticExpression mult;
             
-            if (variables.get(key).equals(1.0)) {
+            if (variables.get(key).equals(0.0)) {
+                continue;
+            } else if (variables.get(key).equals(1.0)) {
                 mult = MinimalExpressionFactory.createVariable(key);
             } else {
                 mult = ArithmeticExpressionFactory.createMultiplication(

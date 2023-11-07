@@ -1,7 +1,4 @@
-package Tests.Addition;
-
-import Tests.TestResult;
-import Tests.TestSuite;
+package Tests.Substraction;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,12 +7,14 @@ import java.util.function.Function;
 
 import Expression.ArithmeticExpression;
 import Expression.ArithmeticExpressionFactory;
+import Tests.TestResult;
+import Tests.TestSuite;
 
 public class Simple implements TestSuite {
     ArithmeticExpressionFactory factory = new ArithmeticExpressionFactory();
     private HashMap<String, Function<Void, Boolean>> tests = new HashMap<String, Function<Void, Boolean>>() {{
         put("basic", Simple.this::test);
-        put("Multiple addition operators", Simple.this::multipleOperators);
+        put("Multiple substraction operators", Simple.this::multipleOperators);
         put("With variables", Simple.this::withVariables);
     }};
 
@@ -37,11 +36,11 @@ public class Simple implements TestSuite {
 
     private boolean test(Void v) {
         try {
-            String expr = "42 + 3";
-            Double expected = 45.0;
-            Optional<ArithmeticExpression> res = this.factory.parse(expr);
+            String expr = "42 - 3";
+            Double expected = 39.0;
+            Double res = this.factory.parse(expr).get().evaluate().get();
             
-            return res.isPresent() && res.get().evaluate().get().equals(expected);
+            return res.equals(expected);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
@@ -50,11 +49,11 @@ public class Simple implements TestSuite {
 
     private boolean multipleOperators(Void v) {
         try {
-            String expr = "42 + 3 + 5";
-            Double expected = 50.0;
-            Optional<ArithmeticExpression> res = this.factory.parse(expr);
+            String expr = "42 - 3 - 5";
+            Double expected = 44.0;
+            Double res = this.factory.parse(expr).get().evaluate().get();
             
-            return res.isPresent() && res.get().evaluate().get().equals(expected);
+            return res.equals(expected);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
@@ -63,20 +62,17 @@ public class Simple implements TestSuite {
 
     private boolean withVariables(Void v) {
         try {
-            String expr = "42 + 3 + x";
+            String expr = "x - 3 - 42";
+            String expected = "(x - 45.0)";
             Optional<ArithmeticExpression> res = this.factory.parse(expr);
 
             if (!res.isPresent()) {
                 return false;
             }
 
-            Optional<ArithmeticExpression> simplified = res.get().simplify();
-            String expectedString = "(45.0 + x)";
+            String stringRepresentation = res.get().toString();
 
-            if (!simplified.isPresent()) {
-                return false;
-            }
-            return simplified.get().toString().equals(expectedString);
+            return stringRepresentation.equals(expected);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;

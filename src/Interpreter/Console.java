@@ -79,6 +79,10 @@ public class Console {
                 return;
             }
             expr = expr.get().simplify();
+            if (!expr.isPresent()) {
+                System.out.println("Can't simplify the expression");
+                return;
+            }
         } catch (SyntaxError err) {
             System.out.println("You have a syntax problem");
             return;
