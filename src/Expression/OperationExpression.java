@@ -1,5 +1,8 @@
 package Expression;
 
+import java.util.HashMap;
+import java.util.Optional;
+
 import Context.Environnement;
 import Context.StatusCode;
 import Exception.SyntaxError;
@@ -89,10 +92,17 @@ public abstract class OperationExpression extends ArithmeticExpression {
      * @throws VariableNotExistError
      */
     public ArithmeticExpression simplify() throws VariableNotExistError {
-        if (Math.abs(this.left.evaluate() - this.unit.evaluate()) < 0.00000001) {
+        Optional<Double> left = this.left.evaluate();
+        Optional<Double> right = this.right.evaluate();
+        Optional<Double> unit = this.unit.evaluate();
+
+        if (!left.isPresent() || !right.isPresent()) {
+            return this;
+        }
+        if (Math.abs(left.get() - unit.get()) < 0.00000001) {
             return this.right;
         }
-        if (Math.abs(this.right.evaluate() - this.unit.evaluate()) < 0.00000001) {
+        if (Math.abs(right.get() - unit.get()) < 0.00000001) {
             return this.left;
         }
         return this;
@@ -121,4 +131,10 @@ public abstract class OperationExpression extends ArithmeticExpression {
     public String toString() {
         return this.toStringBuilder().toString();
     }
+
+    /**
+     * @brief   Return the number of variables of an expression
+     * @return  An hashmap containing the variables and the number of occurences
+     */
+    public abstract HashMap<String, Integer> getVariables();
 }

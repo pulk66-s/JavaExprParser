@@ -1,5 +1,7 @@
 package Expression.Minimal;
 
+import java.util.HashMap;
+
 import Exception.VariableNotExistError;
 import Expression.ArithmeticExpression;
 
@@ -18,5 +20,13 @@ public abstract class MinimalExpression extends ArithmeticExpression {
      */
     public ArithmeticExpression simplify() {
         return this;
+    }
+
+    /**
+     * @brief   Return the number of variables of an expression
+     * @return  An hashmap containing the variables and the number of occurences
+     */
+    public HashMap<String, Integer> getVariables() {
+        return new HashMap<>();
     }
 }

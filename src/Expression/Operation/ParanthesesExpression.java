@@ -1,5 +1,8 @@
 package Expression.Operation;
 
+import java.util.HashMap;
+import java.util.Optional;
+
 import Context.Environnement;
 import Context.StatusCode;
 import Exception.SyntaxError;
@@ -95,7 +98,7 @@ public class ParanthesesExpression extends ArithmeticExpression {
      * @brief       This method evaluate the value stored after parsing
      * @return      The result of the expression
      */
-    public Double evaluate() throws VariableNotExistError {
+    public Optional<Double> evaluate() {
         return this.value.evaluate();
     }
 
@@ -119,5 +122,13 @@ public class ParanthesesExpression extends ArithmeticExpression {
     @Override
     public String toString() {
         return this.toStringBuilder().toString();
+    }
+
+    /**
+     * @brief   Return the number of variables of an expression
+     * @return  An hashmap containing the variables and the number of occurences
+     */
+    public HashMap<String, Integer> getVariables() {
+        return this.value.getVariables();
     }
 }

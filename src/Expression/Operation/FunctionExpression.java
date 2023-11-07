@@ -1,6 +1,7 @@
-package Expression.Minimal;
+package Expression.Operation;
 
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.function.Function;
 
 import Context.Environnement;
@@ -10,14 +11,13 @@ import Exception.VariableNotExistError;
 import Expression.ArithmeticExpression;
 import Expression.ArithmeticExpressionFactory;
 import Expression.MinimalExpressionFactory;
-import Expression.Operation.ParanthesesExpression;
 
 /**
  * @brief   This class is used to represent a function expression
  * @details This class is used to represent a function expression
  *          It extends the MinimalExpression class
  */
-public class FunctionExpression extends MinimalExpression {
+public class FunctionExpression extends ArithmeticExpression {
     // The name of the function
     private String name;
 
@@ -65,12 +65,35 @@ public class FunctionExpression extends MinimalExpression {
     }
 
     /**
-     * Simplify the expression
-     * @return The simplified expression
+     * @brief   Return the number of variables of an expression
+     * @return  An hashmap containing the variables and the number of occurences
+     */
+    public HashMap<String, Integer> getVariables() {
+        return new HashMap<>();
+    }
+
+    /**
+     * @brief       This method simplify the expression
+     * @details     This method simplify the expression by removing all the
+     *              useless operations
+     * @return      The simplified expression
      * @throws VariableNotExistError
      */
-    public Double evaluate() throws VariableNotExistError {
-        return FunctionExpression.runFunction(this.name, this.value.evaluate());
+    public ArithmeticExpression simplify() {
+        return this;
+    }
+
+    /**
+     * Simplify the expression
+     * @return The simplified expression
+     */
+    public Optional<Double> evaluate() {
+        Optional<Double> vParsed = this.value.evaluate();
+
+        if (!vParsed.isPresent()) {
+            return Optional.empty();
+        }
+        return Optional.of(FunctionExpression.runFunction(this.name, vParsed.get()));
     }
 
     /**

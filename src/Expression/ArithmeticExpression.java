@@ -1,5 +1,8 @@
 package Expression;
 
+import java.util.HashMap;
+import java.util.Optional;
+
 import Context.Environnement;
 import Context.StatusCode;
 import Exception.SyntaxError;
@@ -20,7 +23,7 @@ public abstract class ArithmeticExpression {
      * @brief       This method evaluate the value stored after parsing
      * @return      The result of the expression
      */
-    public abstract Double evaluate() throws VariableNotExistError;
+    public abstract Optional<Double> evaluate();
 
     /**
      * @brief       This method simplify the expression
@@ -42,4 +45,10 @@ public abstract class ArithmeticExpression {
      * @return  A string representation of the expression
      */
     public abstract String toString();
+
+    /**
+     * @brief   Return the number of variables of an expression
+     * @return  An hashmap containing the variables and the number of occurences
+     */
+    public abstract HashMap<String, Integer> getVariables();
 }

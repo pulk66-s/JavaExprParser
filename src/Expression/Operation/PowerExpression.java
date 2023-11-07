@@ -1,6 +1,8 @@
 package Expression.Operation;
 
-import Exception.VariableNotExistError;
+import java.util.HashMap;
+import java.util.Optional;
+
 import Expression.OperationExpression;
 import Expression.Minimal.NumberExpression;
 
@@ -22,7 +24,21 @@ public class PowerExpression extends OperationExpression {
      * @brief       This method evaluate the value stored after parsing
      * @return      The result of the expression
      */
-    public Double evaluate() throws VariableNotExistError {
-        return Math.pow(this.left.evaluate(), this.right.evaluate());
+    public Optional<Double> evaluate() {
+        Optional<Double> leftParsed = this.left.evaluate();
+        Optional<Double> rightParsed = this.right.evaluate();
+
+        if (!leftParsed.isPresent() || !rightParsed.isPresent()) {
+            return Optional.empty();
+        }
+        return Optional.of(Math.pow(leftParsed.get(), rightParsed.get()));
+    }
+
+    /**
+     * @brief   Return the number of variables of an expression
+     * @return  An hashmap containing the variables and the number of occurences
+     */
+    public HashMap<String, Integer> getVariables() {
+        return new HashMap<>();
     }
 }

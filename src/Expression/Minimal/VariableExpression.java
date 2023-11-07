@@ -1,5 +1,7 @@
 package Expression.Minimal;
 
+import java.util.Optional;
+
 import Context.Environnement;
 import Context.StatusCode;
 import Exception.VariableNotExistError;
@@ -31,8 +33,12 @@ public class VariableExpression extends MinimalExpression {
      * @brief       This method evaluate the value stored after parsing
      * @return      The result of the expression
      */
-    public Double evaluate() throws VariableNotExistError {
-        return Environnement.getVariable(name);
+    public Optional<Double> evaluate() {
+        try {
+            return Optional.of(Environnement.getVariable(name));
+        } catch (VariableNotExistError e) {
+            return Optional.of(0.0);
+        }
     }
 
     /**

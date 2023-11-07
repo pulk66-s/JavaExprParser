@@ -1,6 +1,7 @@
 package Interpreter;
 
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 import Context.Environnement;
@@ -87,10 +88,12 @@ public class Console {
             return;
         }
         System.out.println("expr " + expr);
-        try {
-            System.out.println(expr.evaluate());
-        } catch (VariableNotExistError err) {
-            System.out.println("You have a variable problem");
+        Optional<Double> r = expr.evaluate();
+
+        if (r.isPresent()) {
+            System.out.println("result " + r.get());
+        } else {
+            System.out.println("Can't evaluate the expression");
         }
     }
 

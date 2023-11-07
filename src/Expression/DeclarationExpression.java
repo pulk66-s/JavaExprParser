@@ -1,5 +1,8 @@
 package Expression;
 
+import java.util.HashMap;
+import java.util.Optional;
+
 import Context.Environnement;
 import Context.StatusCode;
 import Exception.SyntaxError;
@@ -50,9 +53,13 @@ public class DeclarationExpression extends ArithmeticExpression {
      * @brief       This method evaluate the value stored after parsing
      * @return      The result of the expression
      */
-    public Double evaluate() throws VariableNotExistError {
-        Environnement.setVariable(this.name, this.value.evaluate());
-        return 0.0;
+    public Optional<Double> evaluate() {
+        Optional<Double> value = this.value.evaluate();
+
+        if (value.isPresent()) {
+            Environnement.setVariable(this.name, value.get());
+        }
+        return Optional.empty();
     }
 
     /**
@@ -87,5 +94,13 @@ public class DeclarationExpression extends ArithmeticExpression {
     @Override
     public String toString() {
         return this.toStringBuilder().toString();
+    }
+
+    /**
+     * @brief   Return the number of variables of an expression
+     * @return  An hashmap containing the variables and the number of occurences
+     */
+    public HashMap<String, Integer> getVariables() {
+        return new HashMap<>();
     }
 }

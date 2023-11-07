@@ -1,9 +1,10 @@
 package Expression.Minimal;
 
+import java.util.Optional;
+
 import Context.Environnement;
 import Context.StatusCode;
 import Exception.SyntaxError;
-import Exception.VariableNotExistError;
 
 /**
  * @brief   This class is used to represent a number expression
@@ -40,8 +41,8 @@ public class NumberExpression extends MinimalExpression {
      * @return      The result of the expression
      */
     @Override
-    public Double evaluate() throws VariableNotExistError {
-        return Double.valueOf(this.value);
+    public Optional<Double> evaluate() {
+        return Optional.of(Double.valueOf(this.value));
     }
 
     /**

@@ -3,9 +3,9 @@ package Expression;
 import Context.Environnement;
 import Context.StatusCode;
 import Exception.SyntaxError;
-import Expression.Minimal.FunctionExpression;
 import Expression.Minimal.NumberExpression;
 import Expression.Minimal.VariableExpression;
+import Expression.Operation.FunctionExpression;
 
 /**
  * @brief   This class is used to represent a minimal expression factory
@@ -50,4 +50,5 @@ public class MinimalExpressionFactory extends AExpressionFactory {
             }
         }
         return null;
-    }}
+    }
+}
