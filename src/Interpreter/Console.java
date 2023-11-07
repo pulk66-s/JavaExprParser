@@ -78,7 +78,6 @@ public class Console {
                 System.out.println("Can't parse the expression");
                 return;
             }
-            System.out.println("Raw epxression " + expr);
             expr = expr.get().simplify();
             if (!expr.isPresent()) {
                 System.out.println("Can't simplify the expression");
@@ -91,14 +90,14 @@ public class Console {
             System.out.println("You have a variable problem");
             return;
         }
-        System.out.println("expr " + expr);
+        System.out.println("Simplified expression: " + expr.get());
 
         Optional<Double> r = expr.get().evaluate();
 
         if (r.isPresent()) {
-            System.out.println("result " + r.get());
+            System.out.println("evaluation result " + r.get());
         } else {
-            System.out.println("Can't evaluate the expression");
+            System.out.println("evaluation: Can't evaluate the expression");
         }
     }
 
