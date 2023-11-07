@@ -5,7 +5,6 @@ import java.util.Optional;
 import java.util.function.Function;
 
 import Context.Environnement;
-import Context.StatusCode;
 import Exception.SyntaxError;
 import Exception.VariableNotExistError;
 import Expression.Operation.ParanthesesExpression;
@@ -20,7 +19,7 @@ public class FunctionExpression extends ArithmeticExpression {
     private String name;
 
     // The value of the function
-    private ArithmeticExpression value;
+    private Optional<ArithmeticExpression> value;
 
     // The list of functions
     public static HashMap<String, Function<Double, Double>> functions = new HashMap<String, Function<Double, Double>>() {{
@@ -38,28 +37,28 @@ public class FunctionExpression extends ArithmeticExpression {
      * @return      The status code of the parsing
      * @throws SyntaxError
      */
-    public StatusCode parse(Environnement env) throws SyntaxError {
+    public boolean parse(Environnement env) throws SyntaxError {
         int lparI = env.findChar('(');
         int rparI = ParanthesesExpression.findClosingPar(env.getExpression());
 
         if (lparI < 0 || rparI < 0) {
-            return StatusCode.FAILURE;
+            return false;
         }
         this.name = env.getExpression().substring(0, lparI).trim();
         if (!this.name.matches("[a-zA-Z]+")) {
-            return StatusCode.FAILURE;
+            return false;
         }
 
         String subString = env.getExpression().substring(lparI + 1, rparI);
 
         this.value = new ArithmeticExpressionFactory().parse(subString);
-        if (this.value == null) {
+        if (!this.value.isPresent()) {
             this.value = new MinimalExpressionFactory().parse(subString);
         }
-        if (this.value == null) {
-            return StatusCode.FAILURE;
+        if (!this.value.isPresent()) {
+            return false;
         }
-        return StatusCode.SUCCESS;
+        return true;
     }
 
     /**
@@ -77,8 +76,8 @@ public class FunctionExpression extends ArithmeticExpression {
      * @return      The simplified expression
      * @throws VariableNotExistError
      */
-    public ArithmeticExpression simplify() {
-        return this;
+    public Optional<ArithmeticExpression> simplify() {
+        return Optional.of(this);
     }
 
     /**
@@ -86,7 +85,11 @@ public class FunctionExpression extends ArithmeticExpression {
      * @return The simplified expression
      */
     public Optional<Double> evaluate() {
-        Optional<Double> vParsed = this.value.evaluate();
+        if (!this.value.isPresent()) {
+            return Optional.empty();
+        }
+
+        Optional<Double> vParsed = this.value.get().evaluate();
 
         if (!vParsed.isPresent()) {
             return Optional.empty();
@@ -120,9 +123,14 @@ public class FunctionExpression extends ArithmeticExpression {
     public StringBuilder toStringBuilder() {
         StringBuilder sb = new StringBuilder();
 
+        if (!this.value.isPresent()) {
+            return sb;
+        }
         sb.append("(");
         sb.append(this.name);
-        sb.append(this.value.toStringBuilder());
+        sb.append("(");
+        sb.append(this.value.get().toStringBuilder());
+        sb.append(")");
         sb.append(")");
         return sb;
     }

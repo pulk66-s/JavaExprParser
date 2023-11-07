@@ -1,6 +1,7 @@
 package Expression.Minimal;
 
 import java.util.HashMap;
+import java.util.Optional;
 
 import Exception.VariableNotExistError;
 import Expression.ArithmeticExpression;
@@ -18,8 +19,8 @@ public abstract class MinimalExpression extends ArithmeticExpression {
      * @return      The simplified expression
      * @throws VariableNotExistError
      */
-    public ArithmeticExpression simplify() {
-        return this;
+    public Optional<ArithmeticExpression> simplify() {
+        return Optional.of(this);
     }
 
     /**

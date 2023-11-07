@@ -25,8 +25,12 @@ public class MultiplicationExpression extends OperationExpression {
      * @return      The result of the expression
      */
     public Optional<Double> evaluate() {
-        Optional<Double> leftParsed = this.left.evaluate();
-        Optional<Double> rightParsed = this.right.evaluate();
+        if (!this.left.isPresent() || !this.right.isPresent()) {
+            return Optional.empty();
+        }
+
+        Optional<Double> leftParsed = this.left.get().evaluate();
+        Optional<Double> rightParsed = this.right.get().evaluate();
 
         if (!leftParsed.isPresent() || !rightParsed.isPresent()) {
             return Optional.empty();
@@ -39,8 +43,12 @@ public class MultiplicationExpression extends OperationExpression {
      * @return  An hashmap containing the variables and the number of occurences
      */
     public HashMap<String, Integer> getVariables() {
-        HashMap<String, Integer> variables = this.left.getVariables();
-        HashMap<String, Integer> rightVariables = this.right.getVariables();
+        if (!this.left.isPresent() || !this.right.isPresent()) {
+            return new HashMap<>();
+        }
+
+        HashMap<String, Integer> variables = this.left.get().getVariables();
+        HashMap<String, Integer> rightVariables = this.right.get().getVariables();
 
         for (String key : rightVariables.keySet()) {
             if (variables.containsKey(key)) {

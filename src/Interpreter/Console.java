@@ -65,17 +65,20 @@ public class Console {
      * @param input The expression to parse
      */
     private void runExpression(String input) {
-        ArithmeticExpression expr;
+        Optional<ArithmeticExpression> expr;
 
         this.env.setExpression(input);
         try {
             expr = new ArithmeticExpressionFactory().parse(input);
-            if (expr == null) {
+
+            if (!expr.isPresent()) {
                 expr = new MinimalExpressionFactory().parse(input);
             }
-            if (expr != null) {
-                expr = expr.simplify();
+            if (!expr.isPresent()) {
+                System.out.println("Can't parse the expression");
+                return;
             }
+            expr = expr.get().simplify();
         } catch (SyntaxError err) {
             System.out.println("You have a syntax problem");
             return;
@@ -83,12 +86,9 @@ public class Console {
             System.out.println("You have a variable problem");
             return;
         }
-        if (env == null) {
-            System.out.println("Can't parse the expression");
-            return;
-        }
         System.out.println("expr " + expr);
-        Optional<Double> r = expr.evaluate();
+
+        Optional<Double> r = expr.get().evaluate();
 
         if (r.isPresent()) {
             System.out.println("result " + r.get());

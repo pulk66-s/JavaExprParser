@@ -1,7 +1,8 @@
 package Expression;
 
+import java.util.Optional;
+
 import Context.Environnement;
-import Context.StatusCode;
 import Exception.SyntaxError;
 import Expression.Operation.Addition;
 import Expression.Operation.DivisionExpression;
@@ -42,21 +43,19 @@ public class ArithmeticExpressionFactory extends AExpressionFactory {
      * @param   str The string to be parsed.
      * @return      The expression parsed
      */
-    public ArithmeticExpression parse(String str) throws SyntaxError {
+    public Optional<ArithmeticExpression> parse(String str) throws SyntaxError {
         Environnement env = new Environnement(str);
 
         for (String[] cat : ArithmeticExpressionFactory.orders) {
             for (String op : cat) {
                 ArithmeticExpression expr = this.create(op);
-                StatusCode status = expr.parse(env);
+                boolean status = expr.parse(env);
 
-                if (status == StatusCode.SUCCESS) {
-                    return expr;
-                } else if (status == StatusCode.ERROR) {
-                    throw new SyntaxError("Syntax error: " + expr.toStringBuilder());
+                if (status == true) {
+                    return Optional.of(expr);
                 }
             }
         }
-        return null;
+        return Optional.empty();
     }
 }

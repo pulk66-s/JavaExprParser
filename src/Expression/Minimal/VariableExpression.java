@@ -3,7 +3,6 @@ package Expression.Minimal;
 import java.util.Optional;
 
 import Context.Environnement;
-import Context.StatusCode;
 import Exception.VariableNotExistError;
 
 /**
@@ -18,15 +17,15 @@ public class VariableExpression extends MinimalExpression {
     /**
      * @brief       This method parse an expression and return a StatusCode
      * @param   env The environnement that contains the expression to parse
-     * @return      A StatusCode that represent the result of the evaluation
+     * @return      A boolean that represent the result of the evaluation
      */
-    public StatusCode parse(Environnement env) {
+    public boolean parse(Environnement env) {
         this.name = env.getExpression().trim();
 
         if (!this.name.matches("[a-zA-Z]+")) {
-            return StatusCode.FAILURE;
+            return false;
         }
-        return StatusCode.SUCCESS;
+        return true;
     }
 
     /**

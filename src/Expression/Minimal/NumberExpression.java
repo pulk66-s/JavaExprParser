@@ -3,7 +3,6 @@ package Expression.Minimal;
 import java.util.Optional;
 
 import Context.Environnement;
-import Context.StatusCode;
 import Exception.SyntaxError;
 
 /**
@@ -48,16 +47,16 @@ public class NumberExpression extends MinimalExpression {
     /**
      * @brief       This method parse an expression and return a StatusCode
      * @param   env The environnement that contains the expression to parse
-     * @return      A StatusCode that represent the result of the evaluation
+     * @return      A boolean that represent the result of the evaluation
      */
     @Override
-    public StatusCode parse(Environnement env) throws SyntaxError {
+    public boolean parse(Environnement env) throws SyntaxError {
         try {
             this.value = Double.valueOf(env.getExpression());
         } catch (NumberFormatException e) {
-            return StatusCode.FAILURE;
+            return false;
         }
-        return StatusCode.SUCCESS;
+        return true;
     }
 
     /**

@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Optional;
 
 import Context.Environnement;
-import Context.StatusCode;
 import Exception.SyntaxError;
 import Exception.VariableNotExistError;
 
@@ -18,7 +17,7 @@ import Exception.VariableNotExistError;
  *          It implements the ArithmeticExpression interface.
  */
 public abstract class OperationExpression extends ArithmeticExpression {
-    protected ArithmeticExpression left, right;
+    protected Optional<ArithmeticExpression> left, right;
     protected char operator;
     protected ArithmeticExpression unit;
     protected Optional<ArithmeticExpression> nullValue = Optional.empty();
@@ -60,31 +59,31 @@ public abstract class OperationExpression extends ArithmeticExpression {
      * @return      The status code of the parsing
      * @throws SyntaxError
      */
-    public StatusCode parse(Environnement env) throws SyntaxError {
+    public boolean parse(Environnement env) throws SyntaxError {
         int opIndex = this.findHighestOperator(env.getExpression());
 
         if (opIndex < 0) {
-            return StatusCode.FAILURE;
+            return false;
         }
 
         String left_expr = env.getExpression().substring(0, opIndex);
         String right_expr = env.getExpression().substring(opIndex + 1);
 
         if (left_expr.length() == 0 || right_expr.length() == 0) {
-            return StatusCode.FAILURE;
+            return false;
         }
         this.left = new ArithmeticExpressionFactory().parse(left_expr);
-        if (this.left == null) {
+        if (!this.left.isPresent()) {
             this.left = new MinimalExpressionFactory().parse(left_expr);
         }
         this.right = new ArithmeticExpressionFactory().parse(right_expr);
-        if (this.right == null) {
+        if (!this.right.isPresent()) {
             this.right = new MinimalExpressionFactory().parse(right_expr);
         }
-        if (this.right == null || this.left == null) {
-            return StatusCode.FAILURE;
+        if (!this.right.isPresent() || !this.left.isPresent()) {
+            return false;
         }
-        return StatusCode.SUCCESS;
+        return true;
     }
 
     /**
@@ -97,11 +96,11 @@ public abstract class OperationExpression extends ArithmeticExpression {
     private Optional<ArithmeticExpression> unitSimplify(
         Double left, Double right, Double unit
     ) {
-        if (Math.abs(left - unit) < 0.00000001) {
-            return Optional.of(this.right);
+        if (left.equals(unit)) {
+            return this.right;
         }
-        if (Math.abs(right - unit) < 0.00000001) {
-            return Optional.of(this.left);
+        if (right.equals(unit)) {
+            return this.left;
         }
         return Optional.empty();
     }
@@ -127,21 +126,23 @@ public abstract class OperationExpression extends ArithmeticExpression {
      * @return The simplified expression
      * @throws VariableNotExistError
      */
-    public ArithmeticExpression simplify() throws VariableNotExistError {
-        Optional<Double> left = this.left.evaluate();
-        Optional<Double> right = this.right.evaluate();
+    public Optional<ArithmeticExpression> simplify() throws VariableNotExistError {
+        Optional<Double> left;
+        Optional<Double> right;
         Optional<Double> unit = this.unit.evaluate();
         Optional<ArithmeticExpression> unitSimplified;
         Optional<ArithmeticExpression> nullSimplified = Optional.empty();
 
-        if (!left.isPresent() || !right.isPresent()) {
-            return this;
+        if (!this.left.isPresent() || !this.right.isPresent()) {
+            return Optional.empty();
         }
+        left = this.left.get().evaluate();
+        right = this.right.get().evaluate();
         unitSimplified = this.unitSimplify(
             left.get(), right.get(), unit.get()
         );
         if (unitSimplified.isPresent()) {
-            return unitSimplified.get();
+            return unitSimplified;
         }
         if (this.nullValue.isPresent()) {
             Optional<Double> nValue = this.nullValue.get().evaluate();
@@ -152,10 +153,10 @@ public abstract class OperationExpression extends ArithmeticExpression {
                 );
             }
             if (nullSimplified.isPresent()) {
-                return nullSimplified.get();
+                return nullSimplified;
             }
         }
-        return this;
+        return Optional.of(this);
     }
 
     /**
@@ -165,10 +166,13 @@ public abstract class OperationExpression extends ArithmeticExpression {
     public StringBuilder toStringBuilder() {
         StringBuilder sb = new StringBuilder();
 
+        if (!this.left.isPresent() || !this.right.isPresent()) {
+            return sb;
+        }
         sb.append("(");
-        sb.append(this.left.toStringBuilder());
+        sb.append(this.left.get().toStringBuilder());
         sb.append(" " + this.operator + " ");
-        sb.append(this.right.toStringBuilder());
+        sb.append(this.right.get().toStringBuilder());
         sb.append(")");
         return sb;
     }

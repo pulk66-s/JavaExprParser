@@ -22,12 +22,20 @@ SRC 	= src/Main.java										\
 	src/Expression/MinimalExpressionFactory.java			\
 	src/Expression/ExpressionFactory.java					\
 	src/Expression/AExpressionFactory.java					\
-	src/Context/StatusCode.java								\
 	src/Context/Environnement.java							\
 	src/Exception/SyntaxError.java							\
 	src/Exception/VariableNotExistError.java				\
 
-OBJ 	= $(SRC:.java=.class)
+TESTS_SRC	=	$(SRC)			\
+	Tests/Addition/Simple.java	\
+	Tests/AdditionSuite.java	\
+	Tests/TestResult.java		\
+	Tests/TestSuite.java		\
+	Tests/AdditionSuite.java	\
+	Tests/Main.java				\
+
+OBJ 		= $(SRC:.java=.class)
+TESTS_OBJ	= $(TESTS_SRC:.java=.class)
 
 all:
 	$(JAVAC) $(JCFLAGS) $(SRC)
@@ -35,5 +43,6 @@ all:
 run:
 	$(JAVA) $(JFLAGS) Main
 
-%.class: %.java
-	$(JAVAC) $(JCFLAGS) $<
+run_tests:
+	$(JAVAC) $(JCFLAGS) $(TESTS_SRC)
+	$(JAVA) $(JFLAGS) Tests.Main

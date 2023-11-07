@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Optional;
 
 import Context.Environnement;
-import Context.StatusCode;
 import Exception.SyntaxError;
 import Exception.VariableNotExistError;
 
@@ -18,35 +17,36 @@ public class DeclarationExpression extends ArithmeticExpression {
     private String name;
 
     // The value of the expression
-    private ArithmeticExpression value;
+    private Optional<ArithmeticExpression> value;
 
     /**
      * @brief       This method parse an expression and return a StatusCode
      * @param   env The environnement that contains the expression to parse
-     * @return      A StatusCode that represent the result of the evaluation
+     * @return      A boolean that represent the result of the evaluation
      */
-    public StatusCode parse(Environnement env) throws SyntaxError {
+    public boolean parse(Environnement env) throws SyntaxError {
         int equalOpIndex = env.findChar('=');
 
         if (equalOpIndex < 0) {
-            return StatusCode.FAILURE;
+            return false;
         }
 
         String leftExpr = env.getExpression().substring(0, equalOpIndex).trim();
         String rightExpr = env.getExpression().substring(equalOpIndex + 1);
 
         if (!leftExpr.matches("[a-zA-Z]+")) {
-            return StatusCode.FAILURE;
+            return false;
         }
         this.name = leftExpr;
         this.value = new ArithmeticExpressionFactory().parse(rightExpr);
-        if (this.value == null) {
+        if (!this.value.isPresent()) {
             this.value = new MinimalExpressionFactory().parse(rightExpr);
         }
-        if (this.value == null) {
-            return StatusCode.FAILURE;
+        if (!this.value.isPresent()) {
+            this.value = Optional.empty();
+            return false;
         }
-        return StatusCode.SUCCESS;
+        return true;
     }
 
     /**
@@ -54,7 +54,10 @@ public class DeclarationExpression extends ArithmeticExpression {
      * @return      The result of the expression
      */
     public Optional<Double> evaluate() {
-        Optional<Double> value = this.value.evaluate();
+        if (!this.value.isPresent()) {
+            return Optional.empty();
+        }
+        Optional<Double> value = this.value.get().evaluate();
 
         if (value.isPresent()) {
             Environnement.setVariable(this.name, value.get());
@@ -69,9 +72,12 @@ public class DeclarationExpression extends ArithmeticExpression {
      * @return      The simplified expression
      * @throws VariableNotExistError
      */
-    public ArithmeticExpression simplify() throws VariableNotExistError {
-        this.value = this.value.simplify();
-        return this;
+    public Optional<ArithmeticExpression> simplify() throws VariableNotExistError {
+        if (!this.value.isPresent()) {
+            return Optional.empty();
+        }
+        this.value = this.value.get().simplify();
+        return Optional.of(this);
     }
 
     /**
@@ -80,10 +86,13 @@ public class DeclarationExpression extends ArithmeticExpression {
      */
     public StringBuilder toStringBuilder() {
         StringBuilder sb = new StringBuilder();
-
+        
+        if (!this.value.isPresent()) {
+            return sb;
+        }
         sb.append(this.name);
         sb.append(" = ");
-        sb.append(this.value.toStringBuilder());
+        sb.append(this.value.get().toStringBuilder());
         return sb;
     }
 

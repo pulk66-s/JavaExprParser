@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Optional;
 
 import Context.Environnement;
-import Context.StatusCode;
 import Exception.SyntaxError;
 import Exception.VariableNotExistError;
 import Expression.ArithmeticExpression;
@@ -18,7 +17,7 @@ import Expression.MinimalExpressionFactory;
  */
 public class ParanthesesExpression extends ArithmeticExpression {
     // The value of the expression
-    private ArithmeticExpression value;
+    private Optional<ArithmeticExpression> value;
 
     /**
      * @brief       This method find the closing parenthesis
@@ -54,16 +53,19 @@ public class ParanthesesExpression extends ArithmeticExpression {
      * @return      The simplified expression
      * @throws VariableNotExistError
      */
-    public ArithmeticExpression simplify() throws VariableNotExistError {
-        return this.value.simplify();
+    public Optional<ArithmeticExpression> simplify() throws VariableNotExistError {
+        if (!this.value.isPresent()) {
+            return Optional.empty();
+        }
+        return this.value.get().simplify();
     }
 
     /**
      * @brief       This method parse an expression and return a StatusCode
      * @param   env The environnement that contains the expression to parse
-     * @return      A StatusCode that represent the result of the evaluation
+     * @return      A boolean that represent the result of the evaluation
      */
-    public StatusCode parse(Environnement env) throws SyntaxError {
+    public boolean parse(Environnement env) throws SyntaxError {
         int lpar = env.findChar('(');
         int rpar = ParanthesesExpression.findClosingPar(env.getExpression());
 
@@ -71,7 +73,7 @@ public class ParanthesesExpression extends ArithmeticExpression {
             if (lpar >= 0 || rpar >= 0) {
                 throw new SyntaxError("Missing parenthesis");
             }
-            return StatusCode.FAILURE;
+            return false;
         }
 
         String valueExpr = env.getExpression().substring(lpar + 1, rpar);
@@ -81,7 +83,7 @@ public class ParanthesesExpression extends ArithmeticExpression {
             char lastChar = leftValue.charAt(leftValue.length() - 1);
 
             if ("+-*/^".indexOf(lastChar) < 0) {
-                return StatusCode.FAILURE;
+                return false;
             }
         }
         this.value = new ArithmeticExpressionFactory().parse(valueExpr);
@@ -89,9 +91,9 @@ public class ParanthesesExpression extends ArithmeticExpression {
             this.value = new MinimalExpressionFactory().parse(valueExpr);
         }
         if (this.value == null) {
-            return StatusCode.FAILURE;
+            return false;
         }
-        return StatusCode.SUCCESS;
+        return true;
     }
 
     /**
@@ -99,7 +101,10 @@ public class ParanthesesExpression extends ArithmeticExpression {
      * @return      The result of the expression
      */
     public Optional<Double> evaluate() {
-        return this.value.evaluate();
+        if (!this.value.isPresent()) {
+            return Optional.empty();
+        }
+        return this.value.get().evaluate();
     }
 
     /**
@@ -109,8 +114,11 @@ public class ParanthesesExpression extends ArithmeticExpression {
     public StringBuilder toStringBuilder() {
         StringBuilder sb = new StringBuilder();
         
+        if (!this.value.isPresent()) {
+            return sb;
+        }
         sb.append("(");
-        sb.append(this.value.toStringBuilder());
+        sb.append(this.value.get().toStringBuilder());
         sb.append(")");
         return sb;
     }
@@ -129,6 +137,9 @@ public class ParanthesesExpression extends ArithmeticExpression {
      * @return  An hashmap containing the variables and the number of occurences
      */
     public HashMap<String, Integer> getVariables() {
-        return this.value.getVariables();
+        if (!this.value.isPresent()) {
+            return new HashMap<>();
+        }
+        return this.value.get().getVariables();
     }
 }

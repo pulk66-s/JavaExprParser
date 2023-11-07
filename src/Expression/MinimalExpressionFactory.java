@@ -1,7 +1,8 @@
 package Expression;
 
+import java.util.Optional;
+
 import Context.Environnement;
-import Context.StatusCode;
 import Exception.SyntaxError;
 import Expression.Minimal.NumberExpression;
 import Expression.Minimal.VariableExpression;
@@ -32,22 +33,20 @@ public class MinimalExpressionFactory extends AExpressionFactory {
      * @param   str The string to be parsed.
      * @return      The expression parsed
      */
-    public ArithmeticExpression parse(String str) throws SyntaxError {
+    public Optional<ArithmeticExpression> parse(String str) throws SyntaxError {
         MinimalExpressionFactory minimalFactory = new MinimalExpressionFactory();
         Environnement env = new Environnement(str);
 
 
         for (String op : MinimalExpressionFactory.minimalValues) {
             ArithmeticExpression expr = minimalFactory.create(op);
-            StatusCode status = expr.parse(env);
+            boolean status = expr.parse(env);
 
-            if (status == StatusCode.SUCCESS) {
-                return expr;
-            } else if (status == StatusCode.ERROR) {
-                throw new SyntaxError("Syntax error: " + expr.toStringBuilder());
+            if (status == true) {
+                return Optional.of(expr);
             }
         }
-        return null;
+        return Optional.empty();
     }
 
     /**
