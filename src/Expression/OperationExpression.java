@@ -34,37 +34,13 @@ public abstract class OperationExpression extends ArithmeticExpression {
     }
 
     /**
-     * @brief       Constructor of the OperationExpression class
-     * @param expr  The expression to parse
-     * @return      The index of the highest operator in the expression
-     */
-    public int findLowestOperator(String expr) {
-        int nbParenthesis = 0;
-
-        for (int i = expr.length() - 1; i >= 0; i--) {
-            char c = expr.charAt(i);
-
-            if (c == ')') {
-                nbParenthesis++;
-            } else if (c == '(') {
-                nbParenthesis--;
-            } else if (c == this.operator) {
-                if (nbParenthesis == 0) {
-                    return i;
-                }
-            }
-        }
-        return -1;
-    }
-
-    /**
      * @brief       Parse the expression
      * @param env   The current environnement
      * @return      The status code of the parsing
      * @throws SyntaxError
      */
     public boolean parse(Environnement env) throws SyntaxError {
-        int opIndex = this.findLowestOperator(env.getExpression());
+        int opIndex = env.findLowestOperator(this.operator, env.getExpression());
 
         if (opIndex < 0) {
             return false;

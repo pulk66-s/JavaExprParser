@@ -93,4 +93,28 @@ public class Environnement {
     public HashMap<String, Double> getVariables() {
         return variables;
     }
+
+    /**
+     * @brief       Constructor of the OperationExpression class
+     * @param expr  The expression to parse
+     * @return      The index of the highest operator in the expression
+     */
+    public int findLowestOperator(char operator, String expr) {
+        int nbParenthesis = 0;
+
+        for (int i = expr.length() - 1; i >= 0; i--) {
+            char c = expr.charAt(i);
+
+            if (c == ')') {
+                nbParenthesis++;
+            } else if (c == '(') {
+                nbParenthesis--;
+            } else if (c == operator) {
+                if (nbParenthesis == 0) {
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
 }

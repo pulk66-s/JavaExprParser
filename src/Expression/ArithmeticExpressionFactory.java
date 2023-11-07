@@ -6,6 +6,7 @@ import Context.Environnement;
 import Exception.SyntaxError;
 import Expression.Operation.Addition;
 import Expression.Operation.DivisionExpression;
+import Expression.Operation.FactorialExpression;
 import Expression.Operation.MultiplicationExpression;
 import Expression.Operation.ParanthesesExpression;
 import Expression.Operation.PowerExpression;
@@ -20,7 +21,7 @@ public class ArithmeticExpressionFactory extends AExpressionFactory {
     private static final String[][] orders = {
         {"Declaration"},
         {"Addition", "Substraction"},
-        {"Multiplication", "Division", "Power"},
+        {"Factorial", "Multiplication", "Division", "Power"},
         {"Function", "Parantheses"},
     };
 
@@ -36,6 +37,7 @@ public class ArithmeticExpressionFactory extends AExpressionFactory {
         constructorMaps.put("Power", (Void) -> new PowerExpression());
         constructorMaps.put("Declaration", (Void) -> new DeclarationExpression());
         constructorMaps.put("Function", (Void) -> new FunctionExpression());
+        constructorMaps.put("Factorial", (Void) -> new FactorialExpression());
     }
 
     /**

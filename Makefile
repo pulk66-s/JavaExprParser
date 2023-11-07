@@ -10,6 +10,7 @@ SRC 	= src/Main.java										\
 	src/Expression/Operation/MultiplicationExpression.java	\
 	src/Expression/Operation/SubstractionExpression.java	\
 	src/Expression/Operation/PowerExpression.java			\
+	src/Expression/Operation/FactorialExpression.java		\
 	src/Expression/FunctionExpression.java					\
 	src/Expression/Operation/ParanthesesExpression.java		\
 	src/Expression/OperationExpression.java					\
