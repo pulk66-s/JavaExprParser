@@ -1,4 +1,4 @@
-package Tests.Substraction;
+package Tests.Division;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,11 +11,11 @@ import Tests.TestResult;
 import Tests.TestSuite;
 
 public class Simple implements TestSuite {
-    ArithmeticExpressionFactory factory = new ArithmeticExpressionFactory();
+    private ArithmeticExpressionFactory factory = new ArithmeticExpressionFactory();
     private HashMap<String, Function<Void, Boolean>> tests = new HashMap<String, Function<Void, Boolean>>() {{
-        put("basic", Simple.this::test);
-        put("Multiple substraction operators", Simple.this::multipleOperators);
-        put("With variables", Simple.this::withVariables);
+        put("Simple Division", Simple.this::test);
+        put("Division 0", Simple.this::testZero);
+        put("Multiple Division", Simple.this::testMultiple);
     }};
 
     public TestResult run() {
@@ -36,47 +36,38 @@ public class Simple implements TestSuite {
 
     private boolean test(Void v) {
         try {
-            String expr = "42 - 3";
-            Double expected = 39.0;
+            String expr = "42 / 3";
+            Double expected = 14.0;
             Optional<ArithmeticExpression> res = this.factory.parse(expr);
-            Double resEval = res.get().evaluate().get();
-            
-            return resEval.equals(expected);
+            Optional<Double> resEval = res.get().evaluate();
+
+            return resEval.isPresent() && resEval.get().equals(expected);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             return false;
         }
     }
 
-    private boolean multipleOperators(Void v) {
+    private boolean testZero(Void v) {
         try {
-            String expr = "42 - 3 - 5";
-            Double expected = 34.0;
+            String expr = "42 / 0";
             Optional<ArithmeticExpression> res = this.factory.parse(expr);
-            Double resEval = res.get().evaluate().get();
-            
-            return resEval.equals(expected);
+            Optional<Double> resEval = res.get().evaluate();
+
+            return !resEval.isPresent();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             return false;
         }
     }
 
-    private boolean withVariables(Void v) {
+    private boolean testMultiple(Void v) {
         try {
-            String expr = "x - 3 - 42";
-            String expected = "(-45 + x)";
+            String expr = "42 / 3 / 2";
+            Double expected = 7.0;
             Optional<ArithmeticExpression> res = this.factory.parse(expr);
+            Optional<Double> resEval = res.get().evaluate();
 
-            if (!res.isPresent()) {
-                return false;
-            }
-
-            String stringRepresentation = res.get().toString();
-
-            return stringRepresentation.equals(expected);
+            return resEval.isPresent() && resEval.get().equals(expected);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             return false;
         }
     }

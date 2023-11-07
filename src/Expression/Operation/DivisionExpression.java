@@ -35,6 +35,9 @@ public class DivisionExpression extends OperationExpression {
         if (!leftParsed.isPresent() || !rightParsed.isPresent()) {
             return Optional.empty();
         }
+        if (rightParsed.get() == 0) {
+            return Optional.empty();
+        }
         return Optional.of(leftParsed.get() / rightParsed.get());
     }
 
@@ -65,6 +68,13 @@ public class DivisionExpression extends OperationExpression {
      * @return  The constant value of the expression
      */
     public Double getConstantValue() {
-        return 0.0;
+        if (!this.left.isPresent() || !this.right.isPresent()) {
+            return 0.0;
+        }
+
+        Double left = this.left.get().getConstantValue();
+        Double right = this.right.get().getConstantValue();
+
+        return left / right;
     }
 }

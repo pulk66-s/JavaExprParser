@@ -12,7 +12,7 @@ import Expression.ArithmeticExpression;
 import Expression.ArithmeticExpressionFactory;
 
 public class Simple implements TestSuite {
-    ArithmeticExpressionFactory factory = new ArithmeticExpressionFactory();
+    private ArithmeticExpressionFactory factory = new ArithmeticExpressionFactory();
     private HashMap<String, Function<Void, Boolean>> tests = new HashMap<String, Function<Void, Boolean>>() {{
         put("basic", Simple.this::test);
         put("Multiple addition operators", Simple.this::multipleOperators);

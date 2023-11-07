@@ -70,6 +70,16 @@ public class ArithmeticExpressionFactory extends AExpressionFactory {
     }
 
     /**
+     * @brief       This method create a new division from a two expressions
+     * @param left  The left expression
+     * @param right The right expression
+     * @return      The division created
+     */
+    static public SubstractionExpression createSubstraction(ArithmeticExpression left, ArithmeticExpression right) {
+        return new SubstractionExpression(left, right);
+    }
+
+    /**
      * @brief           This method create an addition from two expressions
      * @param   left    The left expression
      * @param   right   The right expression

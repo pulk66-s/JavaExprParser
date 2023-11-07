@@ -47,15 +47,15 @@ public abstract class OperationExpression extends ArithmeticExpression {
      * @param expr  The expression to parse
      * @return      The index of the highest operator in the expression
      */
-    public int findHighestOperator(String expr) {
+    public int findLowestOperator(String expr) {
         int nbParenthesis = 0;
 
-        for (int i = 0; i < expr.length(); i++) {
+        for (int i = expr.length() - 1; i >= 0; i--) {
             char c = expr.charAt(i);
 
-            if (c == '(') {
+            if (c == ')') {
                 nbParenthesis++;
-            } else if (c == ')') {
+            } else if (c == '(') {
                 nbParenthesis--;
             } else if (c == this.operator) {
                 if (nbParenthesis == 0) {
@@ -73,7 +73,7 @@ public abstract class OperationExpression extends ArithmeticExpression {
      * @throws SyntaxError
      */
     public boolean parse(Environnement env) throws SyntaxError {
-        int opIndex = this.findHighestOperator(env.getExpression());
+        int opIndex = this.findLowestOperator(env.getExpression());
 
         if (opIndex < 0) {
             return false;

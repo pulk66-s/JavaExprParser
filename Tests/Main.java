@@ -9,6 +9,7 @@ public class Main {
         testSuites.add(new AdditionSuite());
         testSuites.add(new MultiplicationSuite());
         testSuites.add(new SubstractionSuite());
+        testSuites.add(new DivisionSuite());
         for (TestSuite suite : testSuites) {
             System.out.println("Starting suite");
             TestResult res = suite.run();

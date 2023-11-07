@@ -78,6 +78,7 @@ public class Console {
                 System.out.println("Can't parse the expression");
                 return;
             }
+            System.out.println("Raw epxression " + expr);
             expr = expr.get().simplify();
             if (!expr.isPresent()) {
                 System.out.println("Can't simplify the expression");

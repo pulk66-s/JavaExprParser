@@ -3,6 +3,7 @@ package Expression.Operation;
 import java.util.HashMap;
 import java.util.Optional;
 
+import Expression.ArithmeticExpression;
 import Expression.OperationExpression;
 import Expression.Minimal.NumberExpression;
 
@@ -18,6 +19,18 @@ public class SubstractionExpression extends OperationExpression {
     public SubstractionExpression() {
         this.operator = '-';
         this.unit = new NumberExpression(0.0);
+    }
+
+    /**
+     * @brief       This constructor initialize a Substraction with the left and right expression to the given value
+     * @param left  The left expression
+     * @param right The right expression
+     */
+    public SubstractionExpression(ArithmeticExpression left, ArithmeticExpression right) {
+        this.operator = '-';
+        this.unit = new NumberExpression(0.0);
+        this.left = Optional.of(left);
+        this.right = Optional.of(right);
     }
 
     /**
