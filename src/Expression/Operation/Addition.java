@@ -62,7 +62,7 @@ public class Addition extends OperationExpression {
      * @brief   Return the constant value of the expression
      * @return  The constant value of the expression
      */
-    public Double getConstantValue() {
-        return this.getConstantValue((Double a, Double b) -> a + b);
+    public Optional<Double> getConstantValue() {
+        return this.getConstantValue((Double a, Double b) -> Optional.of(a + b));
     }
 }

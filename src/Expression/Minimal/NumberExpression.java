@@ -73,8 +73,8 @@ public class NumberExpression extends MinimalExpression {
      * @return  The constant value of the expression
      */
     @Override
-    public Double getConstantValue() {
-        return this.value;
+    public Optional<Double> getConstantValue() {
+        return Optional.of(this.value);
     }
 
 }

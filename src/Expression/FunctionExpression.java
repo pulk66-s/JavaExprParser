@@ -153,7 +153,7 @@ public class FunctionExpression extends ArithmeticExpression {
      * @brief   Return the constant value of the expression
      * @return  The constant value of the expression
      */
-    public Double getConstantValue() {
-        return 0.0;
+    public Optional<Double> getConstantValue() {
+        return Optional.empty();
     }
 }

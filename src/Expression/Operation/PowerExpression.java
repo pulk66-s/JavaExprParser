@@ -1,6 +1,7 @@
 package Expression.Operation;
 
 import java.util.HashMap;
+import java.util.Optional;
 
 import Expression.OperationExpression;
 import Expression.Minimal.NumberExpression;
@@ -21,6 +22,25 @@ public class PowerExpression extends OperationExpression {
     }
 
     /**
+     * @brief       This method evaluate the value stored after parsing
+     * @return      The result of the expression
+     */
+    @Override
+    public Optional<Double> evaluate() {
+        if (!this.left.isPresent() || !this.right.isPresent()) {
+            return Optional.empty();
+        }
+
+        Optional<Double> leftParsed = this.left.get().evaluate();
+        Optional<Double> rightParsed = this.right.get().evaluate();
+
+        if (!leftParsed.isPresent() || !rightParsed.isPresent() || (leftParsed.get() == 0 && rightParsed.get() == 0)) {
+            return Optional.empty();
+        }
+        return Optional.of(this.applyFunction.apply(leftParsed.get(), rightParsed.get()));
+    }
+
+    /**
      * @brief   Return the number of variables of an expression
      * @return  An hashmap containing the variables and the number of occurences
      */
@@ -32,7 +52,7 @@ public class PowerExpression extends OperationExpression {
      * @brief   Return the constant value of the expression
      * @return  The constant value of the expression
      */
-    public Double getConstantValue() {
-        return 0.0;
+    public Optional<Double> getConstantValue() {
+        return Optional.empty();
     }
 }

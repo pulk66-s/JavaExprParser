@@ -52,9 +52,9 @@ public class MultiplicationExpression extends OperationExpression {
         Optional<Double> leftValue = this.left.get().evaluate();
         Optional<Double> rightValue = this.right.get().evaluate();
 
-        if (leftValue.isPresent() && !leftValue.get().equals(0.0)) {
+        if (leftValue.isPresent() && !((Double)Math.abs(leftValue.get())).equals(0.0)) {
             multiplicator = leftValue.get();
-        } else if (rightValue.isPresent() && !rightValue.get().equals(0.0)) {
+        } else if (rightValue.isPresent() && !((Double)Math.abs(rightValue.get())).equals(0.0)) {
             multiplicator = rightValue.get();
         } else {
             multiplicator = 1.0;
@@ -76,6 +76,6 @@ public class MultiplicationExpression extends OperationExpression {
      * @brief   Return the constant value of the expression
      * @return  The constant value of the expression
      */
-    public Double getConstantValue() {
-        return this.getConstantValue((Double a, Double b) -> a * b);
+    public Optional<Double> getConstantValue() {
+        return this.getConstantValue((Double a, Double b) -> Optional.of(a * b));
     }}

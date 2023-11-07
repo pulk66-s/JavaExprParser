@@ -50,7 +50,7 @@ public class Simplify implements TestSuite {
 
             Optional<Double> evaluated = simplified.get().evaluate();
 
-            return evaluated.isPresent() && evaluated.get().equals(0.0);
+            return evaluated.isPresent() && ((Double)Math.abs(evaluated.get())).equals(0.0);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;

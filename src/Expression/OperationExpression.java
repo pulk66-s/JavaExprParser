@@ -265,7 +265,8 @@ public abstract class OperationExpression extends ArithmeticExpression {
      */
     public Optional<ArithmeticExpression> mergeVariables() {
         HashMap<String, Double> variables = this.getVariables();
-        Double constantValue = this.getConstantValue();
+        Optional<Double> constantValueParsed = this.getConstantValue();
+        Double constantValue = constantValueParsed.isPresent() ? constantValueParsed.get() : 0.0;
         Addition exprRes = new Addition();
 
         if (variables.keySet().isEmpty()) {
@@ -274,7 +275,7 @@ public abstract class OperationExpression extends ArithmeticExpression {
         for (String key : variables.keySet()) {
             ArithmeticExpression mult;
             
-            if (variables.get(key).equals(0.0)) {
+            if (((Double)Math.abs(variables.get(key))).equals(0.0)) {
                 continue;
             } else if (variables.get(key).equals(1.0)) {
                 mult = MinimalExpressionFactory.createVariable(key);
@@ -309,21 +310,27 @@ public abstract class OperationExpression extends ArithmeticExpression {
      * @brief   Return the constant value of the expression
      * @return  The constant value of the expression
      */
-    public abstract Double getConstantValue();
+    public abstract Optional<Double> getConstantValue();
     
     /**
      * @brief       Return the constant value of the expression with a given merge function
      * @param   fn  The merge function
      * @return      The constant value of the expression
      */
-    public Double getConstantValue(BiFunction<Double, Double, Double> fn) {
+    public Optional<Double> getConstantValue(BiFunction<Double, Double, Optional<Double>> fn) {
         if (!this.left.isPresent() || !this.right.isPresent()) {
-            return 0.0;
+            return Optional.empty();
         }
 
-        Double left = this.left.get().getConstantValue();
-        Double right = this.right.get().getConstantValue();
+        Optional<Double> left = this.left.get().getConstantValue();
+        Optional<Double> right = this.right.get().getConstantValue();
 
-        return fn.apply(left, right);
+        if (!left.isPresent() && !right.isPresent()) {
+            return Optional.empty();
+        }
+        return fn.apply(
+            left.isPresent() ? left.get() : 0.0,
+            right.isPresent() ? right.get() : 0.0
+        );
     }
 }

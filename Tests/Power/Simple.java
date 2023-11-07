@@ -15,6 +15,7 @@ public class Simple implements TestSuite {
     private HashMap<String, Function<Void, Boolean>> tests = new HashMap<String, Function<Void, Boolean>>() {{
         put("basic", Simple.this::test);
         put("variable", Simple.this::testVariable);
+        put("0 power 0", Simple.this::testZeroPowerZero);
     }};
 
     public TestResult run() {
@@ -54,6 +55,19 @@ public class Simple implements TestSuite {
             String expected = "(x ^ 3.0)";
 
             return expected.equals(res.get().toString());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
+    private boolean testZeroPowerZero(Void v) {
+        try {
+            String expr = "0 ^ 0";
+            Optional<ArithmeticExpression> res = this.factory.parse(expr);
+            Optional<Double> resEval = res.get().evaluate();
+
+            return !resEval.isPresent();
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;

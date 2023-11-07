@@ -61,5 +61,5 @@ public abstract class ArithmeticExpression {
      * @brief   Return the constant value of the expression
      * @return  The constant value of the expression
      */
-    public abstract Double getConstantValue();
+    public abstract Optional<Double> getConstantValue();
 }
