@@ -35,9 +35,11 @@ TESTS_SRC	=	$(SRC)					\
 	Tests/AdditionSuite.java			\
 	Tests/Main.java						\
 	Tests/DivisionSuite.java			\
+	Tests/PowerSuite.java				\
 	Tests/MultiplicationSuite.java		\
 	Tests/Multiplication/Simplify.java	\
 	Tests/Division/Simple.java			\
+	Tests/Power/Simple.java				\
 
 OBJ 		= $(SRC:.java=.class)
 TESTS_OBJ	= $(TESTS_SRC:.java=.class)

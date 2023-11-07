@@ -1,4 +1,4 @@
-package Tests.Substraction;
+package Tests.Power;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,11 +11,10 @@ import Tests.TestResult;
 import Tests.TestSuite;
 
 public class Simple implements TestSuite {
-    ArithmeticExpressionFactory factory = new ArithmeticExpressionFactory();
+    private ArithmeticExpressionFactory factory = new ArithmeticExpressionFactory();
     private HashMap<String, Function<Void, Boolean>> tests = new HashMap<String, Function<Void, Boolean>>() {{
         put("basic", Simple.this::test);
-        put("Multiple substraction operators", Simple.this::multipleOperators);
-        put("With variables", Simple.this::withVariables);
+        put("variable", Simple.this::testVariable);
     }};
 
     public TestResult run() {
@@ -23,8 +22,8 @@ public class Simple implements TestSuite {
         Integer failed = 0;
         ArrayList<String> failedTests = new ArrayList<String>();
 
-        for (String test : this.tests.keySet()) {
-            if (this.tests.get(test).apply(null)) {
+        for (String test : tests.keySet()) {
+            if (tests.get(test).apply(null)) {
                 passed++;
             } else {
                 failed++;
@@ -33,12 +32,12 @@ public class Simple implements TestSuite {
         }
         return new TestResult(passed, failed, failedTests);
     }
-
+    
     private boolean test(Void v) {
         try {
-            String expr = "42 - 3";
-            Double expected = 39.0;
-            Optional<ArithmeticExpression> res = this.factory.parse(expr);
+            String expr = "2 ^ 3";
+            Double expected = 8.0;
+            java.util.Optional<Expression.ArithmeticExpression> res = this.factory.parse(expr);
             Double resEval = res.get().evaluate().get();
             
             return resEval.equals(expected);
@@ -48,33 +47,13 @@ public class Simple implements TestSuite {
         }
     }
 
-    private boolean multipleOperators(Void v) {
+    private boolean testVariable(Void v) {
         try {
-            String expr = "42 - 3 - 5";
-            Double expected = 34.0;
+            String expr = "x ^ 3";
             Optional<ArithmeticExpression> res = this.factory.parse(expr);
-            Double resEval = res.get().evaluate().get();
-            
-            return resEval.equals(expected);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
-    }
+            String expected = "(x ^ 3.0)";
 
-    private boolean withVariables(Void v) {
-        try {
-            String expr = "x - 3 - 42";
-            String expected = "(-45.0 + x)";
-            Optional<ArithmeticExpression> res = this.factory.parse(expr).get().simplify();
-
-            if (!res.isPresent()) {
-                return false;
-            }
-
-            String stringRepresentation = res.get().toString();
-
-            return stringRepresentation.equals(expected);
+            return expected.equals(res.get().toString());
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;

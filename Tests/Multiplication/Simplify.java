@@ -9,7 +9,7 @@ import Tests.TestResult;
 import Tests.TestSuite;
 
 public class Simplify implements TestSuite {
-    ArithmeticExpressionFactory factory = new ArithmeticExpressionFactory();
+    private ArithmeticExpressionFactory factory = new ArithmeticExpressionFactory();
     private HashMap<String, Function<Void, Boolean>> tests = new HashMap<String, Function<Void, Boolean>>() {{
         put("basic", Simplify.this::test);
     }};
