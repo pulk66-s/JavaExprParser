@@ -10,13 +10,13 @@ SRC 	= src/Main.java										\
 	src/Expression/Operation/MultiplicationExpression.java	\
 	src/Expression/Operation/SubstractionExpression.java	\
 	src/Expression/Operation/PowerExpression.java			\
+	src/Expression/FunctionExpression.java					\
 	src/Expression/Operation/ParanthesesExpression.java		\
 	src/Expression/OperationExpression.java					\
 	src/Expression/ArithmeticExpression.java				\
 	src/Expression/Minimal/NumberExpression.java			\
 	src/Expression/Minimal/VariableExpression.java			\
 	src/Expression/Minimal/MinimalExpression.java			\
-	src/Expression/Minimal/FunctionExpression.java			\
 	src/Expression/ArithmeticExpressionFactory.java			\
 	src/Expression/DeclarationExpression.java				\
 	src/Expression/MinimalExpressionFactory.java			\

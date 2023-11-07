@@ -1,4 +1,4 @@
-package Expression.Operation;
+package Expression;
 
 import java.util.HashMap;
 import java.util.Optional;
@@ -8,9 +8,7 @@ import Context.Environnement;
 import Context.StatusCode;
 import Exception.SyntaxError;
 import Exception.VariableNotExistError;
-import Expression.ArithmeticExpression;
-import Expression.ArithmeticExpressionFactory;
-import Expression.MinimalExpressionFactory;
+import Expression.Operation.ParanthesesExpression;
 
 /**
  * @brief   This class is used to represent a function expression

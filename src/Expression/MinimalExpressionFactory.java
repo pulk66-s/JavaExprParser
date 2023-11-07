@@ -5,7 +5,6 @@ import Context.StatusCode;
 import Exception.SyntaxError;
 import Expression.Minimal.NumberExpression;
 import Expression.Minimal.VariableExpression;
-import Expression.Operation.FunctionExpression;
 
 /**
  * @brief   This class is used to represent a minimal expression factory
