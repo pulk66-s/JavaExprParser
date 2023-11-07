@@ -53,10 +53,10 @@ public class NumberExpression extends MinimalExpression {
     public boolean parse(Environnement env) throws SyntaxError {
         try {
             this.value = Double.valueOf(env.getExpression());
+            return true;
         } catch (NumberFormatException e) {
             return false;
         }
-        return true;
     }
 
     /**

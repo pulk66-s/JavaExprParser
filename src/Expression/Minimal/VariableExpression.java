@@ -15,6 +15,21 @@ public class VariableExpression extends MinimalExpression {
     private String name;
 
     /**
+     * @brief           This constructor initialize the name of the variable
+     * @param   name    The name of the variable
+     */
+    public VariableExpression(String name) {
+        this.name = name;
+    }
+
+    /**
+     * @brief   This constructor initialize the name of the variable
+     */
+    public VariableExpression() {
+        this.name = "";
+    }
+
+    /**
      * @brief       This method parse an expression and return a StatusCode
      * @param   env The environnement that contains the expression to parse
      * @return      A boolean that represent the result of the evaluation
@@ -22,10 +37,7 @@ public class VariableExpression extends MinimalExpression {
     public boolean parse(Environnement env) {
         this.name = env.getExpression().trim();
 
-        if (!this.name.matches("[a-zA-Z]+")) {
-            return false;
-        }
-        return true;
+        return this.name.matches("[a-zA-Z]+");
     }
 
     /**

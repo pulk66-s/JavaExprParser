@@ -58,4 +58,14 @@ public class ArithmeticExpressionFactory extends AExpressionFactory {
         }
         return Optional.empty();
     }
+
+    /**
+     * @brief       This method create a new multiplication from a two expressions
+     * @param left  The left expression
+     * @param right The right expression
+     * @return      The multiplication created
+     */
+    static public ArithmeticExpression createMultiplication(ArithmeticExpression left, ArithmeticExpression right) {
+        return new MultiplicationExpression(left, right);
+    }
 }

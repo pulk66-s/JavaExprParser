@@ -5,10 +5,12 @@ import java.util.HashMap;
 import java.util.function.Function;
 
 import Tests.Addition.Simple;
+import Tests.Addition.Simplify;
 
 public class AdditionSuite implements TestSuite {
     private HashMap<String, Function<Void, TestResult>> tests = new HashMap<String, Function<Void, TestResult>>() {{
         put("SimpleAddition", (Void) -> new Simple().run());
+        put("Simplification", (Void) -> new Simplify().run());
     }};
 
     /**

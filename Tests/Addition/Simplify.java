@@ -1,8 +1,5 @@
 package Tests.Addition;
 
-import Tests.TestResult;
-import Tests.TestSuite;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
@@ -10,11 +7,14 @@ import java.util.function.Function;
 
 import Expression.ArithmeticExpression;
 import Expression.ArithmeticExpressionFactory;
+import Expression.MinimalExpressionFactory;
+import Tests.TestResult;
+import Tests.TestSuite;
 
-public class Simple implements TestSuite {
+public class Simplify implements TestSuite {
     ArithmeticExpressionFactory factory = new ArithmeticExpressionFactory();
     private HashMap<String, Function<Void, Boolean>> tests = new HashMap<String, Function<Void, Boolean>>() {{
-        put("basic", Simple.this::test);
+        put("basic", Simplify.this::test);
     }};
 
     public TestResult run() {
@@ -35,11 +35,17 @@ public class Simple implements TestSuite {
 
     private boolean test(Void v) {
         try {
-            String expr = "42 + 3";
-            Double expected = 45.0;
-            Optional<ArithmeticExpression> res = this.factory.parse(expr);
-            
-            return res.isPresent() && res.get().evaluate().get().equals(expected);
+            String expr = "x + x";
+            ArithmeticExpression res = ArithmeticExpressionFactory.createMultiplication(
+                MinimalExpressionFactory.createConstant(2.0),
+                MinimalExpressionFactory.createVariable("x")
+            );
+            Optional<ArithmeticExpression> parsed = this.factory.parse(expr);
+
+            if (!parsed.isPresent()) {
+                return false;
+            }
+            return parsed.get().simplify().get().equals(res);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;

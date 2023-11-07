@@ -28,6 +28,7 @@ SRC 	= src/Main.java										\
 
 TESTS_SRC	=	$(SRC)			\
 	Tests/Addition/Simple.java	\
+	Tests/Addition/Simplify.java	\
 	Tests/AdditionSuite.java	\
 	Tests/TestResult.java		\
 	Tests/TestSuite.java		\

@@ -87,13 +87,10 @@ public class ParanthesesExpression extends ArithmeticExpression {
             }
         }
         this.value = new ArithmeticExpressionFactory().parse(valueExpr);
-        if (this.value == null) {
+        if (!this.value.isPresent()) {
             this.value = new MinimalExpressionFactory().parse(valueExpr);
         }
-        if (this.value == null) {
-            return false;
-        }
-        return true;
+        return this.value.isPresent();
     }
 
     /**

@@ -3,6 +3,7 @@ package Expression.Operation;
 import java.util.HashMap;
 import java.util.Optional;
 
+import Expression.ArithmeticExpression;
 import Expression.OperationExpression;
 import Expression.Minimal.NumberExpression;
 
@@ -16,6 +17,17 @@ public class MultiplicationExpression extends OperationExpression {
      * @brief   This constructor initialize a Multiplication with the left and right expression to 1.0
      */
     public MultiplicationExpression() {
+        this.operator = '*';
+        this.unit = new NumberExpression(1.0);
+    }
+
+    /**
+     * @brief       This method is the constructor of the MultiplicationExpression class
+     * @param left  The left expression
+     * @param right The right expression
+     */
+    public MultiplicationExpression(ArithmeticExpression left, ArithmeticExpression right) {
+        super(left, right);
         this.operator = '*';
         this.unit = new NumberExpression(1.0);
     }

@@ -55,10 +55,7 @@ public class FunctionExpression extends ArithmeticExpression {
         if (!this.value.isPresent()) {
             this.value = new MinimalExpressionFactory().parse(subString);
         }
-        if (!this.value.isPresent()) {
-            return false;
-        }
-        return true;
+        return this.value.isPresent();
     }
 
     /**
