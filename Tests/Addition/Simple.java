@@ -64,12 +64,19 @@ public class Simple implements TestSuite {
     private boolean withVariables(Void v) {
         try {
             String expr = "42 + 3 + x";
-            Double expected = 45.0;
             Optional<ArithmeticExpression> res = this.factory.parse(expr);
+
+            if (!res.isPresent()) {
+                return false;
+            }
+
+            Optional<ArithmeticExpression> simplified = res.get().simplify();
             String expectedString = "45.0 + x";
 
-            System.out.println(res);
-            return res.isPresent() && res.get().evaluate().get().equals(expected) && res.get().toString().equals(expectedString);
+            if (!simplified.isPresent()) {
+                return false;
+            }
+            return simplified.get().toString().equals(expectedString);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
