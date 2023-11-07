@@ -130,6 +130,9 @@ public class FactorialExpression extends ArithmeticExpression {
     public StringBuilder toStringBuilder() {
         StringBuilder str = new StringBuilder();
 
+        if (!this.value.isPresent()) {
+            return str;
+        }
         str.append(this.value.get().toStringBuilder());
         str.append('!');
         return str;
