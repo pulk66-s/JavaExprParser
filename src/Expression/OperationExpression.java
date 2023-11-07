@@ -21,6 +21,7 @@ public abstract class OperationExpression extends ArithmeticExpression {
     protected ArithmeticExpression left, right;
     protected char operator;
     protected ArithmeticExpression unit;
+    protected Optional<ArithmeticExpression> nullValue = Optional.empty();
 
     /**
      * @brief   Constructor of the OperationExpression class
@@ -87,6 +88,41 @@ public abstract class OperationExpression extends ArithmeticExpression {
     }
 
     /**
+     * Simplify the expression with unit value
+     * @param   left    The left value
+     * @param   right   The right value
+     * @param   unit    The unit value
+     * @return          The simplified expression
+     */
+    private Optional<ArithmeticExpression> unitSimplify(
+        Double left, Double right, Double unit
+    ) {
+        if (Math.abs(left - unit) < 0.00000001) {
+            return Optional.of(this.right);
+        }
+        if (Math.abs(right - unit) < 0.00000001) {
+            return Optional.of(this.left);
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * Simplify the expression with null value
+     * @param   left    The left value
+     * @param   right   The right value
+     * @param   nValue  The null value
+     * @return          The simplified expression
+     */
+    private Optional<ArithmeticExpression> nullSimplified(
+        Double left, Double right, Double unit
+    ) {
+        if (Math.abs(left - unit) < 0.00000001 || Math.abs(right - unit) < 0.00000001) {
+            return Optional.of(MinimalExpressionFactory.createConstant(0.0));
+        }
+        return Optional.empty();
+    }
+
+    /**
      * Simplify the expression
      * @return The simplified expression
      * @throws VariableNotExistError
@@ -95,15 +131,29 @@ public abstract class OperationExpression extends ArithmeticExpression {
         Optional<Double> left = this.left.evaluate();
         Optional<Double> right = this.right.evaluate();
         Optional<Double> unit = this.unit.evaluate();
+        Optional<ArithmeticExpression> unitSimplified;
+        Optional<ArithmeticExpression> nullSimplified = Optional.empty();
 
         if (!left.isPresent() || !right.isPresent()) {
             return this;
         }
-        if (Math.abs(left.get() - unit.get()) < 0.00000001) {
-            return this.right;
+        unitSimplified = this.unitSimplify(
+            left.get(), right.get(), unit.get()
+        );
+        if (unitSimplified.isPresent()) {
+            return unitSimplified.get();
         }
-        if (Math.abs(right.get() - unit.get()) < 0.00000001) {
-            return this.left;
+        if (this.nullValue.isPresent()) {
+            Optional<Double> nValue = this.nullValue.get().evaluate();
+
+            if (nValue.isPresent()) {
+                nullSimplified = this.nullSimplified(
+                    left.get(), right.get(), nValue.get()
+                );
+            }
+            if (nullSimplified.isPresent()) {
+                return nullSimplified.get();
+            }
         }
         return this;
     }

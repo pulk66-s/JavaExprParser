@@ -20,7 +20,7 @@ public class ArithmeticExpressionFactory extends AExpressionFactory {
         {"Declaration"},
         {"Addition", "Substraction"},
         {"Multiplication", "Division", "Power"},
-        {"Parantheses"},
+        {"Function", "Parantheses"},
     };
 
     /**
@@ -34,6 +34,7 @@ public class ArithmeticExpressionFactory extends AExpressionFactory {
         constructorMaps.put("Parantheses", (Void) -> new ParanthesesExpression());
         constructorMaps.put("Power", (Void) -> new PowerExpression());
         constructorMaps.put("Declaration", (Void) -> new DeclarationExpression());
+        constructorMaps.put("Function", (Void) -> new FunctionExpression());
     }
 
     /**

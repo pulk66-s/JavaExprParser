@@ -16,7 +16,7 @@ public class MinimalExpressionFactory extends AExpressionFactory {
      * @brief   This array contains all the minimal values
      */
     private static final String[] minimalValues = {
-        "Function", "Number", "Variable"
+        "Number", "Variable"
     };
 
     /**
@@ -25,7 +25,6 @@ public class MinimalExpressionFactory extends AExpressionFactory {
     public MinimalExpressionFactory() {
         constructorMaps.put("Number", (Void) -> new NumberExpression());
         constructorMaps.put("Variable", (Void) -> new VariableExpression());
-        constructorMaps.put("Function", (Void) -> new FunctionExpression());
     }
 
     /**
@@ -49,5 +48,14 @@ public class MinimalExpressionFactory extends AExpressionFactory {
             }
         }
         return null;
+    }
+
+    /**
+     * @brief           This method create a new constant from a double
+     * @param   value   The value of the constant
+     * @return          The constant created
+     */
+    static public ArithmeticExpression createConstant(Double value) {
+        return new NumberExpression(value);
     }
 }
