@@ -24,23 +24,13 @@ public abstract class OperationExpression extends ArithmeticExpression {
     protected char operator;
     protected ArithmeticExpression unit;
     protected Optional<ArithmeticExpression> nullValue = Optional.empty();
+    protected BiFunction<Double, Double, Double> applyFunction = (a, b) -> a;
 
     /**
      * @brief   Constructor of the OperationExpression class
      * @details It overrides the ArithmeticExpression constructor
      */
     public OperationExpression() {
-    }
-
-    /**
-     * @brief       Constructor of the OperationExpression class with two expressions
-     * @param left  The left expression
-     * @param right The right expression
-     * @return      The OperationExpression created
-     */
-    public OperationExpression(ArithmeticExpression left, ArithmeticExpression right) {
-        this.left = Optional.of(left);
-        this.right = Optional.of(right);
     }
 
     /**
@@ -151,6 +141,24 @@ public abstract class OperationExpression extends ArithmeticExpression {
             return this.nullValue;
         }
         return Optional.empty();
+    }
+
+    /**
+     * @brief       This method evaluate the value stored after parsing
+     * @return      The result of the expression
+     */
+    public Optional<Double> evaluate() {
+        if (!this.left.isPresent() || !this.right.isPresent()) {
+            return Optional.empty();
+        }
+
+        Optional<Double> leftParsed = this.left.get().evaluate();
+        Optional<Double> rightParsed = this.right.get().evaluate();
+
+        if (!leftParsed.isPresent() || !rightParsed.isPresent()) {
+            return Optional.empty();
+        }
+        return Optional.of(this.applyFunction.apply(leftParsed.get(), rightParsed.get()));
     }
 
     /**

@@ -19,6 +19,7 @@ public class SubstractionExpression extends OperationExpression {
     public SubstractionExpression() {
         this.operator = '-';
         this.unit = new NumberExpression(0.0);
+        this.applyFunction = (Double a, Double b) -> a - b;
     }
 
     /**
@@ -31,24 +32,7 @@ public class SubstractionExpression extends OperationExpression {
         this.unit = new NumberExpression(0.0);
         this.left = Optional.of(left);
         this.right = Optional.of(right);
-    }
-
-    /**
-     * @brief       This method evaluate the value stored after parsing
-     * @return      The result of the expression
-     */
-    public Optional<Double> evaluate() {
-        if (!this.left.isPresent() || !this.right.isPresent()) {
-            return Optional.empty();
-        }
-
-        Optional<Double> leftParsed = this.left.get().evaluate();
-        Optional<Double> rightParsed = this.right.get().evaluate();
-
-        if (!leftParsed.isPresent() || !rightParsed.isPresent()) {
-            return Optional.empty();
-        }
-        return Optional.of(leftParsed.get() - rightParsed.get());
+        this.applyFunction = (Double a, Double b) -> a - b;
     }
 
     /**

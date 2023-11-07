@@ -18,6 +18,7 @@ public class MultiplicationExpression extends OperationExpression {
      */
     public MultiplicationExpression() {
         this.operator = '*';
+        this.applyFunction = (Double a, Double b) -> a * b;
         this.unit = MinimalExpressionFactory.createConstant(1.0);
         this.nullValue = Optional.of(MinimalExpressionFactory.createConstant(0.0));
     }
@@ -28,28 +29,12 @@ public class MultiplicationExpression extends OperationExpression {
      * @param right The right expression
      */
     public MultiplicationExpression(ArithmeticExpression left, ArithmeticExpression right) {
-        super(left, right);
+        this.left = Optional.of(left);
+        this.right = Optional.of(right);
+        this.applyFunction = (Double a, Double b) -> a * b;
         this.operator = '*';
         this.unit = MinimalExpressionFactory.createConstant(1.0);
         this.nullValue = Optional.of(MinimalExpressionFactory.createConstant(0.0));
-    }
-
-    /**
-     * @brief       This method evaluate the value stored after parsing
-     * @return      The result of the expression
-     */
-    public Optional<Double> evaluate() {
-        if (!this.left.isPresent() || !this.right.isPresent()) {
-            return Optional.empty();
-        }
-
-        Optional<Double> leftParsed = this.left.get().evaluate();
-        Optional<Double> rightParsed = this.right.get().evaluate();
-
-        if (!leftParsed.isPresent() || !rightParsed.isPresent()) {
-            return Optional.empty();
-        }
-        return Optional.of(leftParsed.get() * rightParsed.get());
     }
 
     /**

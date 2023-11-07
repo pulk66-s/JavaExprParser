@@ -17,6 +17,7 @@ public class Addition extends OperationExpression {
      * @brief   This constructor initialize an Addition with the left and right expression to 0.0
      */
     public Addition() {
+        this.applyFunction = (Double a, Double b) -> a + b;
         this.operator = '+';
         this.unit = new NumberExpression(0.0);
     }
@@ -28,28 +29,11 @@ public class Addition extends OperationExpression {
      * @return          A boolean that represent the result of the evaluation
      */
     public Addition(ArithmeticExpression left, ArithmeticExpression right) {
+        this.applyFunction = (Double a, Double b) -> a + b;
         this.left = Optional.of(left);
         this.right = Optional.of(right);
         this.operator = '+';
         this.unit = new NumberExpression(0.0);
-    }
-
-    /**
-     * @brief       This method evaluate the value stored after parsing
-     * @return      The result of the expression
-     */
-    public Optional<Double> evaluate() {
-        if (!this.left.isPresent() || !this.right.isPresent()) {
-            return Optional.empty();
-        }
-
-        Optional<Double> leftParsed = this.left.get().evaluate();
-        Optional<Double> rightParsed = this.right.get().evaluate();
-
-        if (!leftParsed.isPresent() || !rightParsed.isPresent()) {
-            return Optional.empty();
-        }
-        return Optional.of(leftParsed.get() + rightParsed.get());
     }
 
     /**
