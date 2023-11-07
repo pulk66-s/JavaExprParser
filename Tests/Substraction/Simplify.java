@@ -35,7 +35,7 @@ public class Simplify implements TestSuite {
 
     private boolean test(Void v) {
         try {
-            String expr = "x + x";
+            String expr = "x - x";
             Optional<ArithmeticExpression> parsed = this.factory.parse(expr);
 
             if (!parsed.isPresent()) {
@@ -48,9 +48,9 @@ public class Simplify implements TestSuite {
                 return false;
             }
 
-            String stringRepresentation = simplified.get().toString();
+            Optional<Double> evaluated = simplified.get().evaluate();
 
-            return stringRepresentation.equals("(x * 2.0)");
+            return evaluated.isPresent() && evaluated.get().equals(0.0);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
@@ -74,7 +74,7 @@ public class Simplify implements TestSuite {
 
             String stringRepresentation = simplified.get().toString();
 
-            return stringRepresentation.equals("(x * 5.0)");
+            return stringRepresentation.equals("(x * -3.0)");
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;

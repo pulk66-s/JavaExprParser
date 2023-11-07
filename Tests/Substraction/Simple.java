@@ -40,10 +40,9 @@ public class Simple implements TestSuite {
             Double expected = 39.0;
             Optional<ArithmeticExpression> res = this.factory.parse(expr);
             Double resEval = res.get().evaluate().get();
-            
+
             return resEval.equals(expected);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             return false;
         }
     }
@@ -57,7 +56,6 @@ public class Simple implements TestSuite {
             
             return resEval.equals(expected);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             return false;
         }
     }
@@ -76,7 +74,6 @@ public class Simple implements TestSuite {
 
             return stringRepresentation.equals(expected);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             return false;
         }
     }

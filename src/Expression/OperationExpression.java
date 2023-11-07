@@ -259,9 +259,6 @@ public abstract class OperationExpression extends ArithmeticExpression {
         Double constantValue = this.getConstantValue();
         Addition exprRes = new Addition();
 
-        variables = variables.entrySet().stream()
-            .filter(entry -> !entry.getValue().equals(0.0))
-            .collect(HashMap::new, (m, e) -> m.put(e.getKey(), e.getValue()), HashMap::putAll);
         if (variables.keySet().isEmpty()) {
             return Optional.of(MinimalExpressionFactory.createConstant(constantValue));
         }
@@ -289,7 +286,10 @@ public abstract class OperationExpression extends ArithmeticExpression {
                 exprRes = nAdd;
             }
         }
-        if (constantValue.equals(0.0)) {
+        if (((Double)Math.abs(constantValue)).equals(0.0)) {
+            if (!exprRes.getRight().isPresent()) {
+                return Optional.of(MinimalExpressionFactory.createConstant(constantValue));
+            }
             return exprRes.getRight();
         }
         exprRes.setLeft(MinimalExpressionFactory.createConstant(constantValue));

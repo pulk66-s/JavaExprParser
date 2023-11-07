@@ -67,7 +67,7 @@ public class SubstractionExpression extends OperationExpression {
             if (variables.containsKey(key)) {
                 variables.put(key, variables.get(key) - rightVariables.get(key));
             } else {
-                variables.put(key, rightVariables.get(key));
+                variables.put(key, -rightVariables.get(key));
             }
         }
         return variables;
