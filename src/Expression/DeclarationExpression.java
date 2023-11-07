@@ -126,6 +126,6 @@ public class DeclarationExpression extends ArithmeticExpression {
      * @return  The constant value of the expression
      */
     public Double getConstantValue() {
-        return null;
+        return 0.0;
     }
 }

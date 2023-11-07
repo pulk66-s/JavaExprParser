@@ -2,6 +2,7 @@ package Expression;
 
 import java.util.HashMap;
 import java.util.Optional;
+import java.util.function.BiFunction;
 
 import Context.Environnement;
 import Exception.SyntaxError;
@@ -301,4 +302,20 @@ public abstract class OperationExpression extends ArithmeticExpression {
      * @return  The constant value of the expression
      */
     public abstract Double getConstantValue();
+    
+    /**
+     * @brief       Return the constant value of the expression with a given merge function
+     * @param   fn  The merge function
+     * @return      The constant value of the expression
+     */
+    public Double getConstantValue(BiFunction<Double, Double, Double> fn) {
+        if (!this.left.isPresent() || !this.right.isPresent()) {
+            return 0.0;
+        }
+
+        Double left = this.left.get().getConstantValue();
+        Double right = this.right.get().getConstantValue();
+
+        return fn.apply(left, right);
+    }
 }
