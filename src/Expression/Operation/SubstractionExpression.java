@@ -79,4 +79,5 @@ public class SubstractionExpression extends OperationExpression {
      */
     public Double getConstantValue() {
         return this.getConstantValue((Double a, Double b) -> a - b);
-    }}
+    }
+}
