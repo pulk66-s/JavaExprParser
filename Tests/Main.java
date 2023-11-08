@@ -12,8 +12,9 @@ public class Main {
         testSuites.add(new DivisionSuite());
         testSuites.add(new PowerSuite());
         testSuites.add(new ParanthesesSuite());
+        testSuites.add(new FactorialSuite());
         for (TestSuite suite : testSuites) {
-            System.out.println("Starting suite");
+            System.out.println("Starting suite" + suite.getClass().getName());
             TestResult res = suite.run();
 
             if (res.failed() > 0) {

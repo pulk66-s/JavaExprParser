@@ -39,6 +39,8 @@ TESTS_SRC	=	$(SRC)					\
 	Tests/PowerSuite.java				\
 	Tests/MultiplicationSuite.java		\
 	Tests/ParanthesesSuite.java			\
+	Tests/FactorialSuite.java			\
+	Tests/Factorial/Simple.java			\
 	Tests/Parantheses/Simple.java		\
 	Tests/Multiplication/Simplify.java	\
 	Tests/Division/Simple.java			\
