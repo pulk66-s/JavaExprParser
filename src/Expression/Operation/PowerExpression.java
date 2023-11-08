@@ -1,6 +1,5 @@
 package Expression.Operation;
 
-import java.util.HashMap;
 import java.util.Optional;
 
 import Expression.OperationExpression;
@@ -38,14 +37,6 @@ public class PowerExpression extends OperationExpression {
             return Optional.empty();
         }
         return Optional.of(this.applyFunction.apply(leftParsed.get(), rightParsed.get()));
-    }
-
-    /**
-     * @brief   Return the number of variables of an expression
-     * @return  An hashmap containing the variables and the number of occurences
-     */
-    public HashMap<String, Double> getVariables() {
-        return new HashMap<>();
     }
 
     /**

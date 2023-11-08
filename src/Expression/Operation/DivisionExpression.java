@@ -1,6 +1,5 @@
 package Expression.Operation;
 
-import java.util.HashMap;
 import java.util.Optional;
 
 import Expression.OperationExpression;
@@ -38,28 +37,6 @@ public class DivisionExpression extends OperationExpression {
             return Optional.empty();
         }
         return Optional.of(leftParsed.get() / rightParsed.get());
-    }
-
-    /**
-     * @brief   Return the number of variables of an expression
-     * @return  An hashmap containing the variables and the number of occurences
-     */
-    public HashMap<String, Double> getVariables() {
-        if (!this.left.isPresent() || !this.right.isPresent()) {
-            return new HashMap<>();
-        }
-
-        HashMap<String, Double> variables = this.left.get().getVariables();
-        HashMap<String, Double> rightVariables = this.right.get().getVariables();
-
-        for (String key : rightVariables.keySet()) {
-            if (variables.containsKey(key)) {
-                variables.put(key, variables.get(key) / rightVariables.get(key));
-            } else {
-                variables.put(key, rightVariables.get(key));
-            }
-        }
-        return variables;
     }
 
     /**

@@ -233,7 +233,23 @@ public abstract class OperationExpression extends ArithmeticExpression {
      * @brief   Return the number of variables of an expression
      * @return  An hashmap containing the variables and the number of occurences
      */
-    public abstract HashMap<String, Double> getVariables();
+    public HashMap<String, Double> getVariables() {
+        if (!this.left.isPresent() || !this.right.isPresent()) {
+            return new HashMap<>();
+        }
+
+        HashMap<String, Double> variables = this.left.get().getVariables();
+        HashMap<String, Double> rightVariables = this.right.get().getVariables();
+
+        for (String key : rightVariables.keySet()) {
+            if (variables.containsKey(key)) {
+                variables.put(key, this.applyFunction.apply(variables.get(key), rightVariables.get(key)));
+            } else {
+                variables.put(key, rightVariables.get(key));
+            }
+        }
+        return variables;
+    }
 
     /**
      * @brief   Return the formatted expression to merge values and variables
@@ -261,7 +277,6 @@ public abstract class OperationExpression extends ArithmeticExpression {
                     MinimalExpressionFactory.createConstant(variables.get(key))
                 );
             }
-
             if (!exprRes.getRight().isPresent()) {
                 exprRes.setRight(mult);
             } else {

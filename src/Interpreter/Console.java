@@ -2,7 +2,7 @@ package Interpreter;
 
 import java.util.HashMap;
 import java.util.Optional;
-import java.util.function.Consumer;
+import java.util.function.Function;
 
 import Context.Environnement;
 import Exception.SyntaxError;
@@ -20,8 +20,8 @@ public class Console {
     private Boolean running = true;
 
     // Map that contains the special commands
-    private HashMap<String, Consumer<Void>> commands = new HashMap<String, Consumer<Void>>() {{
-        put("exit", (Void) -> runExit());
+    private HashMap<String, Function<Void, Void>> commands = new HashMap<String, Function<Void, Void>>() {{
+        put("exit", Console.this::runExit);
     }};
 
     // The current environnement of execution
@@ -53,7 +53,7 @@ public class Console {
     private void runCommand(String input) {
         for (String command : this.commands.keySet()) {
             if (input.startsWith(command)) {
-                this.commands.get(command).accept(null);
+                this.commands.get(command).apply(null);
                 return;
             }
         }
@@ -73,10 +73,10 @@ public class Console {
 
             if (!expr.isPresent()) {
                 expr = new MinimalExpressionFactory().parse(input);
-            }
-            if (!expr.isPresent()) {
-                System.out.println("Can't parse the expression");
-                return;
+                if (!expr.isPresent()) {
+                    System.out.println("Can't parse the expression");
+                    return;
+                }
             }
             System.out.println("Raw epxression " + expr);
             expr = expr.get().simplify();
@@ -108,7 +108,8 @@ public class Console {
      *          in the console. It set the attribute "running" to false, which
      *          will stop the console loop.
      */
-    private void runExit() {
+    private Void runExit(Void v) {
         this.running = false;
+        return null;
     }
 }

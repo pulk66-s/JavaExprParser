@@ -1,6 +1,5 @@
 package Expression.Operation;
 
-import java.util.HashMap;
 import java.util.Optional;
 
 import Expression.ArithmeticExpression;
@@ -34,28 +33,6 @@ public class Addition extends OperationExpression {
         this.right = Optional.of(right);
         this.operator = '+';
         this.unit = new NumberExpression(0.0);
-    }
-
-    /**
-     * @brief   Return the number of variables of an expression
-     * @return  An hashmap containing the variables and the number of occurences
-     */
-    public HashMap<String, Double> getVariables() {
-        if (!this.left.isPresent() || !this.right.isPresent()) {
-            return new HashMap<>();
-        }
-
-        HashMap<String, Double> leftVariables = this.left.get().getVariables();
-        HashMap<String, Double> rightVariables = this.right.get().getVariables();
-
-        for (String key : rightVariables.keySet()) {
-            if (leftVariables.containsKey(key)) {
-                leftVariables.put(key, leftVariables.get(key) + rightVariables.get(key));
-            } else {
-                leftVariables.put(key, rightVariables.get(key));
-            }
-        }
-        return leftVariables;
     }
 
     /**

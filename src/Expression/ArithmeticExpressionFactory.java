@@ -10,7 +10,7 @@ import Expression.Operation.FactorialExpression;
 import Expression.Operation.MultiplicationExpression;
 import Expression.Operation.ParanthesesExpression;
 import Expression.Operation.PowerExpression;
-import Expression.Operation.SubstractionExpression;
+import Expression.Operation.SubtractionExpression;
 
 /**
  * @brief   This class is a factory that create an ArithmeticExpression
@@ -32,7 +32,7 @@ public class ArithmeticExpressionFactory extends AExpressionFactory {
         constructorMaps.put("Addition", (Void) -> new Addition());
         constructorMaps.put("Multiplication", (Void) -> new MultiplicationExpression());
         constructorMaps.put("Division", (Void) -> new DivisionExpression());
-        constructorMaps.put("Substraction", (Void) -> new SubstractionExpression());
+        constructorMaps.put("Substraction", (Void) -> new SubtractionExpression());
         constructorMaps.put("Parantheses", (Void) -> new ParanthesesExpression());
         constructorMaps.put("Power", (Void) -> new PowerExpression());
         constructorMaps.put("Declaration", (Void) -> new DeclarationExpression());
@@ -77,8 +77,8 @@ public class ArithmeticExpressionFactory extends AExpressionFactory {
      * @param right The right expression
      * @return      The division created
      */
-    static public SubstractionExpression createSubstraction(ArithmeticExpression left, ArithmeticExpression right) {
-        return new SubstractionExpression(left, right);
+    static public SubtractionExpression createSubstraction(ArithmeticExpression left, ArithmeticExpression right) {
+        return new SubtractionExpression(left, right);
     }
 
     /**

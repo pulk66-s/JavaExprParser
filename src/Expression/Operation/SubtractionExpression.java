@@ -12,11 +12,11 @@ import Expression.Minimal.NumberExpression;
  * @details This class is used to represent a substraction expression
  *          It extends the OperationExpression class
  */
-public class SubstractionExpression extends OperationExpression {
+public class SubtractionExpression extends OperationExpression {
     /**
      * @brief   This constructor initialize a Substraction with the left and right expression to 0.0
      */
-    public SubstractionExpression() {
+    public SubtractionExpression() {
         this.operator = '-';
         this.unit = new NumberExpression(0.0);
         this.applyFunction = (Double a, Double b) -> a - b;
@@ -27,7 +27,7 @@ public class SubstractionExpression extends OperationExpression {
      * @param left  The left expression
      * @param right The right expression
      */
-    public SubstractionExpression(ArithmeticExpression left, ArithmeticExpression right) {
+    public SubtractionExpression(ArithmeticExpression left, ArithmeticExpression right) {
         this.operator = '-';
         this.unit = new NumberExpression(0.0);
         this.left = Optional.of(left);
@@ -39,6 +39,7 @@ public class SubstractionExpression extends OperationExpression {
      * @brief   Return the number of variables of an expression
      * @return  An hashmap containing the variables and the number of occurences
      */
+    @Override
     public HashMap<String, Double> getVariables() {
         if (!this.left.isPresent() || !this.right.isPresent()) {
             return new HashMap<>();
