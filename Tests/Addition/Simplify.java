@@ -15,6 +15,8 @@ public class Simplify implements TestSuite {
     private HashMap<String, Function<Void, Boolean>> tests = new HashMap<String, Function<Void, Boolean>>() {{
         put("basic", Simplify.this::test);
         put("multiple variables", Simplify.this::multipleVariables);
+        put("multiple variables names", Simplify.this::multipleVariablesNames);
+        put("useless variable", Simplify.this::uselessVariable);
     }};
 
     public TestResult run() {
@@ -75,6 +77,54 @@ public class Simplify implements TestSuite {
             String stringRepresentation = simplified.get().toString();
 
             return stringRepresentation.equals("(x * 5.0)");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
+    private boolean multipleVariablesNames(Void v) {
+        try {
+            String expr = "x + y + x + y + x + y + x + y + x + y";
+            Optional<ArithmeticExpression> parsed = this.factory.parse(expr);
+
+            if (!parsed.isPresent()) {
+                return false;
+            }
+            
+            Optional<ArithmeticExpression> simplified = parsed.get().simplify();
+
+            if (!simplified.isPresent()) {
+                return false;
+            }
+
+            String stringRepresentation = simplified.get().toString();
+
+            return stringRepresentation.equals("((y * 5.0) + (x * 5.0))");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
+    private boolean uselessVariable(Void v) {
+        try {
+            String expr = "x * 0 + y * 1";
+            Optional<ArithmeticExpression> parsed = this.factory.parse(expr);
+
+            if (!parsed.isPresent()) {
+                return false;
+            }
+            
+            Optional<ArithmeticExpression> simplified = parsed.get().simplify();
+
+            if (!simplified.isPresent()) {
+                return false;
+            }
+
+            String stringRepresentation = simplified.get().toString();
+
+            return stringRepresentation.equals("y");
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
