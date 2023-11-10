@@ -1,13 +1,11 @@
 package Expression;
 
-import java.util.HashMap;
 import java.util.Optional;
 import java.util.function.BiFunction;
 
 import Context.Environnement;
 import Exception.SyntaxError;
 import Exception.VariableNotExistError;
-import Expression.Operation.Addition;
 
 /**
  * @brief   This class is used to represent an operation expression

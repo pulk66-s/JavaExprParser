@@ -1,6 +1,5 @@
 package Expression.Operation;
 
-import java.util.HashMap;
 import java.util.Optional;
 
 import Expression.ArithmeticExpression;

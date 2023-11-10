@@ -1,6 +1,5 @@
 package Expression.Operation;
 
-import java.util.HashMap;
 import java.util.Optional;
 
 import Expression.ArithmeticExpression;
@@ -34,5 +33,4 @@ public class SubtractionExpression extends OperationExpression {
         this.right = Optional.of(right);
         this.applyFunction = (Double a, Double b) -> a - b;
     }
-
 }
