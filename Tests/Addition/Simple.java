@@ -70,13 +70,10 @@ public class Simple implements TestSuite {
                 return false;
             }
 
-            Optional<ArithmeticExpression> simplified = res.get().simplify();
+            ArithmeticExpression simplified = res.get().simplify().get().toExpression();
             String expectedString = "(45.0 + x)";
 
-            if (!simplified.isPresent()) {
-                return false;
-            }
-            return simplified.get().toString().equals(expectedString);
+            return simplified.toString().equals(expectedString);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;

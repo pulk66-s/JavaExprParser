@@ -2,8 +2,10 @@ package Tests.Multiplication;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.function.Function;
 
+import Expression.ArithmeticExpression;
 import Expression.ArithmeticExpressionFactory;
 import Tests.TestResult;
 import Tests.TestSuite;
@@ -33,19 +35,14 @@ public class Simplify implements TestSuite {
     private boolean test(Void v) {
         try {
             String expr = "2 * x + 3 * x";
-            java.util.Optional<Expression.ArithmeticExpression> parsed = this.factory.parse(expr);
+            Optional<ArithmeticExpression> parsed = this.factory.parse(expr);
 
             if (!parsed.isPresent()) {
                 return false;
             }
             
-            java.util.Optional<Expression.ArithmeticExpression> simplified = parsed.get().simplify();
-
-            if (!simplified.isPresent()) {
-                return false;
-            }
-
-            String stringRepresentation = simplified.get().toString();
+            ArithmeticExpression simplified = parsed.get().simplify().get().toExpression();
+            String stringRepresentation = simplified.toString();
 
             return stringRepresentation.equals("(x * 5.0)");
         } catch (Exception e) {

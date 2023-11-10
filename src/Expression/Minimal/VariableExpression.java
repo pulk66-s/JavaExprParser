@@ -5,9 +5,10 @@ import java.util.Optional;
 
 import Context.Environnement;
 import Exception.VariableNotExistError;
+import Expression.ExpressionData;
 
 /**
- * @brief   This class is used to represent a variable expression
+ * @brief This class is used to represent a variable expression
  * @details This class is used to represent a variable expression
  *          It extends the MinimalExpression class
  */
@@ -16,24 +17,24 @@ public class VariableExpression extends MinimalExpression {
     private String name;
 
     /**
-     * @brief           This constructor initialize the name of the variable
-     * @param   name    The name of the variable
+     * @brief This constructor initialize the name of the variable
+     * @param name The name of the variable
      */
     public VariableExpression(String name) {
         this.name = name;
     }
 
     /**
-     * @brief   This constructor initialize the name of the variable
+     * @brief This constructor initialize the name of the variable
      */
     public VariableExpression() {
         this.name = "";
     }
 
     /**
-     * @brief       This method parse an expression and return a StatusCode
-     * @param   env The environnement that contains the expression to parse
-     * @return      A boolean that represent the result of the evaluation
+     * @brief This method parse an expression and return a StatusCode
+     * @param env The environnement that contains the expression to parse
+     * @return A boolean that represent the result of the evaluation
      */
     public boolean parse(Environnement env) {
         this.name = env.getExpression().trim();
@@ -42,8 +43,8 @@ public class VariableExpression extends MinimalExpression {
     }
 
     /**
-     * @brief       This method evaluate the value stored after parsing
-     * @return      The result of the expression
+     * @brief This method evaluate the value stored after parsing
+     * @return The result of the expression
      */
     public Optional<Double> evaluate() {
         try {
@@ -54,21 +55,32 @@ public class VariableExpression extends MinimalExpression {
     }
 
     /**
-     * @brief   This method return a string representation of the expression
-     * @return  A string representation of the expression
+     * @brief This method return a string representation of the expression
+     * @return A string representation of the expression
      */
     public StringBuilder toStringBuilder() {
         return new StringBuilder(this.name);
     }
 
     /**
-     * @brief   Return the number of variables of an expression
-     * @return  An hashmap containing the variables and the number of occurences
+     * @brief Return the number of variables of an expression
+     * @return An hashmap containing the variables and the number of occurences
      */
     @Override
-     public HashMap<String, Double> getVariables() {
+    public HashMap<String, Double> getVariables() {
         HashMap<String, Double> variables = new HashMap<>();
         variables.put(this.name, 1.0);
         return variables;
+    }
+
+    /**
+     * @brief This method simplify the expression
+     * @details This method simplify the expression by removing all the
+     *          useless operations
+     * @return The simplified expression
+     * @throws VariableNotExistError
+     */
+    public Optional<ExpressionData> simplify() {
+        return Optional.of(new ExpressionData(0.0, this.getVariables()));
     }
 }

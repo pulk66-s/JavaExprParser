@@ -44,13 +44,8 @@ public class Simplify implements TestSuite {
                 return false;
             }
             
-            Optional<ArithmeticExpression> simplified = parsed.get().simplify();
-
-            if (!simplified.isPresent()) {
-                return false;
-            }
-
-            String stringRepresentation = simplified.get().toString();
+            ArithmeticExpression simplified = parsed.get().simplify().get().toExpression();
+            String stringRepresentation = simplified.toString();
 
             return stringRepresentation.equals("(x * 2.0)");
         } catch (Exception e) {
@@ -68,13 +63,8 @@ public class Simplify implements TestSuite {
                 return false;
             }
             
-            Optional<ArithmeticExpression> simplified = parsed.get().simplify();
-
-            if (!simplified.isPresent()) {
-                return false;
-            }
-
-            String stringRepresentation = simplified.get().toString();
+            ArithmeticExpression simplified = parsed.get().simplify().get().toExpression();
+            String stringRepresentation = simplified.toString();
 
             return stringRepresentation.equals("(x * 5.0)");
         } catch (Exception e) {
@@ -92,13 +82,8 @@ public class Simplify implements TestSuite {
                 return false;
             }
             
-            Optional<ArithmeticExpression> simplified = parsed.get().simplify();
-
-            if (!simplified.isPresent()) {
-                return false;
-            }
-
-            String stringRepresentation = simplified.get().toString();
+            ArithmeticExpression simplified = parsed.get().simplify().get().toExpression();
+            String stringRepresentation = simplified.toString();
 
             return stringRepresentation.equals("((y * 5.0) + (x * 5.0))");
         } catch (Exception e) {
@@ -116,13 +101,8 @@ public class Simplify implements TestSuite {
                 return false;
             }
             
-            Optional<ArithmeticExpression> simplified = parsed.get().simplify();
-
-            if (!simplified.isPresent()) {
-                return false;
-            }
-
-            String stringRepresentation = simplified.get().toString();
+            ArithmeticExpression simplified = parsed.get().simplify().get().toExpression();
+            String stringRepresentation = simplified.toString();
 
             return stringRepresentation.equals("y");
         } catch (Exception e) {

@@ -3,7 +3,6 @@ package Expression.Minimal;
 import java.util.HashMap;
 import java.util.Optional;
 
-import Exception.VariableNotExistError;
 import Expression.ArithmeticExpression;
 
 /**
@@ -12,17 +11,6 @@ import Expression.ArithmeticExpression;
  *          It extends the ArithmeticExpression class
  */
 public abstract class MinimalExpression extends ArithmeticExpression {
-    /**
-     * @brief       This method simplify the expression
-     * @details     This method simplify the expression by removing all the
-     *              useless operations
-     * @return      The simplified expression
-     * @throws VariableNotExistError
-     */
-    public Optional<ArithmeticExpression> simplify() {
-        return Optional.of(this);
-    }
-
     /**
      * @brief   Return the number of variables of an expression
      * @return  An hashmap containing the variables and the number of occurences

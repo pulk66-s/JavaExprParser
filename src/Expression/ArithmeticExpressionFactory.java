@@ -67,7 +67,7 @@ public class ArithmeticExpressionFactory extends AExpressionFactory {
      * @param right The right expression
      * @return      The multiplication created
      */
-    static public MultiplicationExpression createMultiplication(ArithmeticExpression left, ArithmeticExpression right) {
+    static public MultiplicationExpression createMultiplication(Optional<ArithmeticExpression> left, Optional<ArithmeticExpression> right) {
         return new MultiplicationExpression(left, right);
     }
 
@@ -77,7 +77,7 @@ public class ArithmeticExpressionFactory extends AExpressionFactory {
      * @param right The right expression
      * @return      The division created
      */
-    static public SubtractionExpression createSubstraction(ArithmeticExpression left, ArithmeticExpression right) {
+    static public SubtractionExpression createSubstraction(Optional<ArithmeticExpression> left, Optional<ArithmeticExpression> right) {
         return new SubtractionExpression(left, right);
     }
 
@@ -87,7 +87,17 @@ public class ArithmeticExpressionFactory extends AExpressionFactory {
      * @param   right   The right expression
      * @return          The addition created
      */
-    static public Addition createAddition(ArithmeticExpression left, ArithmeticExpression right) {
+    static public Addition createAddition(Optional<ArithmeticExpression> left, Optional<ArithmeticExpression> right) {
         return new Addition(left, right);
+    }
+
+    /**
+     * @brief           This method create an power from two expressions
+     * @param   left    The left expression
+     * @param   right   The right expression
+     * @return          The power created
+     */
+    static public PowerExpression createPower(Optional<ArithmeticExpression> left, Optional<ArithmeticExpression> right) {
+        return new PowerExpression(left, right);
     }
 }

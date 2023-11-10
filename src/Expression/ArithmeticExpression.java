@@ -30,7 +30,7 @@ public abstract class ArithmeticExpression {
      * @return      The simplified expression
      * @throws VariableNotExistError
      */
-    public abstract Optional<ArithmeticExpression> simplify() throws VariableNotExistError;
+    public abstract Optional<ExpressionData> simplify();
 
     /**
      * @brief   This method return a string representation of the expression

@@ -72,12 +72,11 @@ public class DeclarationExpression extends ArithmeticExpression {
      * @return      The simplified expression
      * @throws VariableNotExistError
      */
-    public Optional<ArithmeticExpression> simplify() throws VariableNotExistError {
+    public Optional<ExpressionData> simplify() {
         if (!this.value.isPresent()) {
             return Optional.empty();
         }
-        this.value = this.value.get().simplify();
-        return Optional.of(this);
+        return this.value.get().simplify();
     }
 
     /**

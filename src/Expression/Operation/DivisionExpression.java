@@ -1,7 +1,10 @@
 package Expression.Operation;
 
+import java.util.HashMap;
 import java.util.Optional;
 
+import Exception.VariableNotExistError;
+import Expression.ExpressionData;
 import Expression.OperationExpression;
 import Expression.Minimal.NumberExpression;
 
@@ -37,5 +40,37 @@ public class DivisionExpression extends OperationExpression {
             return Optional.empty();
         }
         return Optional.of(leftParsed.get() / rightParsed.get());
+    }
+
+    /**
+     * Simplify the expression
+     * @return The simplified expression
+     * @throws VariableNotExistError
+     */
+    public Optional<ExpressionData> simplify() {
+        Optional<ExpressionData> left = this.left.get().simplify();
+        Optional<ExpressionData> right = this.right.get().simplify();
+
+        if (!left.isPresent() || !right.isPresent()) {
+            return Optional.empty();
+        }
+
+        Double constantResult = left.get().constant() / right.get().constant();
+        HashMap<String, Double> leftValue = left.get().variables();
+        HashMap<String, Double> rightValue = right.get().variables();
+        HashMap<String, Double> values = new HashMap<String, Double>();
+
+        for (String lkey : leftValue.keySet()) {
+            values.put(lkey, leftValue.get(lkey) / right.get().constant());
+        }
+        for (String rkey : rightValue.keySet()) {
+            values.put(rkey, rightValue.get(rkey) / left.get().constant());
+        }
+        for (String lkey : leftValue.keySet()) {
+            for (String rkey : rightValue.keySet()) {
+                values.put(lkey + "*" + rkey, leftValue.get(lkey) / rightValue.get(rkey));
+            }
+        }
+        return Optional.of(new ExpressionData(constantResult, values));
     }
 }

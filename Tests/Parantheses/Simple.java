@@ -42,13 +42,8 @@ public class Simple implements TestSuite {
                 return false;
             }
             
-            Optional<ArithmeticExpression> simplified = parsed.get().simplify();
-
-            if (!simplified.isPresent()) {
-                return false;
-            }
-
-            Double value = simplified.get().evaluate().get();
+            ArithmeticExpression simplified = parsed.get().simplify().get().toExpression();
+            Double value = simplified.evaluate().get();
 
             return value.equals(35.0);
         } catch (Exception e) {
@@ -66,13 +61,8 @@ public class Simple implements TestSuite {
                 return false;
             }
             
-            Optional<ArithmeticExpression> simplified = parsed.get().simplify();
-
-            if (!simplified.isPresent()) {
-                return false;
-            }
-
-            Double value = simplified.get().evaluate().get();
+            ArithmeticExpression simplified = parsed.get().simplify().get().toExpression();
+            Double value = simplified.evaluate().get();
 
             return value.equals(30.0);
         } catch (Exception e) {

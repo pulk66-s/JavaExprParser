@@ -64,13 +64,8 @@ public class Simple implements TestSuite {
         try {
             String expr = "x - 3 - 42";
             String expected = "(-45.0 + x)";
-            Optional<ArithmeticExpression> res = this.factory.parse(expr).get().simplify();
-
-            if (!res.isPresent()) {
-                return false;
-            }
-
-            String stringRepresentation = res.get().toString();
+            ArithmeticExpression res = this.factory.parse(expr).get().simplify().get().toExpression();
+            String stringRepresentation = res.toString();
 
             return stringRepresentation.equals(expected);
         } catch (Exception e) {

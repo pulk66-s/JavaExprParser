@@ -5,7 +5,6 @@ import java.util.function.BiFunction;
 
 import Context.Environnement;
 import Exception.SyntaxError;
-import Exception.VariableNotExistError;
 
 /**
  * @brief   This class is used to represent an operation expression
@@ -62,62 +61,6 @@ public abstract class OperationExpression extends ArithmeticExpression {
     }
 
     /**
-     * Simplify the expression with unit value
-     * @param   left    The left expression
-     * @param   right   The right expression
-     * @return          The simplified expression
-     */
-    private Optional<ArithmeticExpression> unitSimplify(
-        Optional<ArithmeticExpression> left, Optional<ArithmeticExpression> right
-    ) {
-        Optional<Double> unitRes = this.unit.evaluate();
-
-        if (!left.isPresent() || !right.isPresent() || !unitRes.isPresent()) {
-            return Optional.empty();
-        }
-
-        Optional<Double> leftRes = left.get().evaluate();
-        Optional<Double> rightRes = right.get().evaluate();
-
-        if (leftRes.isPresent() && leftRes.get().equals(unitRes.get())) {
-            return this.right;
-        }
-        if (rightRes.isPresent() && rightRes.get().equals(unitRes.get())) {
-            return this.left;
-        }
-        return Optional.empty();
-    }
-
-    /**
-     * Simplify the expression with null value
-     * @param   left    The left expression
-     * @param   right   The right expression
-     * @return          The simplified expression
-     */
-    private Optional<ArithmeticExpression> nullSimplified(
-        Optional<ArithmeticExpression> left, Optional<ArithmeticExpression> right
-    ) {
-        if (!this.nullValue.isPresent()) {
-            return Optional.empty();
-        }
-
-        Optional<Double> nullRes = this.nullValue.get().evaluate();
-
-        if (!left.isPresent() || !right.isPresent() || !nullRes.isPresent()) {
-            return Optional.empty();
-        }
-
-        Optional<Double> leftRes = left.get().evaluate();
-        Optional<Double> rightRes = right.get().evaluate();
-
-        if ((leftRes.isPresent() && leftRes.get().equals(nullRes.get()))
-        || (rightRes.isPresent() && rightRes.get().equals(nullRes.get()))) {
-            return this.nullValue;
-        }
-        return Optional.empty();
-    }
-
-    /**
      * @brief       This method evaluate the value stored after parsing
      * @return      The result of the expression
      */
@@ -133,38 +76,6 @@ public abstract class OperationExpression extends ArithmeticExpression {
             return Optional.empty();
         }
         return Optional.of(this.applyFunction.apply(leftParsed.get(), rightParsed.get()));
-    }
-
-    /**
-     * Simplify the expression
-     * @return The simplified expression
-     * @throws VariableNotExistError
-     */
-    public Optional<ArithmeticExpression> simplify() throws VariableNotExistError {
-        if (!this.left.isPresent() || !this.right.isPresent()) {
-            return Optional.empty();
-        }
-
-        Optional<ArithmeticExpression> unitSimplified;
-        Optional<ArithmeticExpression> nullSimplified = Optional.empty();
-
-        unitSimplified = this.unitSimplify(this.left, this.right);
-        if (unitSimplified.isPresent()) {
-            return unitSimplified;
-        }
-        if (this.nullValue.isPresent()) {
-            Optional<Double> nValue = this.nullValue.get().evaluate();
-
-            if (nValue.isPresent()) {
-                nullSimplified = this.nullSimplified(this.left, this.right);
-            }
-            if (nullSimplified.isPresent()) {
-                return nullSimplified;
-            }
-        }
-        this.left = this.left.get().simplify();
-        this.right = this.right.get().simplify();
-        return Optional.of(this);
     }
 
     /**

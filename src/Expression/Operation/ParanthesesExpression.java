@@ -7,6 +7,7 @@ import Exception.SyntaxError;
 import Exception.VariableNotExistError;
 import Expression.ArithmeticExpression;
 import Expression.ArithmeticExpressionFactory;
+import Expression.ExpressionData;
 import Expression.MinimalExpressionFactory;
 
 /**
@@ -52,7 +53,7 @@ public class ParanthesesExpression extends ArithmeticExpression {
      * @return      The simplified expression
      * @throws VariableNotExistError
      */
-    public Optional<ArithmeticExpression> simplify() throws VariableNotExistError {
+    public Optional<ExpressionData> simplify() {
         if (!this.value.isPresent()) {
             return Optional.empty();
         }

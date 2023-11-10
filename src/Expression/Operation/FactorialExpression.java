@@ -7,6 +7,7 @@ import Exception.SyntaxError;
 import Exception.VariableNotExistError;
 import Expression.ArithmeticExpression;
 import Expression.ArithmeticExpressionFactory;
+import Expression.ExpressionData;
 import Expression.MinimalExpressionFactory;
 
 public class FactorialExpression extends ArithmeticExpression {
@@ -108,18 +109,12 @@ public class FactorialExpression extends ArithmeticExpression {
      * @return      The simplified expression
      * @throws VariableNotExistError
      */
-    public Optional<ArithmeticExpression> simplify() throws VariableNotExistError {
+    public Optional<ExpressionData> simplify() {
         if (!this.value.isPresent()) {
             return Optional.empty();
         }
 
-        Optional<ArithmeticExpression> value = this.value.get().simplify();
-
-        if (!value.isPresent()) {
-            return Optional.empty();
-        }
-
-        return Optional.of(new FactorialExpression(value.get()));
+        return this.value.get().simplify();
     }
 
     /**

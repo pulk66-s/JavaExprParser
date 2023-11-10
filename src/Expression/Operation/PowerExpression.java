@@ -2,6 +2,9 @@ package Expression.Operation;
 
 import java.util.Optional;
 
+import Exception.VariableNotExistError;
+import Expression.ArithmeticExpression;
+import Expression.ExpressionData;
 import Expression.OperationExpression;
 import Expression.Minimal.NumberExpression;
 
@@ -17,6 +20,19 @@ public class PowerExpression extends OperationExpression {
     public PowerExpression() {
         this.operator = '^';
         this.unit = new NumberExpression(1.0);
+        this.applyFunction = (Double a, Double b) -> Math.pow(a, b);
+    }
+
+    /**
+     * @brief           This constructor initialize a Power with the left and right expression
+     * @param   left    The left expression
+     * @param   right   The right expression
+     */
+    public PowerExpression(Optional<ArithmeticExpression> left, Optional<ArithmeticExpression> right) {
+        this.operator = '^';
+        this.unit = new NumberExpression(1.0);
+        this.left = left;
+        this.right = right;
         this.applyFunction = (Double a, Double b) -> Math.pow(a, b);
     }
 
@@ -44,6 +60,15 @@ public class PowerExpression extends OperationExpression {
      * @return  The constant value of the expression
      */
     public Optional<Double> getConstantValue() {
+        return Optional.empty();
+    }
+
+    /**
+     * Simplify the expression
+     * @return The simplified expression
+     * @throws VariableNotExistError
+     */
+    public Optional<ExpressionData> simplify() {
         return Optional.empty();
     }
 }

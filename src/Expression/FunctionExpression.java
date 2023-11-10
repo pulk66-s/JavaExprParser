@@ -73,8 +73,11 @@ public class FunctionExpression extends ArithmeticExpression {
      * @return      The simplified expression
      * @throws VariableNotExistError
      */
-    public Optional<ArithmeticExpression> simplify() {
-        return Optional.of(this);
+    public Optional<ExpressionData> simplify() {
+        if (!this.value.isPresent()) {
+            return Optional.empty();
+        }
+        return this.value.get().simplify();
     }
 
     /**

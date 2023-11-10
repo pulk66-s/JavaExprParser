@@ -6,9 +6,9 @@ import java.util.function.Function;
 
 import Context.Environnement;
 import Exception.SyntaxError;
-import Exception.VariableNotExistError;
 import Expression.ArithmeticExpression;
 import Expression.ArithmeticExpressionFactory;
+import Expression.ExpressionData;
 import Expression.MinimalExpressionFactory;
 
 /**
@@ -65,35 +65,35 @@ public class Console {
      * @param input The expression to parse
      */
     private void runExpression(String input) {
-        Optional<ArithmeticExpression> expr;
+        ArithmeticExpression expr;
 
         this.env.setExpression(input);
         try {
-            expr = new ArithmeticExpressionFactory().parse(input);
+            Optional<ArithmeticExpression> exprRes = new ArithmeticExpressionFactory().parse(input);
 
-            if (!expr.isPresent()) {
-                expr = new MinimalExpressionFactory().parse(input);
-                if (!expr.isPresent()) {
+            if (!exprRes.isPresent()) {
+                exprRes = new MinimalExpressionFactory().parse(input);
+                if (!exprRes.isPresent()) {
                     System.out.println("Can't parse the expression");
                     return;
                 }
             }
-            System.out.println("Raw epxression " + expr);
-            expr = expr.get().simplify();
-            if (!expr.isPresent()) {
+            System.out.println("Raw epxression " + exprRes);
+            Optional<ExpressionData> exprData = exprRes.get().simplify();
+
+            if (!exprData.isPresent()) {
                 System.out.println("Can't simplify the expression");
                 return;
             }
+            System.out.println("Simplified === " + exprData.get().toExpression());
+            expr = exprData.get().toExpression();
         } catch (SyntaxError err) {
             System.out.println("You have a syntax problem");
             return;
-        } catch (VariableNotExistError err) {
-            System.out.println("You have a variable problem");
-            return;
         }
-        System.out.println("Simplified expression: " + expr.get());
+        System.out.println("Simplified expression: " + expr);
 
-        Optional<Double> r = expr.get().evaluate();
+        Optional<Double> r = expr.evaluate();
 
         if (r.isPresent()) {
             System.out.println("evaluation result " + r.get());

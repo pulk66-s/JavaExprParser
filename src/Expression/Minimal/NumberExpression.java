@@ -1,9 +1,12 @@
 package Expression.Minimal;
 
+import java.util.HashMap;
 import java.util.Optional;
 
 import Context.Environnement;
 import Exception.SyntaxError;
+import Exception.VariableNotExistError;
+import Expression.ExpressionData;
 
 /**
  * @brief   This class is used to represent a number expression
@@ -68,4 +71,14 @@ public class NumberExpression extends MinimalExpression {
         return Optional.of(this.value);
     }
 
+    /**
+     * @brief       This method simplify the expression
+     * @details     This method simplify the expression by removing all the
+     *              useless operations
+     * @return      The simplified expression
+     * @throws VariableNotExistError
+     */
+    public Optional<ExpressionData> simplify() {
+        return Optional.of(new ExpressionData(this.value, new HashMap<>()));
+    }
 }

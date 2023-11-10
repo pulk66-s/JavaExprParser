@@ -8,7 +8,7 @@ SRC 	= src/Main.java										\
 	src/Expression/Operation/Addition.java					\
 	src/Expression/Operation/DivisionExpression.java		\
 	src/Expression/Operation/MultiplicationExpression.java	\
-	src/Expression/Operation/SubtractionExpression.java	\
+	src/Expression/Operation/SubtractionExpression.java		\
 	src/Expression/Operation/PowerExpression.java			\
 	src/Expression/Operation/FactorialExpression.java		\
 	src/Expression/FunctionExpression.java					\
@@ -23,6 +23,7 @@ SRC 	= src/Main.java										\
 	src/Expression/MinimalExpressionFactory.java			\
 	src/Expression/ExpressionFactory.java					\
 	src/Expression/AExpressionFactory.java					\
+	src/Expression/ExpressionData.java						\
 	src/Context/Environnement.java							\
 	src/Exception/SyntaxError.java							\
 	src/Exception/VariableNotExistError.java				\
