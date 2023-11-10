@@ -130,7 +130,7 @@ public class ExpressionData {
             tmp.setLeft(MinimalExpressionFactory.createConstant(this.constant));
         }
 
-        String lastElement = (String) this.variables.keySet().toArray()[this.variables.size() - 1];
+        String lastElement =  this.variables.size() == 0 ? "" : this.variables.keySet().toArray()[this.variables.size() - 1].toString();
 
         for (String key : this.variables.keySet()) {
             if (key.equals(lastElement)) {

@@ -66,10 +66,11 @@ public class Console {
      */
     private void runExpression(String input) {
         ArithmeticExpression expr;
+        Optional<ArithmeticExpression> exprRes;
 
         this.env.setExpression(input);
         try {
-            Optional<ArithmeticExpression> exprRes = new ArithmeticExpressionFactory().parse(input);
+            exprRes = new ArithmeticExpressionFactory().parse(input);
 
             if (!exprRes.isPresent()) {
                 exprRes = new MinimalExpressionFactory().parse(input);
@@ -93,7 +94,7 @@ public class Console {
         }
         System.out.println("Simplified expression: " + expr);
 
-        Optional<Double> r = expr.evaluate();
+        Optional<Double> r = exprRes.get().evaluate();
 
         if (r.isPresent()) {
             System.out.println("evaluation result " + r.get());

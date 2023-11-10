@@ -1,10 +1,12 @@
 package Expression;
 
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.function.BiFunction;
 
 import Context.Environnement;
 import Exception.SyntaxError;
+import Exception.VariableNotExistError;
 
 /**
  * @brief   This class is used to represent an operation expression
@@ -126,5 +128,30 @@ public abstract class OperationExpression extends ArithmeticExpression {
      */
     public void setRight(ArithmeticExpression right) {
         this.right = Optional.of(right);
+    }
+
+    /**
+     * Simplify the expression
+     * @return The simplified expression
+     * @throws VariableNotExistError
+     */
+    public Optional<ExpressionData> simplify() {
+        Optional<ExpressionData> left = this.left.get().simplify();
+        Optional<ExpressionData> right = this.right.get().simplify();
+        
+        if (!left.isPresent() || !right.isPresent()) {
+            return Optional.empty();
+        }
+    
+        Double constantResult = left.get().constant() - right.get().constant();
+        HashMap<String, Double> leftValue = left.get().variables();
+        HashMap<String, Double> rightValue = right.get().variables();
+        HashMap<String, Double> values = new HashMap<String, Double>();
+
+        values.putAll(leftValue);
+        for (String key : rightValue.keySet()) {
+            values.merge(key, rightValue.get(key), this.applyFunction);
+        }
+        return Optional.of(new ExpressionData(constantResult, values));
     }
 }
