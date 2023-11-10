@@ -133,24 +133,40 @@ public class ExpressionData {
         String lastElement = (String) this.variables.keySet().toArray()[this.variables.size() - 1];
 
         for (String key : this.variables.keySet()) {
-            OperationExpression newAdd;
-            
             if (key.equals(lastElement)) {
-                MultiplicationExpression lastElem = this.createMultiplication(key, this.variables.get(key));
+                ArithmeticExpression lastElem;
 
+                if (this.variables.get(key) == 1) {
+                    lastElem = MinimalExpressionFactory.createVariable(key);
+                } else {
+                    lastElem = this.createMultiplication(key, this.variables.get(key));
+                }
                 if (!tmp.getLeft().isPresent()) {
                     return lastElem;
                 } else {
                     tmp.setRight(lastElem);
                 }
             } else {
-                newAdd = ArithmeticExpressionFactory.createAddition(
-                    Optional.of(this.createMultiplication(key, this.variables.get(key))),
-                    Optional.empty()
-                );
                 if (!tmp.getLeft().isPresent()) {
-                    tmp.setLeft(newAdd);
+                    if (this.variables.get(key) == 1) {
+                        tmp.setLeft(MinimalExpressionFactory.createVariable(key));
+                    } else {
+                        tmp.setLeft(this.createMultiplication(key, this.variables.get(key)));
+                    }
                 } else {
+                    ArithmeticExpression leftAdd;
+
+                    if (this.variables.get(key) == 1) {
+                        leftAdd = MinimalExpressionFactory.createVariable(key);
+                    } else {
+                        leftAdd = this.createMultiplication(key, this.variables.get(key));
+                    }
+
+                    OperationExpression newAdd = ArithmeticExpressionFactory.createAddition(
+                            Optional.of(leftAdd),
+                            Optional.empty()
+                        );
+
                     tmp.setRight(newAdd);
                     tmp = newAdd;
                 }

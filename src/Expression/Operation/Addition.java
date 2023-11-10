@@ -51,8 +51,6 @@ public class Addition extends OperationExpression {
             return Optional.empty();
         }
 
-        System.out.println("left: " + left.get());
-        System.out.println("right: " + right.get());
         Double constantResult = left.get().constant() + right.get().constant();
         HashMap<String, Double> leftValue = left.get().variables();
         HashMap<String, Double> rightValue = right.get().variables();
@@ -62,10 +60,6 @@ public class Addition extends OperationExpression {
         for (String key : rightValue.keySet()) {
             values.merge(key, rightValue.get(key), (a, b) -> a + b);
         }
-        System.out.println("values: " + values);
-        System.out.println("constantResult: " + constantResult);
-        System.out.println("leftValue: " + leftValue);
-        System.out.println("rightValue: " + rightValue);
         return Optional.of(new ExpressionData(constantResult, values));
     }
 }

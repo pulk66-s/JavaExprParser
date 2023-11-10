@@ -44,7 +44,7 @@ public class Simplify implements TestSuite {
             ArithmeticExpression simplified = parsed.get().simplify().get().toExpression();
             String stringRepresentation = simplified.toString();
 
-            return stringRepresentation.equals("(x * 5.0)");
+            return stringRepresentation.equals("(5.0 * x)");
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
