@@ -45,13 +45,12 @@ public class MultiplicationExpression extends OperationExpression {
      * @throws VariableNotExistError
      */
     public Optional<ExpressionData> simplify() {
-        Optional<ExpressionData> left = this.left.get().simplify();
-        Optional<ExpressionData> right = this.right.get().simplify();
-
         if (!left.isPresent() || !right.isPresent()) {
             return Optional.empty();
         }
 
+        Optional<ExpressionData> left = this.left.get().simplify();
+        Optional<ExpressionData> right = this.right.get().simplify();
         Double constantResult = left.get().constant() * right.get().constant();
         HashMap<String, Double> leftValue = left.get().variables();
         HashMap<String, Double> rightValue = right.get().variables();
