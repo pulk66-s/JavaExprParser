@@ -132,14 +132,6 @@ public class FunctionExpression extends ArithmeticExpression {
         return sb;
     }
 
-    /**
-     * @brief   This method return a string representation of the expression
-     * @return  A string representation of the expression
-     */
-    @Override
-    public String toString() {
-        return this.toStringBuilder().toString();
-    }
 
     /**
      * @brief   Return the formatted expression to merge values and variables

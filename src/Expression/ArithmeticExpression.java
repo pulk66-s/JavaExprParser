@@ -43,7 +43,9 @@ public abstract class ArithmeticExpression {
      * @brief   This method return a string representation of the expression
      * @return  A string representation of the expression
      */
-    public abstract String toString();
+    public String toString() {
+        return toStringBuilder().toString();
+    }
 
     /**
      * @brief   Return the number of variables of an expression

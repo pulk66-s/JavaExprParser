@@ -62,15 +62,6 @@ public class VariableExpression extends MinimalExpression {
     }
 
     /**
-     * @brief   This method return a string representation of the expression
-     * @return  A string representation of the expression
-     */
-    @Override
-    public String toString() {
-        return this.name;
-    }
-
-    /**
      * @brief   Return the number of variables of an expression
      * @return  An hashmap containing the variables and the number of occurences
      */

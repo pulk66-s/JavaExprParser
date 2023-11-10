@@ -60,15 +60,6 @@ public class NumberExpression extends MinimalExpression {
     }
 
     /**
-     * @brief   this method return a string representation of the expression
-     * @return  a string representation of the expression
-     */
-    @Override
-    public String toString() {
-        return this.toStringBuilder().toString();
-    }
-
-    /**
      * @brief   Return the constant value of the expression
      * @return  The constant value of the expression
      */
