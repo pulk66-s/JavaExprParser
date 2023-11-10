@@ -46,22 +46,4 @@ public abstract class ArithmeticExpression {
     public String toString() {
         return toStringBuilder().toString();
     }
-
-    /**
-     * @brief   Return the number of variables of an expression
-     * @return  An hashmap containing the variables and the number of occurences
-     */
-    public abstract HashMap<String, Double> getVariables();
-
-    /**
-     * @brief   Return the formatted expression to merge values and variables
-     * @return  The formatted expression
-     */
-    public abstract Optional<ArithmeticExpression> mergeVariables();
-
-    /**
-     * @brief   Return the constant value of the expression
-     * @return  The constant value of the expression
-     */
-    public abstract Optional<Double> getConstantValue();
 }

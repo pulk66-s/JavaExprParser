@@ -38,11 +38,4 @@ public class DivisionExpression extends OperationExpression {
         }
         return Optional.of(leftParsed.get() / rightParsed.get());
     }
-
-    /**
-     * @brief   Return the constant value of the expression
-     * @return  The constant value of the expression
-     */
-    public Optional<Double> getConstantValue() {
-        return this.getConstantValue((Double a, Double b) ->((Double)Math.abs(b)).equals(0.0) ? Optional.empty() : Optional.of(a / b));
-    }}
+}

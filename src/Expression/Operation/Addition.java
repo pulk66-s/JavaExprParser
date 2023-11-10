@@ -34,12 +34,4 @@ public class Addition extends OperationExpression {
         this.operator = '+';
         this.unit = new NumberExpression(0.0);
     }
-
-    /**
-     * @brief   Return the constant value of the expression
-     * @return  The constant value of the expression
-     */
-    public Optional<Double> getConstantValue() {
-        return this.getConstantValue((Double a, Double b) -> Optional.of(a + b));
-    }
 }

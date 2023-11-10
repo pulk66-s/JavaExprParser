@@ -166,8 +166,7 @@ public abstract class OperationExpression extends ArithmeticExpression {
         }
         this.left = this.left.get().simplify();
         this.right = this.right.get().simplify();
-        Optional<ArithmeticExpression> res = this.mergeVariables();
-        return res;
+        return Optional.of(this);
     }
 
     /**
@@ -218,101 +217,5 @@ public abstract class OperationExpression extends ArithmeticExpression {
      */
     public void setRight(ArithmeticExpression right) {
         this.right = Optional.of(right);
-    }
-
-    /**
-     * @brief   Return the number of variables of an expression
-     * @return  An hashmap containing the variables and the number of occurences
-     */
-    public HashMap<String, Double> getVariables() {
-        if (!this.left.isPresent() || !this.right.isPresent()) {
-            return new HashMap<>();
-        }
-
-        HashMap<String, Double> variables = this.left.get().getVariables();
-        HashMap<String, Double> rightVariables = this.right.get().getVariables();
-
-        for (String key : rightVariables.keySet()) {
-            if (variables.containsKey(key)) {
-                variables.put(key, this.applyFunction.apply(variables.get(key), rightVariables.get(key)));
-            } else {
-                variables.put(key, rightVariables.get(key));
-            }
-        }
-        return variables;
-    }
-
-    /**
-     * @brief   Return the formatted expression to merge values and variables
-     * @return  The formatted expression
-     */
-    public Optional<ArithmeticExpression> mergeVariables() {
-        HashMap<String, Double> variables = this.getVariables();
-        Optional<Double> constantValueParsed = this.getConstantValue();
-        Double constantValue = constantValueParsed.isPresent() ? constantValueParsed.get() : 0.0;
-        Addition exprRes = new Addition();
-
-        if (variables.keySet().isEmpty()) {
-            return Optional.of(MinimalExpressionFactory.createConstant(constantValue));
-        }
-        for (String key : variables.keySet()) {
-            ArithmeticExpression mult;
-            
-            if (((Double)Math.abs(variables.get(key))).equals(0.0)) {
-                continue;
-            } else if (variables.get(key).equals(1.0)) {
-                mult = MinimalExpressionFactory.createVariable(key);
-            } else {
-                mult = ArithmeticExpressionFactory.createMultiplication(
-                    MinimalExpressionFactory.createVariable(key),
-                    MinimalExpressionFactory.createConstant(variables.get(key))
-                );
-            }
-            if (!exprRes.getRight().isPresent()) {
-                exprRes.setRight(mult);
-            } else {
-                Addition nAdd = new Addition();
-
-                exprRes.setLeft(mult);
-                nAdd.setRight(exprRes);
-                exprRes = nAdd;
-            }
-        }
-        if (((Double)Math.abs(constantValue)).equals(0.0)) {
-            if (!exprRes.getRight().isPresent()) {
-                return Optional.of(MinimalExpressionFactory.createConstant(constantValue));
-            }
-            return exprRes.getRight();
-        }
-        exprRes.setLeft(MinimalExpressionFactory.createConstant(constantValue));
-        return Optional.of(exprRes);
-    }
-
-    /**
-     * @brief   Return the constant value of the expression
-     * @return  The constant value of the expression
-     */
-    public abstract Optional<Double> getConstantValue();
-    
-    /**
-     * @brief       Return the constant value of the expression with a given merge function
-     * @param   fn  The merge function
-     * @return      The constant value of the expression
-     */
-    public Optional<Double> getConstantValue(BiFunction<Double, Double, Optional<Double>> fn) {
-        if (!this.left.isPresent() || !this.right.isPresent()) {
-            return Optional.empty();
-        }
-
-        Optional<Double> left = this.left.get().getConstantValue();
-        Optional<Double> right = this.right.get().getConstantValue();
-
-        if (!left.isPresent() && !right.isPresent()) {
-            return Optional.empty();
-        }
-        return fn.apply(
-            left.isPresent() ? left.get() : 0.0,
-            right.isPresent() ? right.get() : 0.0
-        );
     }
 }

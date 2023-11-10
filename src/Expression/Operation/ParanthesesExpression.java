@@ -121,17 +121,6 @@ public class ParanthesesExpression extends ArithmeticExpression {
     }
 
     /**
-     * @brief   Return the number of variables of an expression
-     * @return  An hashmap containing the variables and the number of occurences
-     */
-    public HashMap<String, Double> getVariables() {
-        if (!this.value.isPresent()) {
-            return new HashMap<>();
-        }
-        return this.value.get().getVariables();
-    }
-
-    /**
      * @brief   Return the formatted expression to merge values and variables
      * @return  The formatted expression
      */
